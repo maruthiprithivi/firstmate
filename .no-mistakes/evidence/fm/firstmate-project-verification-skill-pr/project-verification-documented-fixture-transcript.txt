@@ -1,0 +1,43 @@
+project-verification documented fixture replay
+worktree=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M3Q1NND5HFQ47PCF4NEJ5SWM
+revision=fed7ee6723bc6b14d5e2a8a3f777a26016783a5e
+lab=/tmp/fm-project-doc-fixture.SxOUOi
+python=Python 3.12.3
+curl=curl 8.5.0 (x86_64-pc-linux-gnu) libcurl/8.5.0 OpenSSL/3.0.13 zlib/1.3 brotli/1.1.0 zstd/1.5.5 libidn2/2.3.7 libpsl/0.21.2 (+libidn2/2.3.7) libssh/0.10.6/openssl/zlib nghttp2/1.59.0 librtmp/2.3 OpenLDAP/2.6.7
+sqlite3=absent
+fixture_sha256=88c401c243ceaba3e9fc20d91bf2cfd875a66b39a16ec07293d58a9bcd272c43
+helper_sha256=00d3c2e4677c848b887b263054acb50ce8157c74e98cd921cff2111e6c41364b
+
+# CLI write/read path from documented fixture
+{"balance": 250}
+{"balance": 250}
+{"by_memo": {"coffee": 250}}
+
+# Helper-managed service path and doctor
+ready port=18781 pid=3566264
+health=ok pid=3566264 port=18781
+{"balance": 250}unknown_route_http=404
+
+# Separate helper-managed instance proves isolation
+{"balance": 75}
+ready port=18782 pid=3566286
+health=ok pid=3566286 port=18782
+{"by_memo": {"fare": 75}}state_a_balance={"balance": 250}
+state_b_balance={"balance": 75}
+
+# Missing sqlite prerequisite is blocked, not counted as verified
+import_rc=127
+ledgerbox: import requires the sqlite3 CLI, which is not installed
+
+# Stale drive command fails without mutating state
+stale_rc=2
+usage: ledgerbox add <amount> <memo> | balance | import <sqlite-file> | serve <port>
+balance_before_stale={"balance": 250}
+balance_after_stale={"balance": 250}
+
+# Cleanup through documented helper
+stopped pid=3566264
+stopped pid=3566286
+port_18781_closed=yes
+port_18782_closed=yes
+transcript_readable_during_cleanup=yes
