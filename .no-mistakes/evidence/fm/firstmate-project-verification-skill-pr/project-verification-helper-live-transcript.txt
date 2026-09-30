@@ -1,0 +1,35 @@
+# project-verification helper live transcript
+worktree=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M3R8BPACH7MGFPBE5HXYS7S4
+date=2026-09-30T04:31:26Z
+lab=/tmp/pv-helper.ovBlk3
+fixture_sha=88c401c243ceaba3e9fc20d91bf2cfd875a66b39a16ec07293d58a9bcd272c43
+helper_sha=c58e15232827602c6b85f4dbcc1573690a9f6050b456327687f2413fc4ad26cf
+ports nondefault=43093 occupied=49893 stale=54045 second=54653
+## non-default port doctor uses persisted port
+start_out=ready port=43093 pid=2034913
+ready port=43093 pid=2034913
+doctor_out=health=ok pid=2034913 port=43093
+health=ok pid=2034913 port=43093
+curl_balance={"balance": 0}
+## occupied port refused before adopting readiness
+unrelated_before={"balance": 0} pid=2034975
+occupied_rc=2
+occupied_out=port 49893 is already served by pid 2034975; refusing to start
+port 49893 is already served by pid 2034975; refusing to start
+unrelated_after={"balance": 0}
+## stale free-port stop refuses to signal unrelated pid
+ready port=54045 pid=2035030
+stale_rc=1
+stale_out=refusing to signal pid 2035095: port 54045 is served by free
+refusing to signal pid 2035095: port 54045 is served by free
+unrelated_sleep_alive_after_refused_stop=yes pid=2035095
+## simultaneous isolated instances keep separate state and stop by owner
+ready port=54653 pid=2035108
+{"balance": 40}
+balance_nondefault={"balance": 40} balance_second={"balance": 0}
+health=ok pid=2034913 port=43093
+health=ok pid=2035108 port=54653
+stopped pid=2035108
+stopped pid=2034913
+closed_rcs nondefault=7 second=7
+helper live scenarios passed
