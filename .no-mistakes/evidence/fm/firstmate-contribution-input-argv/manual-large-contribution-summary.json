@@ -1,0 +1,38 @@
+{
+  "large_backlog_json_bytes": 1282570,
+  "large_backlog_records": 1202,
+  "small_and_large_coverage_equal": true,
+  "observer_and_trust_unchanged_after_large_input": true,
+  "saved_contribution_records_unchanged": true,
+  "known_rows": [
+    {
+      "url": "https://github.com/o/r/pull/11",
+      "tasks": [
+        "retired"
+      ],
+      "checked": true,
+      "error": null
+    },
+    {
+      "url": "https://github.com/o/r/pull/12",
+      "tasks": [
+        "meta-only"
+      ],
+      "checked": false,
+      "error": null
+    },
+    {
+      "url": "https://github.com/o/r/pull/8",
+      "tasks": [
+        "delivery",
+        "duplicate"
+      ],
+      "checked": false,
+      "error": null
+    }
+  ],
+  "arm_outputs": {
+    "small": "registered: state/contributions.check.sh",
+    "large": "registered: state/contributions.check.sh"
+  }
+}
