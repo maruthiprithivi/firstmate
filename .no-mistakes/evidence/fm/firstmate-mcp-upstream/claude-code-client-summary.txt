@@ -1,0 +1,23 @@
+mcp_servers: [{'name': 'firstmate', 'status': 'connected', 'source': 'dynamic'}]
+TOOL_USE ToolSearch {"query": "select:mcp__firstmate__firstmate_backlog_list,mcp__firstmate__firstmate_send_note,mcp__firstmate__firstmate_note_replies", "max_results": 3}
+RESULT <tool_reference> <tool_reference> <tool_reference>
+TOOL_USE mcp__firstmate__firstmate_backlog_list {}
+RESULT count: 1
+tasks[1]{id,state,kind,repo,title}:
+  demo,in_flight,ship,demo,Demo task for MCP live check
+help[2]:
+  - Run `tasks-axi show <id>` for full notes on a task
+  - Run `tasks-axi ready` to see unblocked queued work
+
+TOOL_USE mcp__firstmate__firstmate_send_note {"message": "live check from Claude Code client"}
+RESULT {"schema":"fm-inbox-note.v1","outcome":"created","id":"1790775425-VQg1pB","request_id":"mcp-2ed68736fde24c60862e6e8a4ed07aba","saved":true,"announced":true,"acknowledged":false,"path":"/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.Hg8DKt/state/inbox/1790775425-VQg1pB.note"}
+
+TOOL_USE mcp__firstmate__firstmate_note_replies {}
+RESULT {"schema": "fm-inbox-receipts.v1", "home": "T/fm-lab.Hg8DKt", "generated": "2026-09-30T13:37:10Z", "pending": [{"id": "1790775425-VQg1pB", "at": "2026-09-30T13:37:05Z", "source": "text", "request_id": "mcp-2ed68736fde24c60862e6e8a4ed07aba", "body": "[via firstmate MCP]\nlive check from Claude Code c
+FINAL: Captain, here are the results of the three calls:
+
+1. **Backlog task ids:** `demo` is the only task. It is a ship task, currently in flight, titled "Demo task for MCP live check".
+2. **Note sent:** it was saved as note `1790775425-VQg1pB` and firstmate was notified. Firstmate has not picked it up yet.
+3. **Replies:** 20 replies came back. The last one is `answer 26`, the reply to an earlier note "q 26". Six older replies were left out of the list. My new note has no reply yet.
+
+The 20 replies all answer earlier test notes "q 7" to "q 26". Each of those notes has a reply but is still marked as not picked up, and no notes are marked handled. That looks odd and may be worth checking.

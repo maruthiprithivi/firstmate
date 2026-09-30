@@ -1,0 +1,21 @@
+== firstmate_note_replies() with 25 replies
+isError False
+replies: ['answer 6', 'answer 7', 'answer 8', 'answer 9', 'answer 10', 'answer 11', 'answer 12', 'answer 13', 'answer 14', 'answer 15', 'answer 16', 'answer 17', 'answer 18', 'answer 19', 'answer 20', 'answer 21', 'answer 22', 'answer 23', 'answer 24', 'answer 25']
+reply_cursor: 000000000025
+omitted: [{'surface': 'pending notes omitted by bound: 5', 'reveal': 'pass note_id to read one note'}, {'surface': 'older replies omitted: 5', 'reveal': "pass note_id to read one note's reply"}]
+== one more note+reply, then after=000000000025
+isError False
+replies: ['answer 26']
+reply_cursor: 000000000026
+omitted: [{'surface': 'pending notes omitted by bound: 6', 'reveal': 'pass note_id to read one note'}]
+== note_id lookup
+{"jsonrpc": "2.0", "id": 1, "result": {"content": [{"type": "text", "text": "{\"id\": \"1790775385-u4Jx3J\", \"at\": \"2026-09-30T13:36:25Z\", \"source\": \"text\", \"request_id\": \"mcp-f441b23fc1b548d89e70c79d3e8dec80\", \"body\": \"[via firstmate MCP]\\nq 26\", \"acknowledged\": false, \"announced\": true, \"reply\": {\"id\": \"1790775385-u4Jx3J\", \"at\": \"2026-09-30T13:36:25Z\", \"body\": \"answer 26\", \"cursor\": \"000000000026\"}}"}], "isError": false}}
+== auto request_id note body
+id=1790775385-u4Jx3J
+at=2026-09-30T13:36:25Z
+source=text
+announce_marker=1
+request_id=mcp-f441b23fc1b548d89e70c79d3e8dec80
+--
+[via firstmate MCP]
+q 26

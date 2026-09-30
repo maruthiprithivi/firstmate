@@ -1,0 +1,82 @@
+== firstmate_status {}
+isError: False
+=== firstmate status (read-only, no wake sent) ===
+home     /var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.Hg8DKt
+time     2026-09-30T13:36:34Z
+inbox    26 note(s) waiting for firstmate
+
+--- in flight ---
+  demo - Demo task for MCP live check (repo: demo) (kind: ship) (since 2026-09-30)
+
+(no workers on deck)
+
+Note: the last event line is history, not current state.
+
+--- firstmate readiness ---
+{"schema":"fm-primary-ready.v1","home":"T/fm-lab.Hg8DKt","observed_at":"2026-09-30T13:36:34Z","lock":{"state":"free","pid":null,"live_harness":false},"wake_consumer":{"state":"unknown","reason":
+== firstmate_home_summary {}
+isError: False
+{"schema":"fm-secondmate-home-summary.v1","active_children":[]}
+
+== firstmate_backlog_list {}
+isError: False
+count: 1
+tasks[1]{id,state,kind,repo,title}:
+  demo,in_flight,ship,demo,Demo task for MCP live check
+help[2]:
+  - Run `tasks-axi show <id>` for full notes on a task
+  - Run `tasks-axi ready` to see unblocked queued work
+
+== firstmate_backlog_show {"task_id":"demo"}
+isError: False
+task:
+  id: demo
+  title: Demo task for MCP live check
+  state: in_flight
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: ship
+  repo: demo
+  priority: "-"
+  created: 2026-09-30
+  closed: "-"
+  deps: none
+  links: none
+  body: Demo notes body.
+
+== firstmate_crew_state {"task_id":"demo"}
+isError: False
+state: unknown · source: none · no metadata for demo
+
+== firstmate_crew_report {"task_id":"demo"}
+isError: False
+# demo report
+all good
+
+#### adversarial
+== firstmate_crew_report {"task_id":"../../etc/passwd"}
+isError: True
+invalid task id: '../../etc/passwd'
+== firstmate_crew_report {"task_id":".."}
+isError: True
+invalid task id: '..'
+== firstmate_backlog_show {"task_id":"-rf"}
+isError: True
+invalid task id: '-rf'
+== firstmate_send_note {"message":"   "}
+isError: True
+message is empty
+== firstmate_send_note {"message":"x","extra":"y"}
+isError: True
+arguments must be an object with only: message, request_id
+== firstmate_send_note {"message":5}
+isError: True
+required string arguments: message
+== firstmate_spawn {}
+isError: None
+{"jsonrpc": "2.0", "id": 1, "error": {"code": -32602, "message": "unknown tool: 'firstmate_spawn'"}}
+home files unchanged by reads+bad input: yes

@@ -1,0 +1,22 @@
+== initialize + tools/list
+2025-06-18 {'name': 'firstmate', 'version': '1'}
+[('firstmate_send_note', False), ('firstmate_note_replies', True), ('firstmate_status', True), ('firstmate_home_summary', True), ('firstmate_backlog_list', True), ('firstmate_backlog_show', True), ('firstmate_crew_state', True), ('firstmate_crew_report', True)]
+== send_note with client request_id
+{"jsonrpc": "2.0", "id": 3, "result": {"content": [{"type": "text", "text": "{\"schema\":\"fm-inbox-note.v1\",\"outcome\":\"created\",\"id\":\"1790775351-74aCHY\",\"request_id\":\"client-abc\",\"saved\":true,\"announced\":true,\"acknowledged\":false,\"path\":\"/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.Hg8DKt/state/inbox/1790775351-74aCHY.note\"}\n"}], "isError": false}}
+== send_note retry same request_id
+{"jsonrpc": "2.0", "id": 4, "result": {"content": [{"type": "text", "text": "{\"schema\":\"fm-inbox-note.v1\",\"outcome\":\"replay\",\"id\":\"1790775351-74aCHY\",\"request_id\":\"client-abc\",\"saved\":true,\"announced\":true,\"acknowledged\":false,\"path\":\"/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.Hg8DKt/state/inbox/1790775351-74aCHY.note\"}\n"}], "isError": false}}
+== inbox files on disk
+home-summary.json
+inbox
+
+/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T//fm-lab.Hg8DKt/state/inbox:
+1790775351-74aCHY.note
+== note file body
+id=1790775351-74aCHY
+at=2026-09-30T13:35:51Z
+source=text
+announce_marker=1
+request_id=client-abc
+--
+[via firstmate MCP]
+please merge PR 1
