@@ -1,0 +1,102 @@
+{
+  "coverage": [
+    "commented-out-code: ran",
+    "dead-code: reachability is computed over the scanned scope only; dynamic, sourced, and external callers are invisible",
+    "duplicated-comment: ran",
+    "stale-comment: ages from git blame",
+    "stale-doc: ran"
+  ],
+  "findings": [
+    {
+      "category": "commented-out-code",
+      "confidence": "needs-review",
+      "evidence": "if (ready) {",
+      "follow_up": "confirm it is dead, then delete it; history keeps the old text",
+      "line": 1,
+      "note": "2 of 3 comment lines read as code",
+      "path": "src/commented.js",
+      "severity": "low"
+    },
+    {
+      "category": "dead-code",
+      "confidence": "needs-review",
+      "evidence": "unused()",
+      "follow_up": "confirm the symbol has no dynamic, sourced, or external caller, then remove it in a focused cleanup",
+      "line": 2,
+      "note": "function defined once and never referenced again in the scanned scope",
+      "path": "src/app.sh",
+      "severity": "low"
+    },
+    {
+      "category": "duplicated-comment",
+      "confidence": "confirmed",
+      "evidence": "Repeated operational note for every scout.",
+      "follow_up": "keep one canonical copy and cross-reference it instead of repeating the block",
+      "line": 2,
+      "note": "identical 2-line comment block also at src/dup2.sh:2",
+      "path": "src/dup1.sh",
+      "severity": "low"
+    },
+    {
+      "category": "stale-comment",
+      "confidence": "confirmed",
+      "evidence": "FIXME: slash inline old marker.",
+      "follow_up": "triage the marker: resolve it, re-scope it with an owner, or delete it",
+      "line": 2,
+      "note": "FIXME marker 2464 days old",
+      "path": "src/comments.js",
+      "severity": "high"
+    },
+    {
+      "category": "stale-doc",
+      "confidence": "confirmed",
+      "evidence": "draft.md",
+      "follow_up": "update the documentation reference or delete the stale path",
+      "line": 3,
+      "note": "local link target does not exist",
+      "path": "docs/readme.md",
+      "severity": "medium"
+    },
+    {
+      "category": "stale-doc",
+      "confidence": "confirmed",
+      "evidence": "ignored.md",
+      "follow_up": "update the documentation reference or delete the stale path",
+      "line": 4,
+      "note": "local link target does not exist",
+      "path": "docs/readme.md",
+      "severity": "medium"
+    },
+    {
+      "category": "stale-doc",
+      "confidence": "confirmed",
+      "evidence": "missing.md",
+      "follow_up": "update the documentation reference or delete the stale path",
+      "line": 7,
+      "note": "local link target does not exist",
+      "path": "docs/readme.md",
+      "severity": "medium"
+    }
+  ],
+  "notes": [
+    "outside-root Markdown target skipped: docs/readme.md:8",
+    "outside-root Markdown target skipped: docs/readme.md:9"
+  ],
+  "schema": "fm-smell-scan.v1",
+  "summary": {
+    "by_category": {
+      "commented-out-code": 1,
+      "dead-code": 1,
+      "duplicated-comment": 1,
+      "stale-comment": 1,
+      "stale-doc": 3
+    },
+    "by_severity": {
+      "high": 1,
+      "low": 3,
+      "medium": 3
+    },
+    "files": 6,
+    "total": 7
+  }
+}

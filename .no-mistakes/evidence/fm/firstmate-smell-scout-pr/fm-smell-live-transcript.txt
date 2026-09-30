@@ -1,0 +1,49 @@
+disposable_lab=/tmp/fm-smell-live.ayT9jI
+$ bash bin/fm-smell-scan.sh --root "$LAB" --json --paths docs src
+{
+  "categories": [
+    "commented-out-code",
+    "dead-code",
+    "duplicated-comment",
+    "stale-comment",
+    "stale-doc"
+  ],
+  "dead_code_evidence": [
+    "unused()"
+  ],
+  "notes": [
+    "outside-root Markdown target skipped: docs/readme.md:8",
+    "outside-root Markdown target skipped: docs/readme.md:9"
+  ],
+  "schema": "fm-smell-scan.v1",
+  "stale_comment_evidence": [
+    "FIXME: slash inline old marker."
+  ],
+  "stale_doc_evidence": [
+    "draft.md",
+    "ignored.md",
+    "missing.md"
+  ],
+  "summary": {
+    "by_category": {
+      "commented-out-code": 1,
+      "dead-code": 1,
+      "duplicated-comment": 1,
+      "stale-comment": 1,
+      "stale-doc": 3
+    },
+    "by_severity": {
+      "high": 1,
+      "low": 3,
+      "medium": 3
+    },
+    "files": 6,
+    "total": 7
+  }
+}
+$ bash bin/fm-smell-scan.sh --root "$LAB" --paths docs src --out "$MD"
+fixture_status_unchanged=true
+markdown_report_bytes=3371
+$ bash bin/fm-smell-scan.sh --root "$LAB" --paths "$OUTSIDE"
+outside_path_rc=2
+fm-smell-scan: --paths entry resolves outside --root: /tmp/fm-smell-outside.PbHqGF
