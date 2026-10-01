@@ -1,0 +1,17 @@
+=== S5: firstmate replies to each note; each client polls its own note ===
+replied 1790835186-G6p85e
+replied 1790835187-UW2jKa
+
+>>> [claude-ai] firstmate_note_replies {"note_id": "1790835186-G6p85e"}
+<<< isError=False
+{"id": "1790835186-G6p85e", "at": "2026-10-01T06:13:06Z", "source": "text", "request_id": "note-1", "body": "[via firstmate MCP from claude-ai 1.2.3]\nDesktop: what is in flight?", "acknowledged": false, "announced": true, "reply": {"id": "1790835186-G6p85e", "at": "2026-10-01T06:13:17Z", "body": "Desktop: nothing in flight.", "cursor": "000000000001"}}
+
+>>> [claude-code] firstmate_note_replies {"note_id": "1790835187-UW2jKa"}
+<<< isError=False
+{"id": "1790835187-UW2jKa", "at": "2026-10-01T06:13:07Z", "source": "text", "request_id": "note-1", "body": "[via firstmate MCP from claude-code 1.2.3]\nCode: different question", "acknowledged": false, "announced": true, "reply": {"id": "1790835187-UW2jKa", "at": "2026-10-01T06:13:17Z", "body": "Code: answered.", "cursor": "000000000002"}}
+
+--- cross-check: claude-code views Desktop's note (prefix must stay, not its own) ---
+
+>>> [claude-code] firstmate_note_replies {"note_id": "1790835186-G6p85e"}
+<<< isError=False
+{"id": "1790835186-G6p85e", "at": "2026-10-01T06:13:06Z", "source": "text", "request_id": "2e6a9951-note-1", "body": "[via firstmate MCP from claude-ai 1.2.3]\nDesktop: what is in flight?", "acknowledged": false, "announced": true, "reply": {"id": "1790835186-G6p85e", "at": "2026-10-01T06:13:17Z", "body": "Desktop: nothing in flight.", "cursor": "000000000001"}}

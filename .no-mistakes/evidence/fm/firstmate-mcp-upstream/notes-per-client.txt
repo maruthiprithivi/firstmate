@@ -1,0 +1,37 @@
+=== S4: Desktop and Code reuse request_id note-1; Desktop retries ===
+
+>>> [claude-ai] firstmate_send_note {"message": "Desktop: what is in flight?", "request_id": "note-1"}
+<<< isError=False
+{"schema": "fm-inbox-note.v1", "outcome": "created", "id": "1790835186-G6p85e", "request_id": "note-1", "saved": true, "announced": true, "acknowledged": false, "path": "/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.BTdndO/state/inbox/1790835186-G6p85e.note"}
+
+>>> [claude-code] firstmate_send_note {"message": "Code: different question", "request_id": "note-1"}
+<<< isError=False
+{"schema": "fm-inbox-note.v1", "outcome": "created", "id": "1790835187-UW2jKa", "request_id": "note-1", "saved": true, "announced": true, "acknowledged": false, "path": "/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.BTdndO/state/inbox/1790835187-UW2jKa.note"}
+
+>>> [claude-ai] firstmate_send_note {"message": "Desktop: what is in flight?", "request_id": "note-1"}
+<<< isError=False
+{"schema": "fm-inbox-note.v1", "outcome": "replay", "id": "1790835186-G6p85e", "request_id": "note-1", "saved": true, "announced": true, "acknowledged": false, "path": "/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.BTdndO/state/inbox/1790835186-G6p85e.note"}
+
+--- notes on disk (state/inbox) ---
+1790835186-G6p85e.note
+1790835187-UW2jKa.note
+## 1790835186-G6p85e.note
+id=1790835186-G6p85e
+at=2026-10-01T06:13:06Z
+source=text
+announce_marker=1
+request_id=2e6a9951-note-1
+--
+[via firstmate MCP from claude-ai 1.2.3]
+Desktop: what is in flight?
+
+## 1790835187-UW2jKa.note
+id=1790835187-UW2jKa
+at=2026-10-01T06:13:07Z
+source=text
+announce_marker=1
+request_id=28e17439-note-1
+--
+[via firstmate MCP from claude-code 1.2.3]
+Code: different question
+

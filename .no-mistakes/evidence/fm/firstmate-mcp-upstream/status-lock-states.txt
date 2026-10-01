@@ -1,0 +1,57 @@
+=== S1: stale lock (dead pid) - Claude Desktop calls firstmate_status ===
+
+>>> [claude-ai] firstmate_status {}
+<<< isError=False
+=== firstmate status (read-only, no wake sent) ===
+home     /var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.BTdndO
+time     2026-10-01T06:13:00Z
+inbox    0 note(s) waiting for firstmate
+
+(no backlog at /var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.BTdndO/data/backlog.md)
+
+(no workers on deck)
+
+Note: the last event line is history, not current state.
+
+--- firstmate readiness ---
+{"schema":"fm-primary-ready.v1","home":"T/fm-lab.BTdndO","observed_at":"2026-10-01T06:13:00Z","lock":{"state":"stale","pid":90124,"live_harness":false},"wake_consumer":{"state":"unknown","reason":"supervision-model-unknown-for-home","beacon_age_seconds":null},"posture":{"state":"present"},"can_receive":false}
+firstmate liveness cannot be proven right now; notes are still saved and queued, and firstmate picks them up the next time its session runs.
+
+
+=== S2: held lock (live pid) - firstmate_status ===
+
+>>> [claude-ai] firstmate_status {}
+<<< isError=False
+=== firstmate status (read-only, no wake sent) ===
+home     /var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.BTdndO
+time     2026-10-01T06:13:00Z
+inbox    0 note(s) waiting for firstmate
+
+(no backlog at /var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.BTdndO/data/backlog.md)
+
+(no workers on deck)
+
+Note: the last event line is history, not current state.
+
+--- firstmate readiness ---
+{"schema":"fm-primary-ready.v1","home":"T/fm-lab.BTdndO","observed_at":"2026-10-01T06:13:00Z","lock":{"state":"unknown","pid":90148,"live_harness":false},"wake_consumer":{"state":"unknown","reason":"supervision-model-unknown-for-home","beacon_age_seconds":null},"posture":{"state":"present"},"can_receive":"unknown"}
+
+
+=== S3: free lock - firstmate_status ===
+
+>>> [claude-ai] firstmate_status {}
+<<< isError=False
+=== firstmate status (read-only, no wake sent) ===
+home     /var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.BTdndO
+time     2026-10-01T06:13:00Z
+inbox    0 note(s) waiting for firstmate
+
+(no backlog at /var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.BTdndO/data/backlog.md)
+
+(no workers on deck)
+
+Note: the last event line is history, not current state.
+
+--- firstmate readiness ---
+{"schema":"fm-primary-ready.v1","home":"T/fm-lab.BTdndO","observed_at":"2026-10-01T06:13:00Z","lock":{"state":"free","pid":null,"live_harness":false},"wake_consumer":{"state":"unknown","reason":"supervision-model-unknown-for-home","beacon_age_seconds":null},"posture":{"state":"present"},"can_receive":false}
+
