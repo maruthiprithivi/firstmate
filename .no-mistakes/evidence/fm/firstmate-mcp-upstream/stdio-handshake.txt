@@ -1,0 +1,2 @@
+{"protocolVersion": "2025-06-18", "serverInfo": {"name": "firstmate", "version": "1"}}
+[('firstmate_send_note', ['message', 'request_id'], False), ('firstmate_note_replies', [], True), ('firstmate_status', [], True), ('firstmate_home_summary', [], True), ('firstmate_backlog_list', [], True), ('firstmate_backlog_show', ['task_id'], True), ('firstmate_crew_state', ['task_id'], True), ('firstmate_crew_report', ['task_id'], True)]
