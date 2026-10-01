@@ -1,0 +1,19 @@
+Here is what each of the three tool calls returned, word for word:
+
+**1. firstmate_send_note** (message `live check from claude code`, request_id `live-1`)
+```json
+{"schema": "fm-inbox-note.v1", "outcome": "created", "id": "1790824498-f9EuFH", "request_id": "live-1", "saved": true, "announced": true, "acknowledged": false, "path": "/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.Tpyovt/state/inbox/1790824498-f9EuFH.note"}
+```
+
+**2. firstmate_note_replies** (note_id `1790824498-f9EuFH`)
+```json
+{"id": "1790824498-f9EuFH", "at": "2026-10-01T03:14:58Z", "source": "text", "request_id": "live-1", "body": "[via firstmate MCP from claude-code 2.1.286]\nlive check from claude code", "acknowledged": false, "announced": true, "reply": null}
+```
+
+**3. firstmate_crew_report** (task_id `evil`), which returned an error:
+```
+refusing a symlinked or out-of-home path: data/evil/report.md
+```
+
+- **Note:** it was created and announced, but firstmate hasn't acknowledged it yet, so there's no reply so far (`reply: null`).
+- **Crew report:** the server refused to read `data/evil/report.md` because that path is either a symlink or points outside firstmate's home directory. Its path check blocked the read, so no report contents came back.

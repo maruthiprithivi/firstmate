@@ -1,0 +1,73 @@
+1790824461-T4QQaN.note
+1790824461-nRUXKt.note
+--- wake queue
+[claude-ai] initialize -> {'name': 'firstmate', 'version': '1'} 2025-06-18
+[claude-code] initialize -> {'name': 'firstmate', 'version': '1'} 2025-06-18
+
+== S1/S2: both clients send a note with the same request_id 'note-1' ==
+[claude-ai] firstmate_send_note({'message': "Desktop: what's the fleet doing?", 'request_id': 'note-1'}) isError=False
+    {"schema": "fm-inbox-note.v1", "outcome": "created", "id": "1790824461-nRUXKt", "request_id": "note-1", "saved": true, "announced": true, "acknowledged": false, "path": "/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.Tpyovt/state/inbox/1790824461-nRUXKt.note"}
+[claude-code] firstmate_send_note({'message': 'Code: start the recording task', 'request_id': 'note-1'}) isError=False
+    {"schema": "fm-inbox-note.v1", "outcome": "created", "id": "1790824461-T4QQaN", "request_id": "note-1", "saved": true, "announced": true, "acknowledged": false, "path": "/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.Tpyovt/state/inbox/1790824461-T4QQaN.note"}
+distinct note ids: True
+
+== S3: Desktop retries same request_id -> replays its own note ==
+[claude-ai] firstmate_send_note({'message': "Desktop: what's the fleet doing?", 'request_id': 'note-1'}) isError=False
+    {"schema": "fm-inbox-note.v1", "outcome": "replay", "id": "1790824461-nRUXKt", "request_id": "note-1", "saved": true, "announced": true, "acknowledged": false, "path": "/var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.Tpyovt/state/inbox/1790824461-nRUXKt.note"}
+replayed same id: True
+
+== inbox on disk ==
+
+== S4: firstmate replies to each note; each client reads its own ==
+[claude-ai] firstmate_note_replies({'note_id': '1790824461-nRUXKt'}) isError=False
+    {"id": "1790824461-nRUXKt", "at": "2026-10-01T03:14:21Z", "source": "text", "request_id": "note-1", "body": "[via firstmate MCP from claude-ai 0.14.1]\nDesktop: what's the fleet doing?", "acknowledged": false, "announced": true, "reply": {"id": "1790824461-nRUXKt", "at": "2026-10-01T03:14:22Z", "body": "Desktop: fleet idle.", "cursor": "000000000001"}}
+[claude-code] firstmate_note_replies({'note_id': '1790824461-T4QQaN'}) isError=False
+    {"id": "1790824461-T4QQaN", "at": "2026-10-01T03:14:21Z", "source": "text", "request_id": "note-1", "body": "[via firstmate MCP from claude-code 2.1.0]\nCode: start the recording task", "acknowledged": false, "announced": true, "reply": {"id": "1790824461-T4QQaN", "at": "2026-10-01T03:14:22Z", "body": "Code: recording task queued.", "cursor": "000000000002"}}
+desktop sees request_id note-1 reply {'id': '1790824461-nRUXKt', 'at': '2026-10-01T03:14:22Z', 'body': 'Desktop: fleet idle.', 'cursor': '000000000001'}
+code sees request_id note-1 reply {'id': '1790824461-T4QQaN', 'at': '2026-10-01T03:14:22Z', 'body': 'Code: recording task queued.', 'cursor': '000000000002'}
+[claude-ai] firstmate_note_replies({}) isError=False
+    {"schema": "fm-inbox-receipts.v1", "home": "T/fm-lab.Tpyovt", "generated": "2026-10-01T03:14:23Z", "pending": [{"id": "1790824461-nRUXKt", "at": "2026-10-01T03:14:21Z", "source": "text", "request_id": "note-1", "body": "[via firstmate MCP from claude-ai 0.14.1]\nDesktop: what's the fleet doing?", "acknowledged": false, "announced": true, "reply": {"id": "1790824461-nRUXKt", "at": "2026-10-01T03:14
+desktop no-cursor page request_ids: [('1790824461-nRUXKt', 'note-1'), ('1790824461-T4QQaN', '28e17439-note-1')]
+
+== S5: read tools leave the home byte-identical; symlink escape refused ==
+[claude-code] firstmate_status({}) isError=False
+    === firstmate status (read-only, no wake sent) ===
+home     /var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.Tpyovt
+time     2026-10-01T03:14:23Z
+inbox    2 note(s) waiting for firstmate
+
+(no backlog at /var/folders/6z/py4cszgd0l3617qbvnnh695h0000gn/T/fm-lab.Tpyovt/data/backlog.md)
+
+(no workers on deck)
+
+Note: the last event line is history, not current state.
+
+--- firstmate readiness ---
+{
+[claude-code] firstmate_home_summary({}) isError=True
+    no home summary published at state/home-summary.json
+[claude-code] firstmate_backlog_list({}) isError=False
+    count: 0
+tasks: 0 tasks in this backlog
+help[2]:
+  - "Run `tasks-axi add <id> \"<title>\"` to add a task"
+  - Run `tasks-axi list --state done` to see completed work
+
+[claude-code] firstmate_crew_report({'task_id': 'demo'}) isError=False
+    # demo report
+all good
+
+[claude-code] firstmate_crew_report({'task_id': 'evil'}) isError=True
+    refusing a symlinked or out-of-home path: data/evil/report.md
+    leaked outside content: False
+[claude-code] firstmate_crew_report({'task_id': '../demo'}) isError=True
+    invalid task id: '../demo'
+[claude-code] firstmate_crew_state({'task_id': 'demo'}) isError=False
+    state: unknown · source: none · no metadata for demo
+
+home unchanged by reads: True
+
+== S6: missing request_id refused, no note ==
+[claude-ai] firstmate_send_note({'message': 'no id'}) isError=True
+    required string arguments: message, request_id
+inbox entries unchanged: True

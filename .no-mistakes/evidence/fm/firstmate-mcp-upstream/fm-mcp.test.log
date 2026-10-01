@@ -1,0 +1,9 @@
+ok - protocol: initialize, ping, tools/list, and error codes
+ok - send_note: one idempotent note, and firstmate's reply returns
+ok - send_note: the marker names the sending client, and request_ids are per client
+ok - note_replies: newest replies first page, after cursor pages forward
+ok - bad input is a tool error, never a note
+ok - reads: status, summary, backlog, crew state, and report
+ok - ids and symlinks cannot escape the home
+ok - authority boundary: reads leave the home byte-identical
+ok - missing files are errors
