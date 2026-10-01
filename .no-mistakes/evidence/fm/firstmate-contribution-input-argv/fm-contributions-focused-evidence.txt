@@ -1,0 +1,14 @@
+Command: bash bin/fm-test-run.sh tests/fm-contributions.test.sh
+Result: exit=0
+
+Relevant live scenario evidence from runner output:
+ok - small and large native contribution inputs preserve ownership, evidence and authenticated observer
+ok - cross-home away yolo delivery is fleet work
+ok - expired child unsupported-forge coverage remains unmeasured
+ok - parent consumes measured child coverage and refuses expired child silence
+ok - unsupported forge coverage is disclosed without inventing fleet work
+ok - held unsupported forge coverage remains unmeasured
+
+Terminal summary:
+FM_TEST_END 2026-10-01T14:56:41Z tests/fm-contributions.test.sh exit=0 duration_ms=143613 gate_skip=false
+FM_TEST_SUMMARY total=1 failed=0 skipped_gate=0 duration_ms=143666
