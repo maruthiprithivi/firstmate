@@ -1,0 +1,105 @@
+
+### S1 issue-6444 collision: ordinary teardown of stale record on unclaimed shared slot
+$ /Users/maruthi/.no-mistakes/worktrees/404f304dbf13/01M41NPV51AKX9T6NENHFNKG2N/bin/fm-teardown.sh stale-task
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  2 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  watcher supervision needs Stop-owned automatic recovery; inspect the hook registration and startup status before ending the turn.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REFUSED: task stale-task's recorded worktree /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb/pool-s1/1/project is also task live-task's recorded worktree.
+Returning that pool slot would kill live-task's processes and reset its copy, so nothing was changed - not even with --force.
+Reconcile whichever record is wrong (bin/fm-crew-state.sh stale-task; bin/fm-crew-state.sh live-task), or retire a stale, agent-free, landed record with bin/fm-teardown.sh <stale-id> --release-duplicate-claim, then re-run teardown.
+[exit 1]
+- records: live-task.meta stale-task.meta 
+- archived: 
+- slot sentinel: present
+- live window: fm-live-task 
+- live pane cmd: sleep
+
+### S2 --force with --release-duplicate-claim is rejected
+$ /Users/maruthi/.no-mistakes/worktrees/404f304dbf13/01M41NPV51AKX9T6NENHFNKG2N/bin/fm-teardown.sh stale-task --release-duplicate-claim --force
+error: --release-duplicate-claim cannot be combined with --force
+[exit 2]
+- records: live-task.meta stale-task.meta 
+- archived: 
+- slot sentinel: present
+- live window: fm-live-task 
+- live pane cmd: sleep
+
+### S3 release refused: stale endpoint has a live agent
+$ /Users/maruthi/.no-mistakes/worktrees/404f304dbf13/01M41NPV51AKX9T6NENHFNKG2N/bin/fm-teardown.sh stale-task --release-duplicate-claim
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+REFUSED: task stale-task's endpoint firstmate:fm-stale-task reads 'alive', not positively agent-free; records-only release left every record intact.
+[exit 1]
+- records: live-task.meta stale-task.meta 
+- archived: 
+- slot sentinel: present
+- live window: fm-live-task fm-stale-task 
+- live pane cmd: sleep
+
+### S4 release refused: stale branch has unlanded local-only work
+$ /Users/maruthi/.no-mistakes/worktrees/404f304dbf13/01M41NPV51AKX9T6NENHFNKG2N/bin/fm-teardown.sh stale-task --release-duplicate-claim
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+REFUSED: local-only task stale-task's branch refs/heads/fm/stale-task has work not yet merged into main and not on any remote.
+[exit 1]
+- records: live-task.meta stale-task.meta 
+- archived: 
+- slot sentinel: present
+- live window: fm-live-task 
+- live pane cmd: sleep
+
+### S5 release succeeds once local-only work is on local main (stale endpoint missing)
+$ /Users/maruthi/.no-mistakes/worktrees/404f304dbf13/01M41NPV51AKX9T6NENHFNKG2N/bin/fm-teardown.sh stale-task --release-duplicate-claim
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+teardown stale-task complete (window firstmate:fm-stale-task; pool slot /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb/pool-s4/1/project left to task live-task (home /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb), which it was reassigned to)
+Backlog: stale-task just finished (this home keeps no markdown backlog at /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb/data/backlog.md). Update /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb/data/backlog.md - move stale-task to Done, keep Done to the 10 most recent, then re-scan Queued and dispatch only work whose blockers are gone and date is due.
+[exit 0]
+- records: live-task.meta 
+- archived: retired-duplicate-claim.meta 
+- slot sentinel: present
+- live window: fm-live-task 
+- live pane cmd: sleep
+--- archived record:
+window=firstmate:fm-stale-task
+endpoint_task_id=stale-task
+worktree=/private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb/pool-s4/1/project
+project=/private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb/projects/s4
+kind=ship
+branch=fm/stale-task
+spawn_gen=spawn-stale
+mode=local-only
+
+### S6 base path unchanged: slot claim names live-task, ordinary teardown retires stale records-only
+$ /Users/maruthi/.no-mistakes/worktrees/404f304dbf13/01M41NPV51AKX9T6NENHFNKG2N/bin/fm-teardown.sh stale-task
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+warning: task stale-task's recorded worktree /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb/pool-s6/1/project was reassigned to task live-task (home /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb), which claimed that pool slot after this record was written; that slot is no longer stale-task's, so its processes, copy, and claim are left untouched and only stale-task's own cleanup runs.
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+s6: skipped: no origin remote
+teardown stale-task complete (window firstmate:fm-stale-task; pool slot /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb/pool-s6/1/project left to task live-task (home /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb), which it was reassigned to)
+Backlog: stale-task just finished (this home keeps no markdown backlog at /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb/data/backlog.md). Update /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb/data/backlog.md - move stale-task to Done, keep Done to the 10 most recent, then re-scan Queued and dispatch only work whose blockers are gone and date is due.
+[exit 0]
+- records: live-task.meta 
+- archived: 
+- slot sentinel: present
+- live window: fm-live-task 
+- live pane cmd: sleep
+- slot claim: task=live-task home=/private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb 
+
+### S7 release refused when the claim already names another task (ordinary teardown owns that case)
+$ /Users/maruthi/.no-mistakes/worktrees/404f304dbf13/01M41NPV51AKX9T6NENHFNKG2N/bin/fm-teardown.sh stale-task --release-duplicate-claim
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.ZifLrb
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+REFUSED: the slot claim names task live-task; ordinary teardown of stale-task already retires its record without touching the slot.
+[exit 1]
+- records: live-task.meta stale-task.meta 
+- archived: 
+- slot sentinel: present
+- live window: fm-live-task 
+- live pane cmd: sleep

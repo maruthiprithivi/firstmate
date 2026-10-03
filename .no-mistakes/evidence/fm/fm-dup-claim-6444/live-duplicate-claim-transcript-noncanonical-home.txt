@@ -1,0 +1,60 @@
+== lab tmux windows (pane command):
+fm-live-task codex /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.F9q2Hh/pool/1/project
+
+== Scenario A: ordinary teardown of stale record on unclaimed duplicate slot
+
+$ bin/fm-teardown.sh stale-task
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.F9q2Hh
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  2 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  watcher supervision needs Stop-owned automatic recovery; inspect the hook registration and startup status before ending the turn.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REFUSED: task stale-task's recorded worktree /private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fm-lab.F9q2Hh/pool/1/project is also task live-task's recorded worktree.
+Returning that pool slot would kill live-task's processes and reset its copy, so nothing was changed - not even with --force.
+Reconcile whichever record is wrong (bin/fm-crew-state.sh stale-task; bin/fm-crew-state.sh live-task), or retire a stale, agent-free, landed record with bin/fm-teardown.sh <stale-id> --release-duplicate-claim, then re-run teardown.
+[exit=1]
+
+== Scenario B: --force combined with --release-duplicate-claim
+
+$ bin/fm-teardown.sh stale-task --release-duplicate-claim --force
+error: --release-duplicate-claim cannot be combined with --force
+[exit=2]
+
+== Scenario C: unlanded stale branch refused
+
+$ bin/fm-teardown.sh stale-unl --release-duplicate-claim
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.F9q2Hh
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+REFUSED: tasks live-task and live-task both have live endpoints on /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.F9q2Hh/pool/1/project; ownership is ambiguous.
+[exit=1]
+live-task.meta
+stale-task.meta
+stale-unl.meta
+
+== Scenario D: stale endpoint still running an agent refused
+
+$ bin/fm-teardown.sh stale-task --release-duplicate-claim
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.F9q2Hh
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+REFUSED: tasks live-task and live-task both have live endpoints on /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.F9q2Hh/pool/1/project; ownership is ambiguous.
+[exit=1]
+
+== Scenario E: landed stale record released records-only (stale window gone)
+
+$ bin/fm-teardown.sh stale-task --release-duplicate-claim
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.F9q2Hh
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+REFUSED: tasks live-task and live-task both have live endpoints on /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.F9q2Hh/pool/1/project; ownership is ambiguous.
+[exit=1]
+
+== After release:
+state/: live-task.meta
+stale-task.meta
+archive: ls: /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.F9q2Hh/data/stale-task: No such file or directory
+slot sentinel: sentinel
+slot branch: fm/live-task
+live window:
+fm-live-task codex
