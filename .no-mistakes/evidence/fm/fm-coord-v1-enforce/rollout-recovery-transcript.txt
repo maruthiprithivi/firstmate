@@ -1,0 +1,69 @@
+== 1. init authority + two shadow homes ==
+$ fm-coord.sh init
+{"db":"/private/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T/fmcoord.o27VtU/central/coord.sqlite3","mode":"shadow-advisory","ok":true,"schema_version":4}
+[exit 0]
+$ fm-coord.sh enroll {"request_id":"e1","home_id":"home-a","repos":["owner/repo","owner/other"]}
+{"event_id":"e7ac6d80-b9a0-40fa-83cf-6b3d07e7e972","home_id":"home-a","ok":true}
+[exit 0]
+$ fm-coord.sh enroll {"request_id":"e2","home_id":"home-b","repos":["owner/repo"]}
+{"event_id":"1ef4fb1c-41d6-4fcb-8ead-fb8dab7040a9","home_id":"home-b","ok":true}
+[exit 0]
+home-a generation=1
+home-b generation=1
+== 2. import current WIP as unclaimed intents ==
+$ fm-coord.sh submit {"request_id":"imp-a","intent_id":"wip-a","home_id":"home-a","generation":1,"repo":"owner/repo","base":"main","base_oid":"0123456789abcdef0123456789abcdef01234567","branch":"wip/a","task_id":"wa","issue":"owner/repo#1","goal":"imported","resources":[{"type":"directory","name":"src/api"}]}
+{"event_id":"b7310970-7ca2-45a9-9ab3-59f8d4681401","intent_id":"wip-a","ok":true,"resources":[["directory","src/api"],["issue","owner/repo#1"]],"version":1}
+[exit 0]
+$ fm-coord.sh submit {"request_id":"imp-b","intent_id":"wip-b","home_id":"home-b","generation":1,"repo":"owner/repo","base":"main","base_oid":"0123456789abcdef0123456789abcdef01234567","branch":"wip/b","task_id":"wb","goal":"imported overlap","resources":[{"type":"file","name":"src/api/x.py"}]}
+{"event_id":"87a3192a-3846-49d9-b796-fdc608a42b17","intent_id":"wip-b","ok":true,"resources":[["file","src/api/x.py"]],"version":1}
+[exit 0]
+-- view after import: intents submitted, no active claims
+$ fm-coord.sh view
+{"claims":[],"conflicts":[],"intents":[{"base_ref":"main","branch":"wip/a","home_id":"home-a","intent_id":"wip-a","issue":"owner/repo#1","repo":"owner/repo","state":"submitted","task_id":"wa","version":1},{"base_ref":"main","branch":"wip/b","home_id":"home-b","intent_id":"wip-b","issue":null,"repo":"owner/repo","state":"submitted","task_id":"wb","version":1}],"ok":true,"outbox":[{"event_id":"e7ac6d80-b9a0-40fa-83cf-6b3d07e7e972","event_type":"participant-enrolled","seq":1},{"event_id":"1ef4fb1c-41d6-4fcb-8ead-fb8dab7040a9","event_type":"participant-enrolled","seq":2},{"event_id":"a2f1a114-71f3-47c6-aaaf-781d7a6f8eae","event_type":"session-started","seq":3},{"event_id":"7dcb2485-40e2-4c4b-abd3-2dc856ab1ef0","event_type":"session-started","seq":4},{"event_id":"b7310970-7ca2-45a9-9ab3-59f8d4681401","event_type":"intent-submitted","seq":5},{"event_id":"87a3192a-3846-49d9-b796-fdc608a42b17","event_type":"intent-submitted","seq":6}],"queue":[]}
+[exit 0]
+== 3. admit wip-a; overlapping wip-b denied, names holder ==
+$ fm-coord.sh claim {"request_id":"cl-a","intent_id":"wip-a","home_id":"home-a","generation":1,"version":1}
+{"claim_id":"eb98901b-b2b2-4c78-b389-9ab73a4195e5","event_id":"d0917cc1-0bf2-4165-98a2-6f37d14e76bc","expires_mono_ns":440100548935000,"fence":1,"ok":true}
+[exit 0]
+$ fm-coord.sh claim {"request_id":"cl-b","intent_id":"wip-b","home_id":"home-b","generation":1,"version":1}
+{"conflicts":[{"claim_id":"eb98901b-b2b2-4c78-b389-9ab73a4195e5","home_id":"home-a","intent_id":"wip-a","predecessor_intent_id":"wip-a","resource":{"name":"src/api","type":"directory"}}],"event_id":"49a8446c-94fd-47dc-bba4-3f688fd7b8cc","ok":false,"reason":"scope-conflict"}
+[exit 0]
+-- request replay returns identical receipt
+$ fm-coord.sh claim {"request_id":"cl-a","intent_id":"wip-a","home_id":"home-a","generation":1,"version":1}
+{"claim_id":"eb98901b-b2b2-4c78-b389-9ab73a4195e5","event_id":"d0917cc1-0bf2-4165-98a2-6f37d14e76bc","expires_mono_ns":440100548935000,"fence":1,"ok":true}
+[exit 0]
+== 4. backup via sqlite .backup, then more traffic ==
+backup taken
+$ fm-coord.sh migration-seed {"request_id":"seed","repo":"owner/repo","namespace":"db","next_number":5}
+{"event_id":"0bcc576f-345f-4167-bcaf-610eec9173a0","next_number":5,"ok":true}
+[exit 0]
+== 5. ADVERSARIAL: copy DB to other path -> path binding refuses ==
+$ fm-coord.sh --db copy.sqlite3 view
+fm-coord: database has no authority binding for this path; manual fenced recovery required
+[exit 1]
+== 6. ADVERSARIAL: restore older backup in place -> refused ==
+$ fm-coord.sh session {"request_id":"s3","home_id":"home-a"}
+fm-coord: restored database is older than authority marker; manual fenced recovery required
+[exit 1]
+$ fm-coord.sh view
+fm-coord: restored database is older than authority marker; manual fenced recovery required
+[exit 1]
+== 7. ADVERSARIAL: recover without confirm token -> refused ==
+$ fm-coord.sh recover {}
+fm-coord: manual recovery requires confirm=FENCE_AND_REENROLL
+[exit 1]
+== 8. manual fenced recovery ==
+$ fm-coord.sh recover {"confirm":"FENCE_AND_REENROLL"}
+{"authority_id":"95a81f14-c54e-466b-9507-73f0fd4a4cd7","ok":true,"reenrollment_required":true}
+[exit 0]
+-- old generation write refused after recovery
+$ fm-coord.sh submit {"request_id":"stale","intent_id":"stale","home_id":"home-a","generation":1,"repo":"owner/repo","base":"main","base_oid":"0123456789abcdef0123456789abcdef01234567","branch":"wip/s","task_id":"s","goal":"stale","resources":[{"type":"file","name":"src/s.py"}]}
+fm-coord: expired session generation
+[exit 1]
+-- re-enroll with new request IDs: generation advanced
+$ fm-coord.sh session {"request_id":"s4","home_id":"home-a"}
+{"event_id":"44e428f7-ab53-4cc4-9b3e-1cf589dbf8ae","generation":3,"home_id":"home-a","ok":true,"session_id":"1dae0810-880c-411d-8389-43318f733c48"}
+[exit 0]
+$ fm-coord.sh inspect
+{"allocations":[],"claims":[{"claim_id":"eb98901b-b2b2-4c78-b389-9ab73a4195e5","expires_mono_ns":440100548935000,"fence":1,"generation":1,"home_id":"home-a","intent_id":"wip-a","state":"revoked","version":1}],"intents":[{"branch":"wip/a","home_id":"home-a","intent_id":"wip-a","pr_url":null,"repo":"owner/repo","state":"revoked","version":1},{"branch":"wip/b","home_id":"home-b","intent_id":"wip-b","pr_url":null,"repo":"owner/repo","state":"submitted","version":1}],"ok":true,"outcomes":[],"participants":[{"generation":3,"home_id":"home-a","repos_json":"[\"owner/other\",\"owner/repo\"]","session_id":"1dae0810-880c-411d-8389-43318f733c48"},{"generation":2,"home_id":"home-b","repos_json":"[\"owner/repo\"]","session_id":null}],"queue":[],"schema_version":4,"slots":[]}
+[exit 0]

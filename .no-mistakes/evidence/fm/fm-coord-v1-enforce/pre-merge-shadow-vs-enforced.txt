@@ -1,0 +1,20 @@
+# shadow config: {"mode":"shadow","home_id":"shadow","repos":["owner/repo"],"db":"/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fmmerge.i2NuPj/c.sqlite3"}
+$ [shadow] adapter pre-merge https://github.com/owner/repo/pull/1
+[exit 0]
+# mixed config: {"mode":"shadow","home_id":"mixed","repos":["owner/repo","other/shadow"],"enforce_repos":["owner/repo"],"db":"/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fmmerge.i2NuPj/c.sqlite3"}
+$ [mixed] adapter pre-merge https://github.com/other/shadow/pull/1
+[exit 0]
+$ [mixed] adapter pre-merge https://github.com/owner/repo/pull/1
+fm-coord: central merge-guard unavailable or refused: fm-coord: current integration slot and branch writer generation are required for merge; request remains local
+fm-coord: owner/repo: enforcement paused: integration slot is absent, stale, or unreachable
+[exit 1]
+$ [mixed] adapter pre-merge https://gitlab.com/owner/elsewhere/-/merge_requests/1
+[exit 0]
+# enf-offline config: {"mode":"shadow","home_id":"x","repos":["owner/repo"],"enforce_repos":["owner/repo"],"db":"/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fmmerge.i2NuPj/missing.sqlite3"}
+$ [enf-offline] adapter pre-merge https://github.com/owner/repo/pull/1
+fm-coord: central merge-guard unavailable or refused: fm-coord: database is absent; run init first; request remains local
+fm-coord: owner/repo: enforcement paused: integration slot is absent, stale, or unreachable
+[exit 1]
+# shadow-offline config: {"mode":"shadow","home_id":"y","repos":["owner/repo"],"db":"/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fmmerge.i2NuPj/missing.sqlite3"}
+$ [shadow-offline] adapter pre-merge https://github.com/owner/repo/pull/1
+[exit 0]
