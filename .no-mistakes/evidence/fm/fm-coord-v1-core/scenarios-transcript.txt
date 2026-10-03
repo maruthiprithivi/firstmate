@@ -1,0 +1,83 @@
+== setup
+$ fm-coord init 
+{"db":"/tmp/tmp.xwMNBmDppW/c.db","mode":"shadow-advisory","ok":true,"schema_version":1}
+[exit 0]
+$ fm-coord enroll {"request_id":"e-a","home_id":"a","repos":["o/r"]}
+{"event_id":"792976f9-31da-44c8-bc36-a7d9ad15d5ef","home_id":"a","ok":true}
+[exit 0]
+$ fm-coord enroll {"request_id":"e-b","home_id":"b","repos":["o/r"]}
+{"event_id":"ac200d4d-47aa-42b7-b74f-1bcc02b08634","home_id":"b","ok":true}
+[exit 0]
+$ fm-coord session {"request_id":"s-a","home_id":"a"}
+{"event_id":"b32dc539-9542-4890-b6df-2cbce88c013d","generation":1,"home_id":"a","ok":true,"session_id":"31ac8ca8-bbf7-4a9b-9521-8973e3414063"}
+[exit 0]
+$ fm-coord session {"request_id":"s-b","home_id":"b"}
+{"event_id":"1cff1ef2-fb40-4d3a-a445-a6c7d90b8b3c","generation":1,"home_id":"b","ok":true,"session_id":"fc62aad8-03ac-490f-ada4-ed0d15eec320"}
+[exit 0]
+== S1 scope expansion requires explicit amend; expanded scope then blocks others
+$ fm-coord submit {"request_id":"sub-a","intent_id":"ia","home_id":"a","generation":1,"repo":"o/r","base":"main","base_oid":"0000000000000000000000000000000000000000","branch":"t/a","task_id":"a","goal":"g","resources":[{"type":"file","name":"x.py"}]}
+{"event_id":"57f232d4-0089-47d1-92ad-cb4525d12035","intent_id":"ia","ok":true,"resources":[["file","x.py"]],"version":1}
+[exit 0]
+{"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","event_id":"cc151d61-ba64-41a7-a819-642637fff722","expires_mono_ns":119547909459166,"fence":1,"ok":true}
+$ fm-coord submit {"request_id":"sub-b","intent_id":"ib","home_id":"b","generation":1,"repo":"o/r","base":"main","base_oid":"0000000000000000000000000000000000000000","branch":"t/b","task_id":"b","goal":"g","resources":[{"type":"file","name":"y.py"}]}
+{"event_id":"9793e8a8-75dd-407f-bc34-5c7f182fb88d","intent_id":"ib","ok":true,"resources":[["file","y.py"]],"version":1}
+[exit 0]
+$ fm-coord amend {"request_id":"am-drop","intent_id":"ia","home_id":"a","generation":1,"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","fence":1,"version":1,"resources":[{"type":"file","name":"y.py"}]}
+fm-coord: scope amendment cannot silently drop resources
+[exit 1]
+$ fm-coord amend {"request_id":"am-a","intent_id":"ia","home_id":"a","generation":1,"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","fence":1,"version":1,"resources":[{"type":"file","name":"x.py"},{"type":"file","name":"y.py"}]}
+{"event_id":"56c768d6-0b59-465d-9ba5-8be9a56cf74d","ok":true,"version":2}
+[exit 0]
+$ fm-coord claim {"request_id":"cl-b","intent_id":"ib","home_id":"b","generation":1,"version":1}
+{"conflicts":[{"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","home_id":"a","intent_id":"ia","predecessor_intent_id":"ia","resource":{"name":"y.py","type":"file"}}],"event_id":"d17a2b68-6b5e-406c-96ef-57c6e7e78e23","ok":false,"reason":"scope-conflict"}
+[exit 0]
+== S2 immutable head with expected-previous guard
+$ fm-coord publish-head {"request_id":"ph1","intent_id":"ia","home_id":"a","generation":1,"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","fence":1,"head_oid":"1111111111111111111111111111111111111111","expected_previous_oid":null}
+{"event_id":"ae7d93eb-3152-4d32-9400-d8b0258f9c57","head_id":"b9f45159-fe62-4238-a0a8-76894551e590","ok":true}
+[exit 0]
+$ fm-coord publish-head {"request_id":"ph-bad","intent_id":"ia","home_id":"a","generation":1,"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","fence":1,"head_oid":"2222222222222222222222222222222222222222","expected_previous_oid":null}
+fm-coord: expected previous head mismatch
+[exit 1]
+$ fm-coord publish-head {"request_id":"ph2","intent_id":"ia","home_id":"a","generation":1,"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","fence":1,"head_oid":"2222222222222222222222222222222222222222","expected_previous_oid":"1111111111111111111111111111111111111111"}
+{"event_id":"2251a4bc-eefa-4945-95f9-062e1846f887","head_id":"806dcb5c-1cf6-43dc-b1de-6296d4fbbf01","ok":true}
+[exit 0]
+$ fm-coord publish-head {"request_id":"ph-short","intent_id":"ia","home_id":"a","generation":1,"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","fence":1,"head_oid":"abc123","expected_previous_oid":"2222222222222222222222222222222222222222"}
+fm-coord: head_oid must be a full Git object ID
+[exit 1]
+== S3 idempotency: replay identical, reject reuse with different payload
+$ fm-coord publish-head {"request_id":"ph1","intent_id":"ia","home_id":"a","generation":1,"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","fence":1,"head_oid":"1111111111111111111111111111111111111111","expected_previous_oid":null}
+{"event_id":"ae7d93eb-3152-4d32-9400-d8b0258f9c57","head_id":"b9f45159-fe62-4238-a0a8-76894551e590","ok":true}
+[exit 0]
+$ fm-coord publish-head {"request_id":"ph1","intent_id":"ia","home_id":"a","generation":1,"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","fence":1,"head_oid":"2222222222222222222222222222222222222222","expected_previous_oid":null}
+fm-coord: idempotency key reused with different request
+[exit 1]
+== S4 durable loser conflict event in outbox
+$ fm-coord outbox {"limit":1000}
+events: [(1, 'participant-enrolled', 'e-a'), (2, 'participant-enrolled', 'e-b'), (3, 'session-started', 's-a'), (4, 'session-started', 's-b'), (5, 'intent-submitted', 'sub-a'), (6, 'claim-granted', 'cl-a'), (7, 'intent-submitted', 'sub-b'), (8, 'scope-expanded', 'am-a'), (9, 'claim-denied', 'cl-b'), (10, 'head-published', 'ph1'), (11, 'head-published', 'ph2')]
+== S5 path canonicalization refuses escapes
+$ fm-coord submit {"request_id":"sub-esc","intent_id":"iesc","home_id":"b","generation":1,"repo":"o/r","base":"main","base_oid":"0000000000000000000000000000000000000000","branch":"t/esc","task_id":"e","goal":"g","resources":[{"type":"file","name":"../etc/passwd"}]}
+fm-coord: path cannot escape repository root
+[exit 1]
+$ fm-coord submit {"request_id":"sub-abs","intent_id":"iabs","home_id":"b","generation":1,"repo":"o/r","base":"main","base_oid":"0000000000000000000000000000000000000000","branch":"t/abs","task_id":"e","goal":"g","resources":[{"type":"file","name":"/etc/passwd"}]}
+fm-coord: path must be repository-relative POSIX syntax
+[exit 1]
+$ fm-coord submit {"request_id":"sub-scope","intent_id":"isc","home_id":"b","generation":1,"repo":"other/repo","base":"main","base_oid":"0000000000000000000000000000000000000000","branch":"t/sc","task_id":"e","goal":"g","resources":[{"type":"file","name":"z"}]}
+[exit 1]
+fm-coord: repository outside participant scope
+== S6 simulated reboot / copied DB on another boot: live claims revoked, old generation rejected, new session required
+$ fm-coord check {"home_id":"a","generation":1,"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","fence":1}
+fm-coord: claim is not active
+[exit 1]
+$ fm-coord inspect 
+{"allocations":[],"claims":[{"claim_id":"ff5120dc-ae03-4357-bbaa-69f36bf2b556","expires_mono_ns":119547909459166,"fence":1,"generation":1,"home_id":"a","intent_id":"ia","state":"revoked","version":2}],"intents":[{"branch":"t/a","home_id":"a","intent_id":"ia","pr_url":null,"repo":"o/r","state":"revoked","version":2},{"branch":"t/b","home_id":"b","intent_id":"ib","pr_url":null,"repo":"o/r","state":"submitted","version":1}],"ok":true,"participants":[{"generation":2,"home_id":"a","repos_json":"[\"o/r\"]","session_id":null},{"generation":2,"home_id":"b","repos_json":"[\"o/r\"]","session_id":null}],"schema_version":1}
+[exit 0]
+$ fm-coord session {"request_id":"s-a2","home_id":"a"}
+{"event_id":"d1db13f0-c25f-4bdb-811b-8906df3f7457","generation":3,"home_id":"a","ok":true,"session_id":"34b7fed1-666d-4b42-afe8-01acc46d434d"}
+[exit 0]
+$ fm-coord claim {"request_id":"cl-b2","intent_id":"ib","home_id":"b","generation":1,"version":1}
+[exit 1]
+== S7 refuses future schema
+fm-coord: expired session generation
+$ fm-coord inspect 
+fm-coord: unsupported or uninitialized schema version
+[exit 1]

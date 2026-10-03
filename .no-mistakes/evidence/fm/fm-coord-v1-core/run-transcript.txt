@@ -1,0 +1,105 @@
+=== test entry point
+FM_TEST_BEGIN 2026-10-03T11:26:13Z tests/fm-coord.test.sh family=unclassified expected_gate_skip=none
+ok - missing sqlite3 dependency is explicit
+ok - atomic same-resource admission and idempotent grant replay
+ok - guarded immutable PR identity
+ok - single branch writer ownership
+ok - all-or-none scope admission
+ok - independent file admission
+ok - boot identity is independent of caller timezone
+ok - directory, rename, and area alias overlap
+ok - directory rename covers descendants on both paths
+ok - transactional outbox acknowledgment
+ok - persistent migration allocation identity and replay
+ok - expired generation fencing and nonrecycled reservations
+ok - lease expiry and successor fencing
+FM_TEST_END 2026-10-03T11:26:20Z tests/fm-coord.test.sh exit=0 duration_ms=6983 gate_skip=false
+FM_TEST_SUMMARY total=1 failed=0 skipped_gate=0 duration_ms=7087
+FM_TEST_SUMMARY_FAMILY family=unclassified count=1 duration_ms=6983 failed=0
+FM_TEST_SLOWEST rank=1 script=tests/fm-coord.test.sh duration_ms=6983
+=== scenarios
+== setup
+$ fm-coord init 
+{"db":"/tmp/tmp.FBAmhwBarr/c.db","mode":"shadow-advisory","ok":true,"schema_version":1}
+[exit 0]
+$ fm-coord enroll {"request_id":"e-a","home_id":"a","repos":["o/r"]}
+{"event_id":"72fe8776-74e6-4b26-b851-f6536afd6f94","home_id":"a","ok":true}
+[exit 0]
+$ fm-coord enroll {"request_id":"e-b","home_id":"b","repos":["o/r"]}
+{"event_id":"e719e84c-9c7a-4d0b-af5c-7268e5159bd0","home_id":"b","ok":true}
+[exit 0]
+$ fm-coord session {"request_id":"s-a","home_id":"a"}
+{"event_id":"882ad9b4-21fb-4831-91ca-554ae3273c7c","generation":1,"home_id":"a","ok":true,"session_id":"948b5ff4-ed33-473d-80c5-1baf8d9ace8c"}
+[exit 0]
+$ fm-coord session {"request_id":"s-b","home_id":"b"}
+{"event_id":"2341b843-a56d-4b31-8836-5d7263357f5e","generation":1,"home_id":"b","ok":true,"session_id":"bafd4460-db15-42ec-a54c-78774bc30d74"}
+[exit 0]
+== S1 scope expansion requires explicit amend; expanded scope then blocks others
+$ fm-coord submit {"request_id":"sub-a","intent_id":"ia","home_id":"a","generation":1,"repo":"o/r","base":"main","base_oid":"0000000000000000000000000000000000000000","branch":"t/a","task_id":"a","goal":"g","resources":[{"type":"file","name":"x.py"}]}
+{"event_id":"d6fcce57-7198-4d26-819b-9f91a1c19b4f","intent_id":"ia","ok":true,"resources":[["file","x.py"]],"version":1}
+[exit 0]
+{"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","event_id":"152f88a2-4084-4e0f-88eb-3ff803129610","expires_mono_ns":119517670788269,"fence":1,"ok":true}
+$ fm-coord submit {"request_id":"sub-b","intent_id":"ib","home_id":"b","generation":1,"repo":"o/r","base":"main","base_oid":"0000000000000000000000000000000000000000","branch":"t/b","task_id":"b","goal":"g","resources":[{"type":"file","name":"y.py"}]}
+{"event_id":"542e8827-e9c0-4696-af0f-0806b1fd9cc9","intent_id":"ib","ok":true,"resources":[["file","y.py"]],"version":1}
+[exit 0]
+$ fm-coord amend {"request_id":"am-drop","intent_id":"ia","home_id":"a","generation":1,"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","fence":1,"version":1,"resources":[{"type":"file","name":"y.py"}]}
+fm-coord: scope amendment cannot silently drop resources
+[exit 1]
+$ fm-coord amend {"request_id":"am-a","intent_id":"ia","home_id":"a","generation":1,"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","fence":1,"version":1,"resources":[{"type":"file","name":"x.py"},{"type":"file","name":"y.py"}]}
+{"event_id":"75e26e3d-2dde-49b1-900b-273cf46990b8","ok":true,"version":2}
+[exit 0]
+$ fm-coord claim {"request_id":"cl-b","intent_id":"ib","home_id":"b","generation":1,"version":1}
+{"conflicts":[{"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","home_id":"a","intent_id":"ia","predecessor_intent_id":"ia","resource":{"name":"y.py","type":"file"}}],"event_id":"d0649121-203b-450c-a000-84528f26f252","ok":false,"reason":"scope-conflict"}
+[exit 0]
+== S2 immutable head with expected-previous guard
+$ fm-coord publish-head {"request_id":"ph1","intent_id":"ia","home_id":"a","generation":1,"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","fence":1,"head_oid":"1111111111111111111111111111111111111111","expected_previous_oid":null}
+{"event_id":"69b40ca4-4854-4c6d-8114-9719cfe7c75a","head_id":"cee69d8d-4cd3-4173-8d19-e23336c87869","ok":true}
+[exit 0]
+$ fm-coord publish-head {"request_id":"ph-bad","intent_id":"ia","home_id":"a","generation":1,"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","fence":1,"head_oid":"2222222222222222222222222222222222222222","expected_previous_oid":null}
+fm-coord: expected previous head mismatch
+[exit 1]
+$ fm-coord publish-head {"request_id":"ph2","intent_id":"ia","home_id":"a","generation":1,"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","fence":1,"head_oid":"2222222222222222222222222222222222222222","expected_previous_oid":"1111111111111111111111111111111111111111"}
+{"event_id":"3949f30f-2b89-4432-bac7-7c001f196032","head_id":"444483f0-4749-4cca-a479-705f84bcce21","ok":true}
+[exit 0]
+$ fm-coord publish-head {"request_id":"ph-short","intent_id":"ia","home_id":"a","generation":1,"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","fence":1,"head_oid":"abc123","expected_previous_oid":"2222222222222222222222222222222222222222"}
+fm-coord: head_oid must be a full Git object ID
+[exit 1]
+== S3 idempotency: replay identical, reject reuse with different payload
+$ fm-coord publish-head {"request_id":"ph1","intent_id":"ia","home_id":"a","generation":1,"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","fence":1,"head_oid":"1111111111111111111111111111111111111111","expected_previous_oid":null}
+{"event_id":"69b40ca4-4854-4c6d-8114-9719cfe7c75a","head_id":"cee69d8d-4cd3-4173-8d19-e23336c87869","ok":true}
+[exit 0]
+$ fm-coord publish-head {"request_id":"ph1","intent_id":"ia","home_id":"a","generation":1,"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","fence":1,"head_oid":"2222222222222222222222222222222222222222","expected_previous_oid":null}
+fm-coord: idempotency key reused with different request
+[exit 1]
+== S4 durable loser conflict event in outbox
+$ fm-coord outbox {"limit":1000}
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+KeyError: 'event_type'
+== S5 path canonicalization refuses escapes
+$ fm-coord submit {"request_id":"sub-esc","intent_id":"iesc","home_id":"b","generation":1,"repo":"o/r","base":"main","base_oid":"0000000000000000000000000000000000000000","branch":"t/esc","task_id":"e","goal":"g","resources":[{"type":"file","name":"../etc/passwd"}]}
+fm-coord: path cannot escape repository root
+[exit 1]
+$ fm-coord submit {"request_id":"sub-abs","intent_id":"iabs","home_id":"b","generation":1,"repo":"o/r","base":"main","base_oid":"0000000000000000000000000000000000000000","branch":"t/abs","task_id":"e","goal":"g","resources":[{"type":"file","name":"/etc/passwd"}]}
+fm-coord: path must be repository-relative POSIX syntax
+[exit 1]
+$ fm-coord submit {"request_id":"sub-scope","intent_id":"isc","home_id":"b","generation":1,"repo":"other/repo","base":"main","base_oid":"0000000000000000000000000000000000000000","branch":"t/sc","task_id":"e","goal":"g","resources":[{"type":"file","name":"z"}]}
+fm-coord: repository outside participant scope
+[exit 1]
+== S6 simulated reboot / copied DB on another boot: live claims revoked, old generation rejected, new session required
+$ fm-coord check {"home_id":"a","generation":1,"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","fence":1}
+fm-coord: claim is not active
+[exit 1]
+$ fm-coord inspect 
+{"allocations":[],"claims":[{"claim_id":"d770e519-6613-4b98-8927-8d4313bf2573","expires_mono_ns":119517670788269,"fence":1,"generation":1,"home_id":"a","intent_id":"ia","state":"revoked","version":2}],"intents":[{"branch":"t/a","home_id":"a","intent_id":"ia","pr_url":null,"repo":"o/r","state":"revoked","version":2},{"branch":"t/b","home_id":"b","intent_id":"ib","pr_url":null,"repo":"o/r","state":"submitted","version":1}],"ok":true,"participants":[{"generation":2,"home_id":"a","repos_json":"[\"o/r\"]","session_id":null},{"generation":2,"home_id":"b","repos_json":"[\"o/r\"]","session_id":null}],"schema_version":1}
+[exit 0]
+$ fm-coord session {"request_id":"s-a2","home_id":"a"}
+{"event_id":"2bf412f2-4de9-4dee-a52f-531748e1e2b0","generation":3,"home_id":"a","ok":true,"session_id":"92148c6e-4d3c-41f1-8795-ce78573254c3"}
+[exit 0]
+$ fm-coord claim {"request_id":"cl-b2","intent_id":"ib","home_id":"b","generation":1,"version":1}
+fm-coord: expired session generation
+[exit 1]
+== S7 refuses future schema
+$ fm-coord inspect 
+fm-coord: unsupported or uninitialized schema version
+[exit 1]
