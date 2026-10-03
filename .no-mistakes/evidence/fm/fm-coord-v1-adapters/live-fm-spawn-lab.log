@@ -1,0 +1,70 @@
+$ fm-brief.sh coordlab repo --mode direct-PR  (lab home with config/coordination.json) -> scaffold excerpt
+Coordination resources: []  (scaffolded line 10; filled before spawn as below)
+10:Coordination resources: [{"type":"file","name":"README.md"}]
+11:Coordination issue: owner/repo#7
+
+$ FM_HOME=$LAB bin/fm-spawn.sh coordlab $LAB/projects/repo --mode direct-PR --yolo off --harness claude
+spawned coordlab harness=claude kind=ship mode=direct-PR yolo=off window=primary:fm-coordlab worktree=/Users/maruthi/.treehouse/repo-b57304/1/repo
+exit=0
+notice: coordlab ships mode=direct-PR while the standing posture for repo is no-mistakes - less rigor than the captain's standing posture; proceed only on a current explicit captain instruction or an intake judgment you can state
+
+--- launch-brief.md coordination section ---
+# Advisory coordination for this task
+The local Firstmate enrolled this intent at dispatch when the coordinator was reachable.
+Before any push or /no-mistakes run, execute `FM_HOME='/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.UM1QnG' python3 '/Users/maruthi/.no-mistakes/worktrees/404f304dbf13/01M40X4CMKB6PEVZX4SBJXSNBS/bin/fm-coord-adapter.py' pre-push 'coordlab' "$PWD"` from this task worktree.
+Before requesting a ci:batch pulse, execute `FM_HOME='/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.UM1QnG' python3 '/Users/maruthi/.no-mistakes/worktrees/404f304dbf13/01M40X4CMKB6PEVZX4SBJXSNBS/bin/fm-coord-adapter.py' pre-ci 'coordlab'`.
+While actively working, execute `FM_HOME='/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.UM1QnG' python3 '/Users/maruthi/.no-mistakes/worktrees/404f304dbf13/01M40X4CMKB6PEVZX4SBJXSNBS/bin/fm-coord-adapter.py' heartbeat 'coordlab'` about every 60 seconds to renew the claim.
+These calls only record and warn in shadow/advisory mode; report any warning in your ordinary task status so Firstmate can coordinate it.
+If the adapter command is missing or fails, report that visibly in task status; continue the selected delivery path.
+
+--- adapter view (central projection + local) ---
+{
+ "active_intents": [
+  {
+   "base_ref": "main",
+   "branch": "fm/coordlab",
+   "home_id": "lab-home",
+   "intent_id": "lab-home:owner/repo:coordlab",
+   "issue": "owner/repo#7",
+   "repo": "owner/repo",
+   "state": "claimed",
+   "task_id": "coordlab",
+   "version": 1
+  }
+ ],
+ "claims": [
+  {
+   "claim_id": "9820c8e6-83c0-4a40-b5be-eb9126554272",
+   "expires_mono_ns": 438163374724416,
+   "fence": 1,
+   "generation": 1,
+   "home_id": "lab-home",
+   "intent_id": "lab-home:owner/repo:coordlab",
+   "version": 1
+  }
+ ],
+ "local_pending": [],
+ "mode": "advisory",
+ "task": {
+  "branch": "fm/coordlab",
+  "harness": "claude",
+  "intent_id": "lab-home:owner/repo:coordlab",
+  "resources": [
+   [
+    "file",
+    "README.md"
+   ],
+   [
+    "issue",
+    "owner/repo#7"
+   ]
+  ]
+ }
+}
+
+--- central events after claude worker ran heartbeat + pre-ci (sqlite events table) ---
+1|participant-enrolled
+2|session-started
+3|intent-submitted
+4|claim-granted
+5|lease-renewed

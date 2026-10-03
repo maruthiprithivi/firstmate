@@ -1,0 +1,89 @@
+
+===== S5a offline: central authority not initialized; home A dispatches task x (claude) =====
+$ A dispatch x /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/proj /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/x.brief fm/x claude
+fm-coord advisory: central enroll unavailable or refused: fm-coord: database is absent; run init first; request remains local
+fm-coord advisory: x: offline intent pending; no claim granted
+[exit=0]
+{"central": null, "local_pending": [{"key": "enroll", "operation": "enroll", "request_id": "f55a9d5f-f72c-41df-a192-c20fcf5822e2"}, {"key": "x", "operation": "dispatch"}]}
+
+===== S5b authority comes up; replay obtains a real claim =====
+$ A replay
+[exit=0]
+{"claims": [{"claim_id": "23c08718-1eda-4a85-9e80-afb779d774cc", "expires_mono_ns": 438095737302916, "fence": 1, "generation": 1, "home_id": "homeA", "intent_id": "homeA:owner/repo:x", "version": 1}], "local_pending": [], "x_claim_ok": true}
+
+===== S2 home B dispatches conflicting task y (codex): conflict named, no grant, exit 0 =====
+$ B dispatch y /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/proj /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/y.brief fm/y codex
+fm-coord advisory: y: scope conflict held by homeA intent homeA:owner/repo:x on {'name': 'src/a.py', 'type': 'file'}
+[exit=0]
+{"conflicts": [{"payload": {"conflicts": [{"claim_id": "23c08718-1eda-4a85-9e80-afb779d774cc", "home_id": "homeA", "intent_id": "homeA:owner/repo:x", "predecessor_intent_id": "homeA:owner/repo:x", "resource": {"name": "src/a.py", "type": "file"}}], "intent_id": "homeB:owner/repo:y"}, "seq": 8, "type": "claim-denied"}], "y_has_claim": false}
+
+===== S8 unsupported harness (cursor): visible warning, no claim =====
+$ B dispatch z /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/proj /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/y.brief fm/z cursor
+fm-coord advisory: z: cursor has no coordination adapter; dispatch continues without a grant
+[exit=0]
+
+===== S3 pre-push with undeclared path: amendment + head publish =====
+$ A pre-push x /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/wtx
+fm-coord advisory: x: undeclared changed paths: src/new.py; amendment requested
+[exit=0]
+{"local_pending": [], "published_head": "abee7c667fdf25a0c6b1122970b37243d2d6fb75", "x_resources": [["file", "src/a.py"], ["file", "src/new.py"], ["issue", "owner/repo#1"]]}
+worktree HEAD: abee7c667fdf25a0c6b1122970b37243d2d6fb75
+
+===== S4a pre-ci with live fence: silent pass; heartbeat renews =====
+$ A pre-ci x
+[exit=0]
+$ A heartbeat x
+[exit=0]
+{"local_pending": []}
+
+===== S7 refused task y runs pre-push/pre-ci then replay must NOT reclaim after x released =====
+$ B pre-push y /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/wty
+fm-coord advisory: y: scope conflict held by homeA intent homeA:owner/repo:x on {'name': 'src/a.py', 'type': 'file'}
+fm-coord advisory: y: branch writer has no confirmed claim
+[exit=0]
+$ B pre-ci y
+fm-coord advisory: y: scope conflict held by homeA intent homeA:owner/repo:x on {'name': 'src/a.py', 'type': 'file'}
+fm-coord advisory: y: branch writer has no confirmed claim
+[exit=0]
+{"ok": true}
+$ B replay
+[exit=0]
+{"active_claims": [], "y_has_claim": false}
+
+===== S7b y's own live checkpoint (heartbeat) retries and now obtains the claim =====
+$ B heartbeat y
+[exit=0]
+{"y_has_claim": true}
+
+===== S4b stale writer: A's released fence -> pre-ci warns no grant =====
+$ A pre-ci x
+fm-coord advisory: central check unavailable or refused: fm-coord: claim is not active; request remains local
+fm-coord advisory: x: branch writer generation cannot be checked; no grant assumed
+fm-coord advisory: x: scope conflict held by homeB intent homeB:owner/repo:y on {'name': 'src/a.py', 'type': 'file'}
+fm-coord advisory: x: branch writer has no confirmed claim
+[exit=0]
+
+===== S9 empty declaration then filled brief re-dispatch =====
+$ A dispatch e /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/proj /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/e.brief fm/e omp
+fm-coord advisory: e: brief declares no coordination resources; intent recorded locally as unclaimed
+[exit=0]
+$ A dispatch e /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/proj /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/e.brief fm/e omp
+[exit=0]
+{"e_claim_ok": true}
+
+===== S6 coordinator reboot simulated: expired generation -> fresh session, resubmit =====
+$ A pre-ci e
+fm-coord advisory: central check unavailable or refused: fm-coord: claim is not active; request remains local
+fm-coord advisory: e: branch writer generation cannot be checked; no grant assumed
+fm-coord advisory: central submit unavailable or refused: fm-coord: expired session generation; request remains local
+fm-coord advisory: e: intent pending; no claim granted
+fm-coord advisory: e: branch writer has no confirmed claim
+[exit=0]
+{"e_claim_ok": true, "e_intent": "homeA:owner/repo:e#3"}
+
+===== S10 opencode dispatch on disjoint file =====
+$ B dispatch o /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/proj /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-coord-live.lFZmn0/o.brief fm/o opencode
+fm-coord advisory: central submit unavailable or refused: fm-coord: expired session generation; request remains local
+fm-coord advisory: o: intent pending; no claim granted
+[exit=0]
+{"o_claim_ok": true}
