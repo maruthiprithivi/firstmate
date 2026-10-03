@@ -1,0 +1,133 @@
+# lab FM_HOME=/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.j08Z7Y  live main=1f3e769616fdf9f31f85f4c3e6a9f71606634238
+
+## init without authority token (R6-1 sequence)
+$ fm-coord.sh init 
+{"db":"/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.j08Z7Y/state/fm-coord.sqlite3","mode":"shadow-advisory","ok":true,"schema_version":3}
+  [exit=0]
+$ fm-coord.sh enroll {"request_id":"e-a","home_id":"a","repos":["kunchenguid/firstmate"]}
+{"event_id":"973683c7-3329-4924-a42e-b34766b5c6e5","home_id":"a","ok":true}
+  [exit=0]
+$ fm-coord.sh enroll {"request_id":"e-b","home_id":"b","repos":["kunchenguid/firstmate"]}
+{"event_id":"fc8a86bf-58ed-414c-bb24-76ef51e8596e","home_id":"b","ok":true}
+  [exit=0]
+$ fm-coord.sh enroll {"request_id":"e-c","home_id":"c","repos":["kunchenguid/firstmate"]}
+{"event_id":"d068f24c-c8e4-442a-a8d3-47217fe02da6","home_id":"c","ok":true}
+  [exit=0]
+$ fm-coord.sh manifest-set {"request_id":"m","repo":"kunchenguid/firstmate","base":"main","checks":["CI"]}
+{"event_id":"5a389b0e-6b9a-418a-856b-a232400f1ed2","ok":true,"version":1}
+  [exit=0]
+
+## queue three candidates: m (PR 6443 merged), r (PR 6493 closed-unmerged), w (waiter)
+$ fm-coord.sh queue-ready {"request_id":"rd-m","intent_id":"m","home_id":"a","generation":1,"claim_id":"9f8b2bd1-0a0f-4862-9881-e7f704a148f0","fence":1,"head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf"}
+{"event_id":"6bd15259-f421-49c1-b9c5-f727a3f4d394","ok":true,"state":"ready"}
+  [exit=0]
+$ fm-coord.sh queue-ready {"request_id":"rd-r","intent_id":"r","home_id":"b","generation":1,"claim_id":"75f97b28-1492-45c9-b799-ca1dda220c99","fence":2,"head_oid":"a9bcf7c023a73c0f0a706604bc56ea108a0260e1"}
+{"event_id":"4869a3d1-1da9-4f1b-8e7a-69aff516326f","ok":true,"state":"ready"}
+  [exit=0]
+$ fm-coord.sh queue-ready {"request_id":"rd-w","intent_id":"w","home_id":"c","generation":1,"claim_id":"8437c348-dd66-4e88-b6d1-0f4cb04e6b0a","fence":3,"head_oid":"c9b2bb010a4eedebf61cf8cc76cbfa19fedbc333"}
+{"event_id":"c1f5bcb9-f140-40e4-89c6-c8cc7497df6c","ok":true,"state":"ready"}
+  [exit=0]
+
+## serial slot: first queue-next takes slot, second refused
+{"event_id":"abde9920-b039-488f-ba21-13c3442ab2c2","generation":1,"intent_id":"m","ok":true,"state":"syncing"}
+$ fm-coord.sh queue-next {"request_id":"n1b","repo":"kunchenguid/firstmate","base":"main"}
+fm-coord: integration slot is occupied
+  [exit=1]
+
+## attempt without wrapper_pid is refused (R6-1)
+(slot holder: m)
+(note: slot is in syncing state here; attempt-without-pid is retried after checks below)
+
+## m: full prepare + attempt with live wrapper process
+$ fm-coord.sh queue-synced {"request_id":"sy-m","intent_id":"m","home_id":"a","generation":1,"claim_id":"9f8b2bd1-0a0f-4862-9881-e7f704a148f0","fence":1,"slot_generation":1,"current_head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf","current_base_oid":"d719ef3d9abdd11b0a8aea57c74de074feca99b9","head_contains_base":true}
+{"event_id":"7cee7fac-367a-42c8-b7ad-67a1de2add9b","ok":true,"state":"validating"}
+  [exit=0]
+$ fm-coord.sh queue-validated {"request_id":"va-m","intent_id":"m","home_id":"a","generation":1,"claim_id":"9f8b2bd1-0a0f-4862-9881-e7f704a148f0","fence":1,"slot_generation":1,"current_head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf","current_base_oid":"d719ef3d9abdd11b0a8aea57c74de074feca99b9","validation_passed":true,"validation_id":"v-m"}
+{"event_id":"b63e2fac-fde8-47b8-86ae-7e10f38d4bce","ok":true,"state":"awaiting-checks"}
+  [exit=0]
+$ fm-coord.sh queue-checks {"request_id":"ck-m","intent_id":"m","home_id":"a","generation":1,"claim_id":"9f8b2bd1-0a0f-4862-9881-e7f704a148f0","fence":1,"slot_generation":1,"current_head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf","current_base_oid":"d719ef3d9abdd11b0a8aea57c74de074feca99b9","protection_available":false,"checks":[{"name":"CI","head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf","conclusion":"success"}]}
+{"event_id":"b6ef5389-6fcf-4095-a76e-8b7e7b3801e6","manifest_version":1,"ok":true,"state":"awaiting-checks"}
+  [exit=0]
+## m: attempt WITHOUT wrapper_pid -> refused
+$ fm-coord.sh queue-attempt {"request_id":"at-nopid","intent_id":"m","home_id":"a","generation":1,"claim_id":"9f8b2bd1-0a0f-4862-9881-e7f704a148f0","fence":1,"slot_generation":1,"current_head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf","current_base_oid":"d719ef3d9abdd11b0a8aea57c74de074feca99b9","head_contains_base":true,"captain_hold_released":true,"away_merge_allowed":true,"merge_authorized":true}
+fm-coord: wrapper_pid must be a positive integer
+  [exit=1]
+## m: attempt with dead wrapper_pid -> refused
+$ fm-coord.sh queue-attempt {"request_id":"at-deadpid","intent_id":"m","home_id":"a","generation":1,"claim_id":"9f8b2bd1-0a0f-4862-9881-e7f704a148f0","fence":1,"slot_generation":1,"current_head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf","current_base_oid":"d719ef3d9abdd11b0a8aea57c74de074feca99b9","head_contains_base":true,"captain_hold_released":true,"away_merge_allowed":true,"merge_authorized":true,"wrapper_pid":5466}
+fm-coord: wrapper process is not running
+  [exit=1]
+## m: attempt with live wrapper_pid -> attempting
+$ fm-coord.sh queue-attempt {"request_id":"at-m","intent_id":"m","home_id":"a","generation":1,"claim_id":"9f8b2bd1-0a0f-4862-9881-e7f704a148f0","fence":1,"slot_generation":1,"current_head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf","current_base_oid":"d719ef3d9abdd11b0a8aea57c74de074feca99b9","head_contains_base":true,"captain_hold_released":true,"away_merge_allowed":true,"merge_authorized":true,"wrapper_pid":5441}
+{"attempt_event_id":"f9d153d5-e2bc-4a8a-ac5b-5a43256561a8","event_id":"f9d153d5-e2bc-4a8a-ac5b-5a43256561a8","merge_command":["bin/fm-pr-merge.sh","t-m","https://github.com/kunchenguid/firstmate/pull/6443"],"ok":true,"state":"attempting"}
+  [exit=0]
+
+## m: reconcile directly from attempting against LIVE GitHub (PR 6443 merged)
+$ fm-coord.sh queue-reconcile {"request_id":"rc-m","intent_id":"m","generation":1,"pr_url":"https://github.com/kunchenguid/firstmate/pull/6443","base":"main"}
+{"attempt_event_id":"f9d153d5-e2bc-4a8a-ac5b-5a43256561a8","event_id":"8f7d9751-9c3c-4cfb-8319-f0f487c1db6d","ok":true,"state":"merged"}
+  [exit=0]
+## m: replay same request (lost reply) returns stored receipt
+$ fm-coord.sh queue-reconcile {"request_id":"rc-m","intent_id":"m","generation":1,"pr_url":"https://github.com/kunchenguid/firstmate/pull/6443","base":"main"}
+{"attempt_event_id":"f9d153d5-e2bc-4a8a-ac5b-5a43256561a8","event_id":"8f7d9751-9c3c-4cfb-8319-f0f487c1db6d","ok":true,"state":"merged"}
+  [exit=0]
+
+## r: next candidate admitted after merged landing
+{"event_id":"af83fe63-f418-473f-b736-34afd31602c4","generation":2,"intent_id":"r","ok":true,"state":"syncing"}
+$ fm-coord.sh queue-synced {"request_id":"sy-r","intent_id":"r","home_id":"b","generation":1,"claim_id":"75f97b28-1492-45c9-b799-ca1dda220c99","fence":2,"slot_generation":2,"current_head_oid":"a9bcf7c023a73c0f0a706604bc56ea108a0260e1","current_base_oid":"d719ef3d9abdd11b0a8aea57c74de074feca99b9","head_contains_base":true}
+{"event_id":"986f61e9-b6d1-44fb-8f90-bfd2dbbd85de","ok":true,"state":"validating"}
+  [exit=0]
+$ fm-coord.sh queue-validated {"request_id":"va-r","intent_id":"r","home_id":"b","generation":1,"claim_id":"75f97b28-1492-45c9-b799-ca1dda220c99","fence":2,"slot_generation":2,"current_head_oid":"a9bcf7c023a73c0f0a706604bc56ea108a0260e1","current_base_oid":"d719ef3d9abdd11b0a8aea57c74de074feca99b9","validation_passed":true,"validation_id":"v-r"}
+{"event_id":"cd3f2a77-1213-470a-99a4-49b70f94b2b5","ok":true,"state":"awaiting-checks"}
+  [exit=0]
+$ fm-coord.sh queue-checks {"request_id":"ck-r","intent_id":"r","home_id":"b","generation":1,"claim_id":"75f97b28-1492-45c9-b799-ca1dda220c99","fence":2,"slot_generation":2,"current_head_oid":"a9bcf7c023a73c0f0a706604bc56ea108a0260e1","current_base_oid":"d719ef3d9abdd11b0a8aea57c74de074feca99b9","protection_available":false,"checks":[{"name":"CI","head_oid":"a9bcf7c023a73c0f0a706604bc56ea108a0260e1","conclusion":"success"}]}
+{"event_id":"337eb368-b13a-4404-b66e-a9f57e7f7381","manifest_version":1,"ok":true,"state":"awaiting-checks"}
+  [exit=0]
+$ fm-coord.sh queue-attempt {"request_id":"at-r","intent_id":"r","home_id":"b","generation":1,"claim_id":"75f97b28-1492-45c9-b799-ca1dda220c99","fence":2,"slot_generation":2,"current_head_oid":"a9bcf7c023a73c0f0a706604bc56ea108a0260e1","current_base_oid":"d719ef3d9abdd11b0a8aea57c74de074feca99b9","head_contains_base":true,"captain_hold_released":true,"away_merge_allowed":true,"merge_authorized":true,"wrapper_pid":5679}
+{"attempt_event_id":"39756296-ee07-4d5b-9a1f-b640ef9fda11","event_id":"39756296-ee07-4d5b-9a1f-b640ef9fda11","merge_command":["bin/fm-pr-merge.sh","t-r","https://github.com/kunchenguid/firstmate/pull/6493"],"ok":true,"state":"attempting"}
+  [exit=0]
+## r: wrapper reports refusal -> outcome-unknown (not released)
+$ fm-coord.sh queue-result {"request_id":"res-r","intent_id":"r","generation":2,"outcome":"refused"}
+{"event_id":"04cf4b69-f763-4c6f-b543-aaa4ecf11b21","ok":true,"state":"outcome-unknown"}
+  [exit=0]
+$ fm-coord.sh queue-next {"request_id":"n3-early","repo":"kunchenguid/firstmate","base":"main"}
+fm-coord: integration slot is occupied
+  [exit=1]
+## r: reconcile while wrapper alive (live forge says closed/unmerged) -> must stay unknown
+$ fm-coord.sh queue-reconcile {"request_id":"rc-r-alive","intent_id":"r","generation":2,"pr_url":"https://github.com/kunchenguid/firstmate/pull/6493","base":"main","head_oid":"a9bcf7c023a73c0f0a706604bc56ea108a0260e1"}
+fm-coord: merge wrapper is not proven to have exited after the quiet period
+  [exit=1]
+## r: operator abort without enrolled token refused
+$ fm-coord.sh queue-operator-abort {"request_id":"ab-r","intent_id":"r","generation":2,"reason":"stuck"}
+fm-coord: enrolled authority credential required
+  [exit=1]
+## r: wrapper exits; quiet period 0; reconcile with live forge -> refused, slot released
+$ fm-coord.sh queue-reconcile {"request_id":"rc-r","intent_id":"r","generation":2,"pr_url":"https://github.com/kunchenguid/firstmate/pull/6493","base":"main","head_oid":"a9bcf7c023a73c0f0a706604bc56ea108a0260e1"}
+{"attempt_event_id":"39756296-ee07-4d5b-9a1f-b640ef9fda11","event_id":"aae7777b-237c-4386-a924-dccfc27cacef","ok":true,"state":"refused"}
+  [exit=0]
+
+## w: slot released after not-landed reconcile; waiter admitted
+$ fm-coord.sh queue-next {"request_id":"n3","repo":"kunchenguid/firstmate","base":"main"}
+{"event_id":"c82e6082-9c51-45f1-b79a-762d438c4df0","generation":3,"intent_id":"w","ok":true,"state":"syncing"}
+  [exit=0]
+
+## one-time authority enrollment on existing v3 db
+$ fm-coord.sh init 
+{"db":"/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.j08Z7Y/state/fm-coord.sqlite3","mode":"shadow-advisory","ok":true,"schema_version":3}
+  [exit=0]
+$ fm-coord.sh init 
+fm-coord: authority credential mismatch
+  [exit=1]
+
+## persisted state
+intent_id|state|head_oid|base_oid
+m|merged|f73bc9456dd90c59a09461fd56e3a294bde9a6bf|d719ef3d9abdd11b0a8aea57c74de074feca99b9
+r|refused|a9bcf7c023a73c0f0a706604bc56ea108a0260e1|d719ef3d9abdd11b0a8aea57c74de074feca99b9
+w|syncing|c9b2bb010a4eedebf61cf8cc76cbfa19fedbc333|
+intent_id|outcome|merge_oid|observed_base_oid
+m|merged|d719ef3d9abdd11b0a8aea57c74de074feca99b9|1f3e769616fdf9f31f85f4c3e6a9f71606634238
+r|refused||1f3e769616fdf9f31f85f4c3e6a9f71606634238
+repo|base_ref|intent_id|generation|state
+kunchenguid/firstmate|main|w|3|syncing
+key|len
+authority_token_sha256|64
+participant-enrolled participant-enrolled participant-enrolled session-started session-started session-started check-manifest-set intent-submitted claim-granted pr-attached head-published queue-ready intent-submitted claim-granted pr-attached head-published queue-ready intent-submitted claim-granted pr-attached head-published queue-ready sync-requested sync-completed validation-passed checks-passed merge-attempted merge-merged sync-requested sync-completed validation-passed checks-passed merge-attempted merge-outcome-unknown merge-refused sync-requested authority-enrolled 
+# lab removed
