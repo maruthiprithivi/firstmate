@@ -1,0 +1,15 @@
+== /etc/machine-id: uninit (uninitialized)
+fm-coord: machine identity unavailable; /etc/machine-id is empty, uninitialized, or malformed
+[exit 1]
+== /etc/machine-id: empty ()
+fm-coord: machine identity unavailable; /etc/machine-id is empty, uninitialized, or malformed
+[exit 1]
+== /etc/machine-id: upper (ABCDEF0123456789ABCDEF0123456789)
+fm-coord: machine identity unavailable; /etc/machine-id is empty, uninitialized, or malformed
+[exit 1]
+== /etc/machine-id: host (b4aa49aee83946af86d23d7832ea50e3)
+{"db":"/tmp/c.sqlite3","mode":"shadow-advisory","ok":true,"schema_version":5}
+[exit 0]
+== no /etc/machine-id
+fm-coord: machine identity unavailable; /etc/machine-id or macOS IOPlatformUUID is required
+[exit 1]

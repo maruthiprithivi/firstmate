@@ -1,0 +1,12 @@
+machine-id=
+FM_TEST_BEGIN 2026-10-03T16:30:15Z tests/fm-coord.test.sh family=unclassified expected_gate_skip=none
+ok - missing sqlite3 dependency is explicit
+fm-coord: machine identity unavailable; /etc/machine-id or macOS IOPlatformUUID is required
+FM_TEST_END 2026-10-03T16:30:19Z tests/fm-coord.test.sh exit=1 duration_ms=4803 gate_skip=false
+FM_TEST_BEGIN 2026-10-03T16:30:20Z tests/fm-coord-queue.test.sh family=unclassified expected_gate_skip=none
+fm-coord: machine identity unavailable; /etc/machine-id or macOS IOPlatformUUID is required
+FM_TEST_END 2026-10-03T16:30:33Z tests/fm-coord-queue.test.sh exit=1 duration_ms=13773 gate_skip=false
+FM_TEST_SUMMARY total=2 failed=2 skipped_gate=0 duration_ms=18977
+FM_TEST_SUMMARY_FAMILY family=unclassified count=2 duration_ms=18576 failed=2
+FM_TEST_SLOWEST rank=1 script=tests/fm-coord-queue.test.sh duration_ms=13773
+FM_TEST_SLOWEST rank=2 script=tests/fm-coord.test.sh duration_ms=4803
