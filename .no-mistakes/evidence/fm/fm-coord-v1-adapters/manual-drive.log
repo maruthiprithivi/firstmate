@@ -1,0 +1,31 @@
+== container machine-id: machine:68f9c174e3c04c90be6200d20bf0b760
+== remote dispatch (ssh transport)
+exit=0
+== central participant row
+rh machine:68f9c174e3c04c90be6200d20bf0b760
+== later heartbeat reuses journaled enroll
+exit=0
+== no-intent: heartbeat ghost
+fm-coord advisory: ghost: no local intent record; checkpoint skipped, no grant assumed
+exit=0
+== no-intent: pre-ci ghost
+fm-coord advisory: ghost: no local intent record; checkpoint skipped, no grant assumed
+exit=0
+== no-intent: pre-ci ghost /tmp/tmp.xlYBZAZsEd/repo
+fm-coord advisory: ghost: no local intent record; checkpoint skipped, no grant assumed
+exit=0
+== no-intent: pre-push ghost /tmp/tmp.xlYBZAZsEd/repo
+fm-coord advisory: ghost: no local intent record for scope check
+exit=0
+== no-intent: replay
+exit=0
+== adversarial: remote home on host with no machine identity
+fm-coord advisory: remote enrollment needs this home's machine identity: machine identity unavailable; /etc/machine-id or macOS IOPlatformUUID is required
+fm-coord advisory: t2: offline intent pending; no claim granted
+exit=0
+fm-coord advisory: remote enrollment needs this home's machine identity: machine identity unavailable; /etc/machine-id or macOS IOPlatformUUID is required
+fm-coord advisory: t2: offline intent pending; no claim granted
+fm-coord advisory: t2: branch writer has no confirmed claim
+exit=0
+== existing enrolled home still works without machine-id (journaled payload reused)
+exit=0

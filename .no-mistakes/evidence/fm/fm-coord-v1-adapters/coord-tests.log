@@ -1,0 +1,80 @@
+fm-coord advisory: central view unavailable or refused: fm-coord: database is absent; run init first; request remains local
+ok - offline push and CI checkpoints remain visible until replay
+ok - lost publish-head reply is replayed before the next head is published
+ok - a head republished after a rebase keeps the central head chain
+ok - CI checkpoint refuses a worktree HEAD that differs from the published head
+ok - pre-ci TASK falls back to the recorded worktree and refuses when none is recorded
+ok - replay skips a legacy pending pre-ci that has no worktree
+ok - CI checkpoint compares HEAD with the central published head after a lost publish reply
+ok - stale branch writer generation warns before CI request
+ok - coordinator view projects claims, conflicts, queue, and local outbox
+ok - spawn records the refreshed worker start commit as the intent base and projects the adapter into the worker brief
+ok - a spawn that aborts before launch releases the claim its dispatch acquired
+ok - scope diff starts at the origin base, not a lagging local main
+ok - a refused scope amendment keeps the head unpublished and the unclaimed scope pending
+ok - a missing origin base records an explicit unsubmitted no-base intent
+ok - a fresh retry refreshes the intent base to the retried worktree HEAD
+ok - an offline retry queues the prior claim release and claims the retry once it replays
+ok - coordination scaffold follows home enrollment; an empty declaration is a visible unclaimed intent
+ok - a held adapter journal lock bounds the checkpoint wait
+ok - coordinator reboot starts a fresh session and resubmits local intents
+FM_TEST_END 2026-10-03T19:12:20Z tests/fm-coord-adapter.test.sh exit=0 duration_ms=53705 gate_skip=false
+FM_TEST_BEGIN 2026-10-03T19:12:20Z tests/fm-coord.test.sh family=unclassified expected_gate_skip=none
+ok - missing sqlite3 dependency is explicit
+ok - atomic same-resource admission and idempotent grant replay
+ok - guarded immutable PR identity
+ok - single branch writer ownership
+ok - all-or-none scope admission
+ok - independent file admission
+ok - boot identity is independent of caller timezone
+ok - directory, rename, and area alias overlap
+ok - directory rename covers descendants on both paths
+ok - transactional outbox acknowledgment
+ok - persistent migration allocation identity and replay
+ok - expired generation fencing and nonrecycled reservations
+ok - lease expiry and successor fencing
+ok - administrative actor namespace is reserved from enrollment
+ok - issue-backed scope amendment keeps implicit issue claim
+ok - PR identity must match the intent repository
+FM_TEST_END 2026-10-03T19:12:33Z tests/fm-coord.test.sh exit=0 duration_ms=12725 gate_skip=false
+FM_TEST_BEGIN 2026-10-03T19:12:33Z tests/fm-coord-queue.test.sh family=unclassified expected_gate_skip=none
+ok - v4 database migrates hostname bindings to machine identity without reinterpreting attempts
+ok - one serial final integration slot for two candidates
+ok - base advance during validation releases stale preparation
+ok - head change after check requires new preparation
+ok - repo manifest fails closed and holds refuse a merge decision
+ok - caller-supplied refusal evidence leaves the slot outcome-unknown
+ok - timeout and restart reconciliation preserve one terminal outcome
+ok - head change after remote green invalidates check evidence
+ok - dependency cycle is refused
+ok - dependent candidate cannot leapfrog its predecessor
+ok - ready-time aging prevents routine starvation
+ok - one failing candidate yields its slot
+ok - attach-pr accepts only an exact GitHub PR URL for the intent repository
+ok - merge queue or armed auto-merge keeps the slot outcome-unknown
+ok - live merge wrapper keeps the slot outcome-unknown
+ok - wrapper exiting during the forge reads keeps the slot outcome-unknown
+ok - PR merging during reconciliation keeps the slot outcome-unknown
+ok - exited wrapper after the quiet period releases a not-landed slot with one terminal outcome
+ok - queue-attempt refuses missing or unverifiable wrapper identity
+ok - a stuck wrapper never auto-releases; only the enrolled authority can abort
+ok - lost refusal reply releases the slot and replays its receipt
+ok - forge-proven landing settles from attempting and keeps waiting ready items and their age
+ok - queue-ready refuses an unevaluable PR URL
+ok - refusal on a database without a token reconciles to a released slot
+ok - init enrolls an authority token once on an existing v3 database
+ok - release frees the slot and a new session can re-admit the same intent
+ok - expiry removes stale ready work and supports re-admission
+ok - session revocation frees the validating slot and supports re-admission
+ok - claim revocation cannot release or re-admit an unsettled merge attempt
+ok - coordinator reboot releases pre-attempt slot and permits fenced re-admission
+ok - legacy v2 database upgrades and can record a merge attempt
+ok - already patched v2 database upgrades without replaying its columns
+ok - remote wrapper exit attestation and forge proof release an unknown slot
+FM_TEST_END 2026-10-03T19:13:35Z tests/fm-coord-queue.test.sh exit=0 duration_ms=62209 gate_skip=false
+FM_TEST_SUMMARY total=3 failed=0 skipped_gate=0 duration_ms=128943
+FM_TEST_SUMMARY_FAMILY family=backend-dispatch count=1 duration_ms=53705 failed=0
+FM_TEST_SUMMARY_FAMILY family=unclassified count=2 duration_ms=74934 failed=0
+FM_TEST_SLOWEST rank=1 script=tests/fm-coord-queue.test.sh duration_ms=62209
+FM_TEST_SLOWEST rank=2 script=tests/fm-coord-adapter.test.sh duration_ms=53705
+FM_TEST_SLOWEST rank=3 script=tests/fm-coord.test.sh duration_ms=12725
