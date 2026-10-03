@@ -1,0 +1,124 @@
+live main OID: 1f3e769616fdf9f31f85f4c3e6a9f71606634238
+
+=== S0 (adversarial): merged PR whose recorded base equals live base is not accepted as landing ===
+
+$ fm-coord.sh queue-next {"request_id":"nx-z","repo":"kunchenguid/firstmate","base":"main"}
+{"event_id":"a0c67949-2b0b-4a7c-8be0-e76001f6198f","generation":1,"intent_id":"z","ok":true,"state":"syncing"}
+[exit 0]
+
+$ fm-coord.sh queue-attempt {"request_id":"at-z","intent_id":"z","home_id":"h","generation":1,"claim_id":"ddd1678e-d021-4373-a448-c8e56a1b786a","fence":1,"slot_generation":1,"current_head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf","current_base_oid":"1f3e769616fdf9f31f85f4c3e6a9f71606634238","head_contains_base":true,"captain_hold_released":true,"away_merge_allowed":true,"merge_authorized":true}
+{"attempt_event_id":"3ddaf001-be61-4804-b35f-cf896b0d14ab","event_id":"3ddaf001-be61-4804-b35f-cf896b0d14ab","merge_command":["bin/fm-pr-merge.sh","t-z","https://github.com/kunchenguid/firstmate/pull/6443"],"ok":true,"state":"attempting"}
+[exit 0]
+
+$ fm-coord.sh queue-result {"request_id":"rs-z","intent_id":"z","generation":1,"outcome":"unknown"}
+{"event_id":"7d79feec-bf7a-478e-8637-655f4d2ead62","ok":true,"state":"outcome-unknown"}
+[exit 0]
+
+$ fm-coord.sh queue-reconcile {"request_id":"rc-z","intent_id":"z","generation":1,"pr_url":"https://github.com/kunchenguid/firstmate/pull/6443","base":"main","head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf"}
+fm-coord: merged base must advance
+[exit 1]
+queue: {'z': 'outcome-unknown'} slots: [('kunchenguid/firstmate', 'main', 'outcome-unknown')]
+
+$ fm-coord.sh queue-operator-abort {"request_id":"oa-z","intent_id":"z","generation":1,"operator":"tester","reason":"S0 cleanup"}
+{"event_id":"b67d9ca1-b943-42b9-bab2-d27c608de8ca","ok":true,"state":"repair-needed"}
+[exit 0]
+
+=== S1: real merged PR #6443 (attempt recorded at pre-merge base 87fa81b) reconciles to merged and frees the slot ===
+
+$ fm-coord.sh queue-next {"request_id":"nx-m","repo":"kunchenguid/firstmate","base":"main"}
+{"event_id":"50ef192b-6fad-457c-ab69-aadfd4a86bf3","generation":2,"intent_id":"m","ok":true,"state":"syncing"}
+[exit 0]
+
+$ fm-coord.sh queue-attempt {"request_id":"at-m","intent_id":"m","home_id":"h","generation":1,"claim_id":"b8d214fa-c22d-4b4e-b92d-f0d2c70cc8cb","fence":2,"slot_generation":2,"current_head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf","current_base_oid":"87fa81b8b7f6912f84658d52d816bb9bcc2c5da6","head_contains_base":true,"captain_hold_released":true,"away_merge_allowed":true,"merge_authorized":true}
+{"attempt_event_id":"ad096846-20a4-4540-888a-41e25f302eef","event_id":"ad096846-20a4-4540-888a-41e25f302eef","merge_command":["bin/fm-pr-merge.sh","t-m","https://github.com/kunchenguid/firstmate/pull/6443"],"ok":true,"state":"attempting"}
+[exit 0]
+
+$ fm-coord.sh queue-result {"request_id":"rs-m","intent_id":"m","generation":2,"outcome":"unknown"}
+{"event_id":"97a82d10-8753-4845-9239-6a0d534bc44e","ok":true,"state":"outcome-unknown"}
+[exit 0]
+
+$ fm-coord.sh queue-next {"request_id":"nx-blocked","repo":"kunchenguid/firstmate","base":"main"}
+fm-coord: integration slot is occupied
+[exit 1]
+queue: {'z': 'repair-needed', 'm': 'outcome-unknown', 'o': 'ready'} slots: [('kunchenguid/firstmate', 'main', 'outcome-unknown')]
+
+$ fm-coord.sh queue-reconcile {"request_id":"rc-m","intent_id":"m","generation":2,"pr_url":"https://github.com/kunchenguid/firstmate/pull/6443","base":"main","head_oid":"f73bc9456dd90c59a09461fd56e3a294bde9a6bf"}
+{"attempt_event_id":"ad096846-20a4-4540-888a-41e25f302eef","event_id":"5b91212d-0cb6-4961-9f67-7880c866a6e5","ok":true,"state":"merged"}
+[exit 0]
+queue: {'z': 'repair-needed', 'm': 'merged', 'o': 'ready'} slots: []
+
+=== S2: real open PR #6484, live wrapper process: slot stays outcome-unknown ===
+
+$ fm-coord.sh queue-next {"request_id":"nx-o","repo":"kunchenguid/firstmate","base":"main"}
+{"event_id":"91cdfe7f-cc23-4765-a509-a13fc61c2165","generation":3,"intent_id":"o","ok":true,"state":"syncing"}
+[exit 0]
+
+$ fm-coord.sh queue-attempt {"request_id":"at-o","intent_id":"o","home_id":"h","generation":1,"claim_id":"bb311998-f688-459a-b9af-7629edff887c","fence":3,"slot_generation":3,"current_head_oid":"48b032c62b54c7e1d71b353ddf77bcb1256df763","current_base_oid":"1f3e769616fdf9f31f85f4c3e6a9f71606634238","head_contains_base":true,"captain_hold_released":true,"away_merge_allowed":true,"merge_authorized":true,"wrapper_pid":90887}
+{"attempt_event_id":"aba20cc0-5108-440f-a068-e0cf19f3a194","event_id":"aba20cc0-5108-440f-a068-e0cf19f3a194","merge_command":["bin/fm-pr-merge.sh","t-o","https://github.com/kunchenguid/firstmate/pull/6484"],"ok":true,"state":"attempting"}
+[exit 0]
+
+$ fm-coord.sh queue-result {"request_id":"rs-o","intent_id":"o","generation":3,"outcome":"unknown"}
+{"event_id":"e8c8fff7-a2ee-4226-acc0-ed78e2caaa4b","ok":true,"state":"outcome-unknown"}
+[exit 0]
+
+$ fm-coord.sh queue-reconcile {"request_id":"rc-o-live","intent_id":"o","generation":3,"pr_url":"https://github.com/kunchenguid/firstmate/pull/6484","base":"main","head_oid":"48b032c62b54c7e1d71b353ddf77bcb1256df763"}
+fm-coord: merge wrapper is not proven to have exited after the quiet period
+[exit 1]
+queue: {'z': 'repair-needed', 'm': 'merged', 'o': 'outcome-unknown'} slots: [('kunchenguid/firstmate', 'main', 'outcome-unknown')]
+
+=== S3: wrapper killed but default 10-minute quiet period not elapsed: still unknown ===
+
+$ fm-coord.sh queue-reconcile {"request_id":"rc-o-quiet","intent_id":"o","generation":3,"pr_url":"https://github.com/kunchenguid/firstmate/pull/6484","base":"main","head_oid":"48b032c62b54c7e1d71b353ddf77bcb1256df763"}
+fm-coord: merge wrapper is not proven to have exited after the quiet period
+[exit 1]
+queue: {'z': 'repair-needed', 'm': 'merged', 'o': 'outcome-unknown'} slots: [('kunchenguid/firstmate', 'main', 'outcome-unknown')]
+
+=== S4: wrapper gone + quiet period elapsed: live compare proves not landed -> refused, slot freed ===
+live compare status: ahead
+
+$ fm-coord.sh queue-reconcile {"request_id":"rc-o-done","intent_id":"o","generation":3,"pr_url":"https://github.com/kunchenguid/firstmate/pull/6484","base":"main","head_oid":"48b032c62b54c7e1d71b353ddf77bcb1256df763"}
+{"attempt_event_id":"aba20cc0-5108-440f-a068-e0cf19f3a194","event_id":"9368b5ea-c783-4caa-a623-3415eb70c41c","ok":true,"state":"refused"}
+[exit 0]
+queue: {'z': 'repair-needed', 'm': 'merged', 'o': 'refused'} slots: []
+
+=== S5: replay of lost reconcile reply returns stored receipt with gh-axi unavailable ===
+
+$ fm-coord.sh queue-reconcile (replay rc-o-done, PATH without gh-axi)
+{"attempt_event_id":"aba20cc0-5108-440f-a068-e0cf19f3a194","event_id":"9368b5ea-c783-4caa-a623-3415eb70c41c","ok":true,"state":"refused"}
+[exit 0]
+
+=== S6: real closed-unmerged PR #6470 with no wrapper identity never auto-releases; operator abort does ===
+
+$ fm-coord.sh queue-next {"request_id":"nx-u","repo":"kunchenguid/firstmate","base":"main"}
+{"event_id":"586eac02-eac0-407d-819c-0925b08a210b","generation":4,"intent_id":"u","ok":true,"state":"syncing"}
+[exit 0]
+
+$ fm-coord.sh queue-attempt {"request_id":"at-u","intent_id":"u","home_id":"h","generation":1,"claim_id":"a5b7078a-e91e-44e7-b87c-30cdf0319e97","fence":4,"slot_generation":4,"current_head_oid":"86ee74146f17f4a0dd9429f9b47e81e3d632563c","current_base_oid":"1f3e769616fdf9f31f85f4c3e6a9f71606634238","head_contains_base":true,"captain_hold_released":true,"away_merge_allowed":true,"merge_authorized":true}
+{"attempt_event_id":"7571495a-59d8-462f-b8bf-7c524989141f","event_id":"7571495a-59d8-462f-b8bf-7c524989141f","merge_command":["bin/fm-pr-merge.sh","t-u","https://github.com/kunchenguid/firstmate/pull/6470"],"ok":true,"state":"attempting"}
+[exit 0]
+
+$ fm-coord.sh queue-result {"request_id":"rs-u","intent_id":"u","generation":4,"outcome":"unknown"}
+{"event_id":"53300c6c-0fa4-4760-9e9d-bb500dc680ec","ok":true,"state":"outcome-unknown"}
+[exit 0]
+
+$ fm-coord.sh queue-reconcile {"request_id":"rc-u","intent_id":"u","generation":4,"pr_url":"https://github.com/kunchenguid/firstmate/pull/6470","base":"main","head_oid":"86ee74146f17f4a0dd9429f9b47e81e3d632563c"}
+fm-coord: merge wrapper is not proven to have exited after the quiet period
+[exit 1]
+queue: {'z': 'repair-needed', 'm': 'merged', 'o': 'refused', 'u': 'outcome-unknown'} slots: [('kunchenguid/firstmate', 'main', 'outcome-unknown')]
+
+$ fm-coord.sh queue-operator-abort {"request_id":"oa-u","intent_id":"u","generation":4,"operator":"captain","reason":"wrapper identity lost"}
+{"event_id":"812406c6-08ff-42d1-bf2a-24b35c3200cc","ok":true,"state":"repair-needed"}
+[exit 0]
+queue: {'z': 'repair-needed', 'm': 'merged', 'o': 'refused', 'u': 'repair-needed'} slots: []
+13 merge-attempted {"base_oid": "1f3e769616fdf9f31f85f4c3e6a9f71606634238", "head_oid": "f73bc9456dd90c59a09461fd56e3a294bde9a6bf", "intent_id": "z", "pr_url": "https://github.com/kunchenguid/firstmate/pull/6443", "wrapper": "bin/fm-pr-merge.sh"}
+14 merge-outcome-unknown {"attempt_event_id": "3ddaf001-be61-4804-b35f-cf896b0d14ab", "intent_id": "z", "reported_outcome": "unknown"}
+15 slot-operator-aborted {"attempt_event_id": "3ddaf001-be61-4804-b35f-cf896b0d14ab", "intent_id": "z", "operator": "tester", "reason": "S0 cleanup"}
+30 merge-attempted {"base_oid": "87fa81b8b7f6912f84658d52d816bb9bcc2c5da6", "head_oid": "f73bc9456dd90c59a09461fd56e3a294bde9a6bf", "intent_id": "m", "pr_url": "https://github.com/kunchenguid/firstmate/pull/6443", "wrapper": "bin/fm-pr-merge.sh"}
+31 merge-outcome-unknown {"attempt_event_id": "ad096846-20a4-4540-888a-41e25f302eef", "intent_id": "m", "reported_outcome": "unknown"}
+32 merge-merged {"attempt_event_id": "ad096846-20a4-4540-888a-41e25f302eef", "intent_id": "m", "merge_oid": "d719ef3d9abdd11b0a8aea57c74de074feca99b9", "observed_base_oid": "1f3e769616fdf9f31f85f4c3e6a9f71606634238"}
+37 merge-attempted {"base_oid": "1f3e769616fdf9f31f85f4c3e6a9f71606634238", "head_oid": "48b032c62b54c7e1d71b353ddf77bcb1256df763", "intent_id": "o", "pr_url": "https://github.com/kunchenguid/firstmate/pull/6484", "wrapper": "bin/fm-pr-merge.sh"}
+38 merge-outcome-unknown {"attempt_event_id": "aba20cc0-5108-440f-a068-e0cf19f3a194", "intent_id": "o", "reported_outcome": "unknown"}
+39 merge-refused {"attempt_event_id": "aba20cc0-5108-440f-a068-e0cf19f3a194", "intent_id": "o", "merge_oid": null, "observed_base_oid": "1f3e769616fdf9f31f85f4c3e6a9f71606634238"}
+49 merge-attempted {"base_oid": "1f3e769616fdf9f31f85f4c3e6a9f71606634238", "head_oid": "86ee74146f17f4a0dd9429f9b47e81e3d632563c", "intent_id": "u", "pr_url": "https://github.com/kunchenguid/firstmate/pull/6470", "wrapper": "bin/fm-pr-merge.sh"}
+50 merge-outcome-unknown {"attempt_event_id": "7571495a-59d8-462f-b8bf-7c524989141f", "intent_id": "u", "reported_outcome": "unknown"}
+51 slot-operator-aborted {"attempt_event_id": "7571495a-59d8-462f-b8bf-7c524989141f", "intent_id": "u", "operator": "captain", "reason": "wrapper identity lost"}

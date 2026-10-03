@@ -1,0 +1,45 @@
+== tests/fm-coord.test.sh
+ok - missing sqlite3 dependency is explicit
+ok - atomic same-resource admission and idempotent grant replay
+ok - guarded immutable PR identity
+ok - single branch writer ownership
+ok - all-or-none scope admission
+ok - independent file admission
+ok - boot identity is independent of caller timezone
+ok - directory, rename, and area alias overlap
+ok - directory rename covers descendants on both paths
+ok - transactional outbox acknowledgment
+ok - persistent migration allocation identity and replay
+ok - expired generation fencing and nonrecycled reservations
+ok - lease expiry and successor fencing
+ok - administrative actor namespace is reserved from enrollment
+ok - issue-backed scope amendment keeps implicit issue claim
+ok - PR identity must match the intent repository
+exit=0
+== tests/fm-coord-queue.test.sh
+ok - one serial final integration slot for two candidates
+ok - base advance during validation releases stale preparation
+ok - head change after check requires new preparation
+ok - repo manifest fails closed and holds refuse a merge decision
+ok - caller-supplied refusal evidence leaves the slot outcome-unknown
+ok - timeout and restart reconciliation preserve one terminal outcome
+ok - head change after remote green invalidates check evidence
+ok - dependency cycle is refused
+ok - dependent candidate cannot leapfrog its predecessor
+ok - ready-time aging prevents routine starvation
+ok - one failing candidate yields its slot
+ok - attach-pr accepts only an exact GitHub PR URL for the intent repository
+ok - merge queue or armed auto-merge keeps the slot outcome-unknown
+ok - live merge wrapper keeps the slot outcome-unknown
+ok - wrapper exiting during the forge reads keeps the slot outcome-unknown
+ok - PR merging during reconciliation keeps the slot outcome-unknown
+ok - exited wrapper after the quiet period releases a not-landed slot with one terminal outcome
+ok - unknown wrapper identity never auto-releases; only a named operator abort does
+ok - lost refusal reply releases the slot and replays its receipt
+ok - merge keeps waiting ready items and their age
+ok - queue-ready refuses an unevaluable PR URL
+ok - release frees the slot and a new session can re-admit the same intent
+ok - expiry removes stale ready work and supports re-admission
+ok - session revocation frees the validating slot and supports re-admission
+ok - claim revocation cannot release or re-admit an unsettled merge attempt
+exit=0
