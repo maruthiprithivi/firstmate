@@ -1,0 +1,12 @@
+--- pane-tty foreground:
+94693 zsh (kiro-cli-term)
+--- simulate Codex dying at startup: codex launched then killed
+lab codex pid(s) under wrapper 94693 -> zsh 94710: 94931
+codex under lab wrapper after kill: 0
+ [1]    94931 killed     codex
+                              %
+➜  wt git:(task-t1)
+--- fm-control.sh t1 exit:
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.EJZFJB
+error: task t1's endpoint reads 'ambiguous' rather than a positively classified state; refusing to send a lifecycle command into an unattributed endpoint
+exit-code=1

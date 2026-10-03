@@ -1,0 +1,12 @@
+--- pane-tty foreground:
+75057 zsh (kiro-cli-term)
+--- simulate Codex dying at startup: codex launched then killed
+lab codex pid(s) under wrapper 75057 -> zsh 75065: 75361
+codex under lab wrapper after kill: 0
+ [1]    75361 killed     codex
+                              %
+➜  wt git:(task-t1)
+--- fm-control.sh t1 exit:
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.9JdWYM
+already-stopped t1 harness=codex backend=tmux endpoint=fmses:fm-t1 worktree=/var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.9JdWYM/wt
+exit-code=0

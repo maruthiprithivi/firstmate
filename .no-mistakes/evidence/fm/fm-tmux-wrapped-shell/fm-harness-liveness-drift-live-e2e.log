@@ -1,0 +1,31 @@
+# claude 2.1.288 (Claude Code): title='2.1.288' foreground=[/Users/maruthi/.local/bin/claude ]
+ok - harness liveness: claude 2.1.288 (Claude Code) classifies alive
+# claude 2.1.288 (Claude Code): ancestry verdicts=[comm claude]
+ok - harness detection: claude 2.1.288 (Claude Code) is identified by the ancestry walk at comm strength
+ok - Kiro-wrapped liveness: claude 2.1.288 (Claude Code) reads dead idle and alive with the installed agent
+# codex codex-cli 0.160.0: title='codex' foreground=[/Users/maruthi/.local/bin/codex ]
+ok - harness liveness: codex codex-cli 0.160.0 classifies alive
+# codex codex-cli 0.160.0: ancestry verdicts=[comm codex]
+ok - harness detection: codex codex-cli 0.160.0 is identified by the ancestry walk at comm strength
+ok - Kiro-wrapped liveness: codex codex-cli 0.160.0 reads dead idle and alive with the installed agent
+# opencode 1.18.34: title='opencode' foreground=[/Users/maruthi/.opencode/bin/opencode ]
+ok - harness liveness: opencode 1.18.34 classifies alive
+# opencode 1.18.34: ancestry verdicts=[comm opencode]
+ok - harness detection: opencode 1.18.34 is identified by the ancestry walk at comm strength
+ok - Kiro-wrapped liveness: opencode 1.18.34 reads dead idle and alive with the installed agent
+# skip: pi is not installed on this machine, so its classification is unverified here
+# skip: pi-signed is not installed on this machine, so its classification is unverified here
+# skip: grok is not installed on this machine, so its classification is unverified here
+# kimi 2.1.1: title='kimi' foreground=[/Users/maruthi/.kimi-code/bin/kimi ]
+ok - harness liveness: kimi 2.1.1 classifies alive
+# kimi 2.1.1: ancestry verdicts=[comm kimi]
+ok - harness detection: kimi 2.1.1 is identified by the ancestry walk at comm strength
+ok - Kiro-wrapped liveness: kimi 2.1.1 reads dead idle and alive with the installed agent
+# cursor 2026.09.26-dd393fe: title='node' foreground=[/Users/maruthi/.local/bin/cursor-agent ]
+ok - harness liveness: cursor 2026.09.26-dd393fe classifies alive
+# cursor 2026.09.26-dd393fe: ancestry verdicts=[comm cursor]
+ok - harness detection: cursor 2026.09.26-dd393fe is identified by the ancestry walk at comm strength
+ok - Kiro-wrapped liveness: cursor 2026.09.26-dd393fe reads dead idle and alive with the installed agent
+# skip: muse is not installed on this machine, so its classification is unverified here
+# unverified on this machine (not installed): pi pi-signed grok muse
+# checked 5 installed harness(es)

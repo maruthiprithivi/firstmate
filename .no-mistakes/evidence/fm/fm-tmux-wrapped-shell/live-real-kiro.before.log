@@ -1,0 +1,23 @@
+pane_tty=/dev/ttys062
+--- pane-tty processes:
+60112 60112 60112 zsh (kiro-cli-term)
+txt(60112): /Users/maruthi/.local/bin/zsh (kiro-cli-term)
+--- idle wrapped shell:
+state=ambiguous (want dead)
+--- after launching real codex:
+state=ambiguous (want alive)
+--- descendants:
+60153 60112 ttys063  /bin/zsh
+88725 60153 ttys063  codex
+--- after codex exits (dead codex, wrapper shell left):
+state=ambiguous (want dead)
+--- unrelated background child:
+state=ambiguous (want ambiguous)
+
+
+
+
+
+
+
+
