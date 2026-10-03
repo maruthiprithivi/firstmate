@@ -1,0 +1,5 @@
+ok - aged decisions re-wake with backoff, deduplicate, close, and reset for a new generation
+ok - a secondmate child decision wakes the secondmate home
+ok - the second unanswered re-raise escalates to the parent once and resolution closes it there once
+ok - a bad age marker skips only its own key
+ok - a torn-down task's stale decision does not flood the age queue

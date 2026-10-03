@@ -1,0 +1,53 @@
+### Lab homes via bin/fm-lab-home.sh: MAIN (parent) + MATE (secondmate, local parent route)
+### MATE/state/docs.status:
+working [at=1791067131]: drafting docs
+needs-decision [key=dlp-clean-behind-active-run] [at=1791067141]: clean DLP behind active run?
+working [at=1791067151]: routine append 1
+working [at=1791067151]: routine append 2
+working [at=1791067151]: routine append 3
+
+### Watcher tick 1 (real bin/fm-watch.sh, FM_HOME=MATE, FM_DECISION_AGE_SECS=3)
+signal: /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.x6MBlA/mate/state/docs.status
+[watcher exit rc=0 at decision age 22s]
+parent channel (MAIN/state/mate.status):
+  (empty)
+[acked seq=2]
+
+### Watcher tick 2 (real bin/fm-watch.sh, FM_HOME=MATE, FM_DECISION_AGE_SECS=3)
+check: decision unanswered 23s: docs dlp-clean-behind-active-run
+[watcher exit rc=0 at decision age 24s]
+parent channel (MAIN/state/mate.status):
+  (empty)
+[acked seq=3]
+
+### Watcher tick 3 (real bin/fm-watch.sh, FM_HOME=MATE, FM_DECISION_AGE_SECS=3)
+check: decision unanswered 30s: docs dlp-clean-behind-active-run
+[watcher exit rc=0 at decision age 30s]
+parent channel (MAIN/state/mate.status):
+needs-decision [key=decision-unanswered-e408fa26ee1e] [at=1791067171]: decision unanswered 29s: docs dlp-clean-behind-active-run
+[acked seq=4]
+
+### Supervisor drain view in MATE:
+OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+docs [key=dlp-clean-behind-active-run] [age=31s] [actionable: unanswered] needs-decision: clean DLP behind active run?
+OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>'
+
+### Parent (MAIN) OPEN DECISIONS via bin/fm-wake-drain.sh --list-open-decisions:
+OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+mate [key=decision-unanswered-e408fa26ee1e] [age=2s] needs-decision: decision unanswered 29s: docs dlp-clean-behind-active-run
+OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>'
+
+### Supervisor answers the child:
+resolved [key=dlp-clean-behind-active-run] [at=1791067173]: yes, clean it
+signal: /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.x6MBlA/mate/state/docs.status
+[watcher exit rc=0 at decision age 34s]
+[acked seq=6]
+[watcher exit rc=124 at decision age 43s]
+parent channel (MAIN/state/mate.status):
+needs-decision [key=decision-unanswered-e408fa26ee1e] [at=1791067171]: decision unanswered 29s: docs dlp-clean-behind-active-run
+resolved [key=decision-unanswered-e408fa26ee1e] [at=1791067176]: decision no longer open
+MATE age markers:
+  (none)
+
+### Parent OPEN DECISIONS after resolution:
+(rc=0; empty output = nothing open)

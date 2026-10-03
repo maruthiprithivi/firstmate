@@ -1,0 +1,31 @@
+### MATE child cz-docs (idle 300s, unanswered keyed decision); real bin/fm-crew-state.sh says:
+state: unknown · source: none · backend target gone: firstmate:fm-cz-docs
+
+### Reconcile scan --startup #1 (real bin/fm-inactive-reconcile.sh in MATE home):
+waiting on decision dlp-clean-behind-active-run for 500s: child=cz-docs
+[reconcile rc=0]
+parent channel:
+blocked [key=decision-waiting-bf76fef470fa] [at=1791067208]: waiting on decision dlp-clean-behind-active-run for 500s: child=cz-docs
+MATE wake queue inactive-outcome rows: 0
+0
+
+### Reconcile scan --startup #2 (dedupe):
+waiting on decision dlp-clean-behind-active-run for 501s: child=cz-docs
+[reconcile rc=0]
+parent channel:
+blocked [key=decision-waiting-bf76fef470fa] [at=1791067208]: waiting on decision dlp-clean-behind-active-run for 500s: child=cz-docs
+
+### Parent OPEN DECISIONS:
+OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+mate [key=decision-waiting-bf76fef470fa] [age=1s] blocked: waiting on decision dlp-clean-behind-active-run for 500s: child=cz-docs
+OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>'
+
+### Child decision answered; reconcile scan:
+[reconcile rc=0]
+[reconcile rc=0]
+parent channel:
+blocked [key=decision-waiting-bf76fef470fa] [at=1791067208]: waiting on decision dlp-clean-behind-active-run for 500s: child=cz-docs
+resolved [key=decision-waiting-bf76fef470fa] [at=1791067209]: child=cz-docs decision no longer open
+
+### Parent OPEN DECISIONS after answer:
+(empty = none open)

@@ -1,0 +1,32 @@
+### Home: 2 live tasks (1h-old and 60s-old decisions), 3 torn-down tasks (no meta) with stale decisions; FM_DECISION_AGE_SECS default 900
+
+### Ordinary drain OPEN DECISIONS section:
+OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+live-new [key=scope] [age=61s] needs-decision: widen scope?
+live-old [key=publication] [age=3601s] [actionable: unanswered] needs-decision: publish step-2?
+OPEN DECISIONS: 3 terminal decisions folded; list: bin/fm-wake-drain.sh --list-open-decisions
+OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>'
+
+### bin/fm-wake-drain.sh --list-open-decisions:
+OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+live-new [key=scope] [age=62s] needs-decision: widen scope?
+live-old [key=publication] [age=3602s] [actionable: unanswered] needs-decision: publish step-2?
+gone1 [key=old1] [age=90002s] [actionable: unanswered] needs-decision: stale torn-down question
+gone2 [key=old2] [age=90002s] [actionable: unanswered] needs-decision: stale torn-down question
+gone3 [key=old3] [age=90002s] [actionable: unanswered] needs-decision: stale torn-down question
+OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>'
+[rc=0]
+
+### state/ file diff across --list-open-decisions (empty = read-only):
+(no state file changed)
+
+### Watcher tick in this home (FM_DECISION_AGE_SECS=900): wakes only for the live aged decision
+signal: /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.x6MBlA/solo/state/gone1.status /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.x6MBlA/solo/state/gone2.status /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.x6MBlA/solo/state/gone3.status /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.x6MBlA/solo/state/live-new.status /var/folders/w8/cxsknptj3dx0k7s2501vcnt80000gn/T//fm-lab.x6MBlA/solo/state/live-old.status
+[watcher rc=0]
+decision-age queue rows:
+[signal wake acked seq=10]
+### Watcher tick 2:
+check: decision unanswered 3616s: live-old publication
+[watcher rc=0]
+decision-age queue rows:
+check: decision unanswered 3616s: live-old publication
