@@ -1,0 +1,50 @@
+[
+  {
+    "command": [
+      "bin/fm-mem-protection-install.sh",
+      "install",
+      "--home",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    ],
+    "exit": 2,
+    "output": "fm-mem-protection-install: alert executable missing: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home/bin/fm-mem-alert.sh\n"
+  },
+  {
+    "command": [
+      "bin/fm-mem-protection-install.sh",
+      "install-config",
+      "--home",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/bad-home"
+    ],
+    "exit": 2,
+    "output": "mkdir: cannot create directory \u2018/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/bad-home/config\u2019: File exists\nfm-mem-protection-install: could not create configuration directory for /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/bad-home/config/heavy-suites\n"
+  },
+  {
+    "command": [
+      "bash",
+      "-c",
+      "ulimit -c 0; ulimit -f 0; exec \"$@\"",
+      "_",
+      "bin/fm-mem-alert.sh",
+      "check",
+      "--meminfo",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/meminfo",
+      "--procfs",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/proc"
+    ],
+    "exit": 2,
+    "output": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/bin/fm-mem-alert.sh: line 120: 3221397 File size limit exceeded(core dumped) ( umask 077; printf '%s\\n' \"$value\" > \"$FM_MEM_ALERT_STATE\" )\nfm-mem-alert: could not persist armed state: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home/state/mem-alert.state\n"
+  },
+  {
+    "command": [
+      "bin/fm-mem-alert.sh",
+      "check",
+      "--meminfo",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/meminfo",
+      "--procfs",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/proc"
+    ],
+    "exit": 0,
+    "output": ""
+  }
+]

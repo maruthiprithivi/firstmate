@@ -1,0 +1,106 @@
+[
+  {
+    "command": [
+      "bin/fm-mem-protection-install.sh",
+      "install-config",
+      "--home",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/bad-home"
+    ],
+    "exit": 2,
+    "output": "mkdir: cannot create directory \u2018/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/bad-home/config\u2019: File exists\nfm-mem-protection-install: could not create configuration directory for /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/bad-home/config/heavy-suites\n"
+  },
+  {
+    "command": [
+      "bash",
+      "-c",
+      "ulimit -c 0; ulimit -f 0; exec \"$@\"",
+      "_",
+      "bin/fm-mem-alert.sh",
+      "check",
+      "--meminfo",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/meminfo",
+      "--procfs",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/proc"
+    ],
+    "exit": 2,
+    "output": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/bin/fm-mem-alert.sh: line 120: 582464 File size limit exceeded(core dumped) ( umask 077; printf '%s\\n' \"$value\" > \"$FM_MEM_ALERT_STATE\" )\nfm-mem-alert: could not persist armed state: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home/state/mem-alert.state\n"
+  },
+  {
+    "command": [
+      "bin/fm-mem-alert.sh",
+      "check",
+      "--meminfo",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/meminfo",
+      "--procfs",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/proc"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": [
+      "bin/fm-mem-alert.sh",
+      "status"
+    ],
+    "exit": 0,
+    "output": "meminfo=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/meminfo\nthreshold-percent=85\nused-percent=80\nstate=armed\nstate-file=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home/state/mem-alert.state\n"
+  },
+  {
+    "command": [
+      "git",
+      "init",
+      "-b",
+      "main",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/spawn-project"
+    ],
+    "exit": 0,
+    "output": "Initialized empty Git repository in /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/spawn-project/.git/\n"
+  },
+  {
+    "command": [
+      "bin/fm-spawn.sh",
+      "refuse-worker",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/spawn-project",
+      "--mode",
+      "local-only",
+      "--yolo",
+      "off",
+      "--harness",
+      "codex",
+      "--backend",
+      "tmux"
+    ],
+    "exit": 1,
+    "output": "fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home\nerror: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home/data/refuse-worker/brief.md must contain nonempty ## Captain's intent and ## Firstmate spec subsections (or a nonempty legacy # Task body) before spawn\n"
+  },
+  {
+    "command": [
+      "bin/fm-spawn.sh",
+      "refuse-worker",
+      "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/spawn-project",
+      "--mode",
+      "local-only",
+      "--yolo",
+      "off",
+      "--harness",
+      "codex",
+      "--backend",
+      "tmux"
+    ],
+    "exit": 1,
+    "output": "fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home\nwarning: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home/data/refuse-worker/launch-brief.md records no ship branch; defaulting to legacy branch fm/refuse-worker\nwarning: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home/data/refuse-worker/launch-brief.md records no delivery contract line (scaffolded before ship briefs recorded one); launching on the explicit --mode local-only - confirm its definition of done matches\nnotice: refuse-worker ships mode=local-only while the standing posture for spawn-project is no-mistakes - less rigor than the captain's standing posture; proceed only on a current explicit captain instruction or an intake judgment you can state\nfm-mem-box: memory box unavailable (cgroup v2 delegation / systemd user manager cannot create a memory scope); refusing to run lane 'worker' unboxed\nerror: memory box unavailable; refusing to launch task refuse-worker\n"
+  },
+  {
+    "command": [
+      "unshare",
+      "--user",
+      "--map-root-user",
+      "--pid",
+      "--fork",
+      "--mount-proc",
+      "true"
+    ],
+    "exit": 1,
+    "output": "unshare: write failed /proc/self/uid_map: Operation not permitted\n"
+  }
+]

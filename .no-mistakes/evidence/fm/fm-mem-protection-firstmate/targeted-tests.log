@@ -1,0 +1,53 @@
+allowed: no heavy classification
+FM_TEST_BEGIN 2026-10-06T01:01:19Z tests/fm-mem-box.test.sh family=unclassified expected_gate_skip=none
+ok - unconfigured lane resolves to the 8 GiB default
+ok - per-lane override and default are both honored
+ok - FM_MEM_BOX_CAP wins over configured caps
+ok - malformed config refuses loudly instead of guessing a default
+ok - boxed command runs under the configured cgroup memory limit
+ok - unavailable box refuses without executing the command
+warning: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/fm-mem-box.uWiKUE/home/data/boxed-worker/launch-brief.md records no ship branch; defaulting to legacy branch fm/boxed-worker
+warning: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/fm-mem-box.uWiKUE/home/data/boxed-worker/launch-brief.md records no delivery contract line (scaffolded before ship briefs recorded one); launching on the explicit --mode no-mistakes - confirm its definition of done matches
+spawned boxed-worker harness=codex kind=ship mode=no-mistakes yolo=off window=firstmate:fm-boxed-worker worktree=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/fm-mem-box.uWiKUE/wt
+ok - spawned pane consumes worker cap and nested tests use their own lane cap
+ok - heavy lane refuses under remote-only without classifying workers as heavy
+ok - unavailable boxes and failed launch delivery cannot publish spawn success
+FM_TEST_END 2026-10-06T01:01:29Z tests/fm-mem-box.test.sh exit=0 duration_ms=10176 gate_skip=false
+FM_TEST_BEGIN 2026-10-06T01:01:29Z tests/fm-mem-alert.test.sh family=unclassified expected_gate_skip=none
+ok - below-threshold sample emits nothing
+ok - one alert per crossing, naming the top process
+ok - crossing re-arms below the threshold and alerts again
+ok - top process is the largest resident set, not the first seen
+ok - status reports thresholds, sample, and state
+ok - state directory and both transition write failures return errors
+FM_TEST_END 2026-10-06T01:01:32Z tests/fm-mem-alert.test.sh exit=0 duration_ms=2490 gate_skip=false
+FM_TEST_BEGIN 2026-10-06T01:01:32Z tests/fm-heavy-guard.test.sh family=unclassified expected_gate_skip=none
+ok - unconfigured posture is local
+ok - local posture allows heavy selections
+allowed: no heavy classification
+ok - remote posture refuses every heavy class and names the campaign VM
+ok - an unknown posture refuses instead of guessing
+allowed: no heavy classification
+ok - path classification matches heavy suite names only
+ok - fm-test-run refuses a heavy family before executing it
+ok - direct script selection honors every heavy family
+ok - only remote-only is accepted as the remote posture
+ok - light scripts still execute through the configured memory box
+FM_TEST_END 2026-10-06T01:01:33Z tests/fm-heavy-guard.test.sh exit=0 duration_ms=1235 gate_skip=false
+FM_TEST_BEGIN 2026-10-06T01:01:33Z tests/fm-mem-protection-install.test.sh family=unclassified expected_gate_skip=none
+ok - generated defaults and units enforce the required policy
+ok - installation refuses before host changes when the alert executable is absent
+install: heavy suites refused locally; campaign runner /campaign/runner
+install: heavy suites refused locally; campaign runner /campaign/runner
+ok - config installation writes the posture idempotently
+ok - install-config never replaces a value it did not write
+ok - status reports every part on a bare home
+ok - configuration directory and both policy writes fail closed
+ok - failed defaults or either unit cannot reach dependent activation
+FM_TEST_END 2026-10-06T01:01:33Z tests/fm-mem-protection-install.test.sh exit=0 duration_ms=333 gate_skip=false
+FM_TEST_SUMMARY total=4 failed=0 skipped_gate=0 duration_ms=14385
+FM_TEST_SUMMARY_FAMILY family=unclassified count=4 duration_ms=14234 failed=0
+FM_TEST_SLOWEST rank=1 script=tests/fm-mem-box.test.sh duration_ms=10176
+FM_TEST_SLOWEST rank=2 script=tests/fm-mem-alert.test.sh duration_ms=2490
+FM_TEST_SLOWEST rank=3 script=tests/fm-heavy-guard.test.sh duration_ms=1235
+FM_TEST_SLOWEST rank=4 script=tests/fm-mem-protection-install.test.sh duration_ms=333

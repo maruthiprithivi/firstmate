@@ -1,0 +1,7 @@
+Double-fork probe outside systemd service:
+orphan parent 1700
+    PID    PPID COMMAND
+   1700       1 systemd
+Double-fork probe in disposable systemd user service: orphan parent 1700 (systemd user manager), also not PID 1.
+Private PID/user namespace attempt: unshare: write failed /proc/self/uid_map: Operation not permitted
+Existing fm-session-lock-ancestry.test.sh:776 therefore cannot satisfy its PID 1 setup assumption in this executor. No memory-protection assertion failed in that fixture.

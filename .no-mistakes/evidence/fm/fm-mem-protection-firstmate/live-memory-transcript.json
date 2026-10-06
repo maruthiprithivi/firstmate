@@ -1,0 +1,188 @@
+[
+  {
+    "command": "bin/fm-lab-home.sh create /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home",
+    "env": {},
+    "exit": 0,
+    "output": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home\n"
+  },
+  {
+    "command": "bin/fm-mem-box.sh check",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": "script=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/bin/fm-mem-box.sh\nsystemd-run=/usr/bin/systemd-run\ncgroup2=yes\nsupported=yes\ndefault-cap-bytes=8589934592\nlane=worker cap=8589934592 source=builtin\nlane=test cap=8589934592 source=builtin\nlane=heavy cap=8589934592 source=builtin\n"
+  },
+  {
+    "command": "bin/fm-mem-box.sh exec worker -- python3 -c 'import pathlib,os,json; c=pathlib.Path(\"/sys/fs/cgroup\"+pathlib.Path(\"/proc/self/cgroup\").read_text().split(\":\",2)[2].strip()); print(json.dumps({\"cgroup\":str(c),\"max\":(c/\"memory.max\").read_text().strip(),\"swap\":(c/\"memory.swap.max\").read_text().strip(),\"override\":os.getenv(\"FM_MEM_BOX_CAP\")}))'",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": "{\"cgroup\": \"/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/run-rd3cf4038155e4e5aafd3ed6856f4e224.scope\", \"max\": \"8589934592\", \"swap\": \"0\", \"override\": null}\n"
+  },
+  {
+    "command": "bin/fm-mem-box.sh exec worker -- bin/fm-mem-box.sh exec test -- python3 -c 'import pathlib,os,json; c=pathlib.Path(\"/sys/fs/cgroup\"+pathlib.Path(\"/proc/self/cgroup\").read_text().split(\":\",2)[2].strip()); print(json.dumps({\"cgroup\":str(c),\"max\":(c/\"memory.max\").read_text().strip(),\"swap\":(c/\"memory.swap.max\").read_text().strip(),\"override\":os.getenv(\"FM_MEM_BOX_CAP\")}))'",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home",
+      "FM_MEM_BOX_CAP": "128M"
+    },
+    "exit": 0,
+    "output": "{\"cgroup\": \"/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/run-rb48ee3c5f4dc4afb81d2d86b658e8f98.scope\", \"max\": \"67108864\", \"swap\": \"0\", \"override\": null}\n"
+  },
+  {
+    "command": "bin/fm-mem-box.sh exec test -- python3 -u -c 'import pathlib; c=pathlib.Path(\"/sys/fs/cgroup\"+pathlib.Path(\"/proc/self/cgroup\").read_text().split(\":\",2)[2].strip()); print(\"effective cap=\"+(c/\"memory.max\").read_text().strip()+\" swap=\"+(c/\"memory.swap.max\").read_text().strip(),flush=True); a=[]\nwhile True: a.append(bytearray(1024*1024))'",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": -9,
+    "output": "effective cap=67108864 swap=0\n"
+  },
+  {
+    "command": "bin/fm-mem-box.sh exec test -- printf 'host responsive after bounded OOM\n'",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": "host responsive after bounded OOM\n"
+  },
+  {
+    "command": "bin/fm-mem-box.sh exec worker -- touch /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/unboxed",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home",
+      "DBUS_SESSION_BUS_ADDRESS": "unix:path=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/missing-bus",
+      "XDG_RUNTIME_DIR": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/missing-runtime"
+    },
+    "exit": 1,
+    "output": "fm-mem-box: memory box unavailable (cgroup v2 delegation / systemd user manager cannot create a memory scope); refusing to run lane 'worker' unboxed\n"
+  },
+  {
+    "command": "bin/fm-mem-protection-install.sh install-config --home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home --runner gcp-campaign-disposable",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": "install: heavy suites refused locally; campaign runner gcp-campaign-disposable\n"
+  },
+  {
+    "command": "bin/fm-heavy-guard.sh check --token acceptance",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 3,
+    "output": "refused: heavy work (token acceptance) runs on the GCP campaign VM, not this host (config/heavy-suites=remote-only); use the campaign runner: gcp-campaign-disposable\n"
+  },
+  {
+    "command": "bin/fm-heavy-guard.sh check --path .promotion/task-data/oct04-validation/acceptance/acceptance.cjs",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 3,
+    "output": "refused: heavy work (suite acceptance.cjs) runs on the GCP campaign VM, not this host (config/heavy-suites=remote-only); use the campaign runner: gcp-campaign-disposable\n"
+  },
+  {
+    "command": "bin/fm-heavy-guard.sh check --family live-harness-optin",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 3,
+    "output": "refused: heavy work (family live-harness-optin) runs on the GCP campaign VM, not this host (config/heavy-suites=remote-only); use the campaign runner: gcp-campaign-disposable\n"
+  },
+  {
+    "command": "bin/fm-heavy-guard.sh check --selection all",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 3,
+    "output": "refused: heavy work (selection all) runs on the GCP campaign VM, not this host (config/heavy-suites=remote-only); use the campaign runner: gcp-campaign-disposable\n"
+  },
+  {
+    "command": "bin/fm-mem-box.sh exec heavy -- touch /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/heavy-ran",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 3,
+    "output": "refused: heavy work (lane heavy) runs on the GCP campaign VM, not this host (config/heavy-suites=remote-only); use the campaign runner: gcp-campaign-disposable\n"
+  },
+  {
+    "command": "bin/fm-test-run.sh tests/fm-codex-hook-layer-live-e2e.test.sh",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 3,
+    "output": "refused: heavy work (suite fm-codex-hook-layer-live-e2e.test.sh) runs on the GCP campaign VM, not this host (config/heavy-suites=remote-only); use the campaign runner: gcp-campaign-disposable\n"
+  },
+  {
+    "command": "bin/fm-test-run.sh --all",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 3,
+    "output": "refused: heavy work (selection all) runs on the GCP campaign VM, not this host (config/heavy-suites=remote-only); use the campaign runner: gcp-campaign-disposable\n"
+  },
+  {
+    "command": "bin/fm-heavy-guard.sh check --token unit",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": "allowed: no heavy classification\n"
+  },
+  {
+    "command": "bin/fm-mem-alert.sh check --meminfo /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/meminfo --procfs /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/proc --now 1001",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": "queued 1791248930-IfG3ed\n  memory alert: host memory at 90% used (alert threshold 85%); top process acceptance pid=123 rss=488M\n  firstmate will pick this up at its next check.\n"
+  },
+  {
+    "command": "bin/fm-mem-alert.sh check --meminfo /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/meminfo --procfs /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/proc --now 1002",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": "bin/fm-mem-alert.sh check --meminfo /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/meminfo --procfs /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/proc --now 1003",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": "bin/fm-mem-alert.sh check --meminfo /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/meminfo --procfs /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/proc --now 1004",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": "queued 1791248930-R41Dc8\n  memory alert: host memory at 90% used (alert threshold 85%); top process acceptance pid=123 rss=488M\n  firstmate will pick this up at its next check.\n"
+  },
+  {
+    "command": "bin/fm-inbox.sh receipts",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": "{\"schema\":\"fm-inbox-receipts.v1\",\"home\":\".test-memory-live/home\",\"generated\":\"2026-10-06T01:08:50Z\",\"pending\":[{\"id\":\"1791248930-R41Dc8\",\"at\":\"2026-10-06T01:08:50Z\",\"source\":\"text\",\"request_id\":\"mem-alert-1004\",\"body\":\"memory alert: host memory at 90% used (alert threshold 85%); top process acceptance pid=123 rss=488MiB\",\"acknowledged\":false,\"announced\":true,\"reply\":null},{\"id\":\"1791248930-IfG3ed\",\"at\":\"2026-10-06T01:08:50Z\",\"source\":\"text\",\"request_id\":\"mem-alert-1001\",\"body\":\"memory alert: host memory at 90% used (alert threshold 85%); top process acceptance pid=123 rss=488MiB\",\"acknowledged\":false,\"announced\":true,\"reply\":null}],\"handled\":[],\"replies\":[],\"reply_cursor\":\"\",\"omitted\":[]}\n"
+  },
+  {
+    "command": "bin/fm-inbox.sh list",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home"
+    },
+    "exit": 0,
+    "output": "1791248930-IfG3ed\n    memory alert: host memory at 90% used (alert threshold 85%); top process acceptance pid=123 rss=488MiB\n1791248930-R41Dc8\n    memory alert: host memory at 90% used (alert threshold 85%); top process acceptance pid=123 rss=488MiB\n"
+  },
+  {
+    "command": "bin/fm-mem-protection-install.sh install --home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home",
+    "env": {
+      "FM_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/home",
+      "XDG_CONFIG_HOME": "/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M47AZXT77RPR1SQQVZ9GJ423/.test-memory-live/units"
+    },
+    "exit": 2,
+    "output": "fm-mem-protection-install: installed earlyoom does not support required --ignore exclusions; install a compatible version before installation\n"
+  }
+]

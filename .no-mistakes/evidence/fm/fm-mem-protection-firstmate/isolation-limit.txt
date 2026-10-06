@@ -1,0 +1,3 @@
+Attempt: unshare --user --map-root-user --pid --fork --mount-proc true
+Result: unshare: write failed /proc/self/uid_map: Operation not permitted
+A private systemd instance cannot be stood up with user/PID/proc namespaces here. Installing the generated user timer in the operator manager would change system state outside the authorized worktree. Timer cadence was checked as generated declarative output by tests/fm-mem-protection-install.test.sh; actual minute scheduling remains untested.
