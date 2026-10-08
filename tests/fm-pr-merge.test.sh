@@ -3883,6 +3883,39 @@ test_unreadable_required_set_refuses
 test_allow_missing_waives_only_the_named_unreported_check
 test_allow_missing_follows_the_allow_red_rules
 
+# Linux caps one exec argument at 128 KiB, so a head with many check runs
+# overflows the jq invocation that compares the required set against the head's
+# check-run producers. The payloads must reach jq over stdin instead of as
+# --argjson arguments. The fixture carries enough runs that even the name and
+# app-id projection alone is oversized (4500 projected entries), while each
+# run's output text keeps the unprojected runs payload far larger again, so the
+# pre-stdin code cannot exec jq at all and refuses the merge.
+test_required_checks_missing_reads_an_oversized_check_runs_payload() {
+  local case_dir head
+  head=a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9
+  case_dir=$(make_case github-required-oversized-payload)
+  add_gh_mocks "$case_dir" "$head"
+  write_github_rollup_json "$case_dir" "$head" "$(check_run ci COMPLETED SUCCESS)"
+  write_github_required "$case_dir" ruleset:ci
+  jq '.[1].parameters.required_status_checks[0].integration_id = 15368' \
+    "$case_dir/github-required-rules.json" > "$case_dir/updated.json"
+  mv "$case_dir/updated.json" "$case_dir/github-required-rules.json"
+  jq -n --arg head "$head" '
+    [{name: "ci", app: {id: 15368}, head_sha: $head}]
+    + [range(0; 4500) | . as $i
+       | {name: ("ci-" + ($i | tostring)), app: {id: 15368}, head_sha: $head,
+          output: {title: "check output", summary: ("x" * 512)}}]
+    | {check_runs: .}' > "$case_dir/github-runs.json"
+  run_required_case "$case_dir" 120
+  expect_code 0 "$RC" \
+    "oversized-payload: a large but valid check-runs payload must merge: $(cat "$case_dir/stderr")"
+  assert_grep 'verified: ' "$case_dir/stderr" \
+    "oversized-payload: the verified head was not reported"
+  assert_logged_gh_merge "$case_dir" 120 example/repo --squash
+  pass "fm-pr-merge reads an oversized check-runs payload without an exec argument limit"
+}
+
 test_required_producer_identity
 test_app_bound_required_status_context_matches_by_name
 test_required_partial_reads_report_all_failures
+test_required_checks_missing_reads_an_oversized_check_runs_payload
