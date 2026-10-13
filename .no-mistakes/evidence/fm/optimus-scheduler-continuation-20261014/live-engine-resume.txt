@@ -1,0 +1,20 @@
+Live engine handoff state:
+1791917029	start	gen=host-1739865-1791917029	primary=claude
+1791917045	pass-through	attended	main-only	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.live-validation/fm-lab.IcleiZ/state/sweep.check.sh: live-event-1
+1791917171	start	gen=host-2037219-1791917171	primary=claude
+1791917187	handled	turn=host-2037219-1791917171.1	posture=away	rc=0	reports=1	error=0 cost=0.022316 conversation_cost=0.022316 input=10 cache_read=65580 cache_write=2707 output=491 turns=5	check: rearm-resurface
+1791917187	no-op	nothing for the branch to claim	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.live-validation/fm-lab.IcleiZ/state/sweep.check.sh: live-event-5
+1791917205	handled	turn=host-2037219-1791917171.2	posture=away	rc=0	reports=1	error=0 cost=0.013844 conversation_cost=0.03616 input=6 cache_read=44384 cache_write=1521 output=331 turns=3	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.live-validation/fm-lab.IcleiZ/state/sweep.check.sh: live-event-6
+1791917205	boundary	after 34s
+1791917260	start	gen=host-2146642-1791917260	primary=claude
+1791917293	handled	turn=host-2146642-1791917260.1	posture=away	rc=0	reports=1	error=0 cost=0.012918 conversation_cost=0.012918 input=8 cache_read=53442 cache_write=817 output=429 turns=4	check: rearm-resurface
+1791917302	handled	turn=host-2146642-1791917260.2	posture=away	rc=0	reports=1	error=0 cost=0.015909 conversation_cost=0.028827 input=6 cache_read=44872 cache_write=1930 output=369 turns=3	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.live-validation/fm-lab.IcleiZ/state/sweep.check.sh: live-event-10
+{"seq":1,"epoch":1791917182,"task":"sweep","wake":"check: rearm-resurface","verdict":"routine","summary":"Lab scheduler validation check event (live-event-5) drained; no fleet or external action taken, per the away words.","silent":false,"statusEndpoint":0,"statusIdent":"-"}
+{"seq":2,"epoch":1791917202,"task":"sweep","wake":"check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.live-validation/fm-lab.IcleiZ/state/sweep.check.sh: live-event-6","verdict":"routine","summary":"Lab scheduler validation check event (live-event-6) drained; no fleet or external action taken, per the away words.","silent":false,"statusEndpoint":0,"statusIdent":"-"}
+{"seq":3,"epoch":1791917290,"task":"sweep.check.sh","wake":"check: rearm-resurface","verdict":"routine","summary":"Disposable scheduler validation check event (live-event-10) drained; no fleet action taken, per away instructions.","silent":true,"statusEndpoint":0,"statusIdent":"-"}
+{"seq":4,"epoch":1791917299,"task":"sweep.check.sh","wake":"check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.live-validation/fm-lab.IcleiZ/state/sweep.check.sh: live-event-10","verdict":"routine","summary":"Disposable scheduler validation check events (live-event-8 through 12) drained; no fleet action taken, per away instructions.","silent":true,"statusEndpoint":0,"statusIdent":"-"}
+Remaining queue:
+Host and current watcher:
+    PID    PPID STAT COMMAND
+2146642 2142041 S    bash
+2187831 2152098 S    bash

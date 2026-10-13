@@ -1,0 +1,13 @@
+Attended lab dialog availability:
+mirror-check exit=1
+{"seq":1,"epoch":1791917182,"task":"sweep","wake":"check: rearm-resurface","verdict":"routine","summary":"Lab scheduler validation check event (live-event-5) drained; no fleet or external action taken, per the away words.","silent":false,"statusEndpoint":0,"statusIdent":"-"}
+{"seq":2,"epoch":1791917202,"task":"sweep","wake":"check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.live-validation/fm-lab.IcleiZ/state/sweep.check.sh: live-event-6","verdict":"routine","summary":"Lab scheduler validation check event (live-event-6) drained; no fleet or external action taken, per the away words.","silent":false,"statusEndpoint":0,"statusIdent":"-"}
+{"seq":3,"epoch":1791917290,"task":"sweep.check.sh","wake":"check: rearm-resurface","verdict":"routine","summary":"Disposable scheduler validation check event (live-event-10) drained; no fleet action taken, per away instructions.","silent":true,"statusEndpoint":0,"statusIdent":"-"}
+{"seq":4,"epoch":1791917299,"task":"sweep.check.sh","wake":"check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.live-validation/fm-lab.IcleiZ/state/sweep.check.sh: live-event-10","verdict":"routine","summary":"Disposable scheduler validation check events (live-event-8 through 12) drained; no fleet action taken, per away instructions.","silent":true,"statusEndpoint":0,"statusIdent":"-"}
+Remaining wake rows: 0
+Current watcher:
+    PID    PPID STAT COMMAND
+2187831 2152098 S    bash
+Scheduler owner:
+    PID    PPID STAT COMMAND
+2152098 2146642 S    bash

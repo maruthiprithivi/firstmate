@@ -1,0 +1,1 @@
+ok - watch-arm: a continuing arm restarts its one watcher after every actionable close, including one before health, and hands each close over once
