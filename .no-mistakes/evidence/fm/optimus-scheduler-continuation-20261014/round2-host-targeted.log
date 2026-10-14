@@ -1,0 +1,7 @@
+ok - host: an incomplete C1,S1,C2 batch waits for its current successor
+ok - host: a signal followed by a scheduled close hands the complete batch to main
+ok - host: a detached arm continues scanning while its relinquished reader cleans up
+ok - host: spool consumption commits busy before a close can end its continuing arm
+ok - host: every heartbeat in an accepted batch retains its row and fleet scope in either order
+ok - host+hook: check sweeps continue at cadence across repeated closes and a handoff while main owns the turn, and every event is delivered once
+ok - host+hook: check sweeps continue at cadence through a held engine turn, and the events that closed the cycle meanwhile are delivered once

@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+bin/fm-lock.sh > "$FM_HOME/lock.out" 2>&1 || exit 1
+FM_CHECK_INTERVAL=1 FM_POLL=1 FM_SUPERVISION_HOST_PRIMARY=claude bin/fm-supervision-host.sh park --restart > "$FM_HOME/park1.out" 2>&1
+: > "$FM_HOME/main-held"
+while [ ! -e "$FM_HOME/release-main" ]; do sleep 1; done
+bin/fm-wake-drain.sh > "$FM_HOME/drain1.out" 2>&1
+FM_CHECK_INTERVAL=1 FM_POLL=1 FM_SUPERVISION_HOST_PRIMARY=claude bin/fm-supervision-host.sh park > "$FM_HOME/park2.out" 2>&1
+: > "$FM_HOME/takeover-returned"
+while [ ! -e "$FM_HOME/release-engine" ]; do sleep 1; done
+FM_CHECK_INTERVAL=1 FM_POLL=1 FM_SUPERVISION_HOST_PRIMARY=claude FM_SUPERVISION_HOST_TURN_TIMEOUT=180 bin/fm-supervision-host.sh park > "$FM_HOME/park3.out" 2>&1
+: > "$FM_HOME/engine-returned"
+sleep 180
+
+Fresh engine lab primary:
+#!/usr/bin/env bash
+bin/fm-lock.sh > "$FM_HOME/lock.out" 2>&1 || exit 1
+FM_CHECK_INTERVAL=1 FM_POLL=1 FM_SUPERVISION_HOST_PRIMARY=claude FM_SUPERVISION_HOST_TURN_TIMEOUT=180 bin/fm-supervision-host.sh park --restart > "$FM_HOME/park3.out" 2>&1
+: > "$FM_HOME/engine-returned"
+sleep 180
+
+Driver:
+import os,time,subprocess,json,pathlib
+root=pathlib.Path.cwd(); lab=root/'.e'; state=lab/'state'
+evidence=pathlib.Path('/home/maruthiprithivi/.no-mistakes/evidence/01M4V6HY9GZDSMEFZ9A4JK1HJ2')
+def wait(fn, timeout=70):
+ end=time.time()+timeout
+ while time.time()<end:
+  if fn():return
+  time.sleep(.2)
+ raise RuntimeError('timed out: '+repr(fn))
+def read(p):return p.read_text() if p.exists() else ''
+def sweeps():return len(read(lab/'sweeps').splitlines())
+def snapshot(name):
+ out=[]
+ for p in [lab/'sweeps',state/'.supervision-host.log',state/'.supervision-host',state/'.watch-cycle-exits.log',state/'.wake-queue',state/'.watch.lock/pid',lab/'park1.out',lab/'park2.out',lab/'park3.out',lab/'drain1.out']:
+  out.append(str(p.relative_to(lab))+'\n'+read(p))
+ for p in state.glob('.supervision-host-spool.*'):
+  if p.is_file():out.append(p.name+'\n'+read(p))
+ processes=subprocess.check_output(['ps','-A','-o','pid=','-o','ppid=','-o','stat=','-o','args='],text=True)
+ out.append('Lab watcher and arm processes\n'+'\n'.join(line for line in processes.splitlines() if str(root/'bin/fm-watch.sh') in line or str(root/'bin/fm-watch-arm.sh') in line))
+ (evidence/name).write_text('\n'.join(out))
+def event(n):
+ before=sweeps(); (lab/f'emit.{n}').touch()
+ wait(lambda:not (lab/f'emit.{n}').exists())
+ wait(lambda:sweeps()>=before+3)
+ print('event',n,'completed with continued sweeps',sweeps(),flush=True)
+wait(lambda:sweeps()>=2)
+(lab/'emit.1').touch()
+# Find only the engine descended from this lab host, without inspecting other homes.
+def engine():
+ metadata=read(state/'.supervision-host')
+ host=next((int(x.split('\t')[1]) for x in metadata.splitlines() if x.startswith('host\t')),0)
+ table=subprocess.check_output(['ps','-A','-o','pid=','-o','ppid=','-o','comm='],text=True)
+ rows=[line.split(None,2) for line in table.splitlines() if len(line.split(None,2))==3]
+ descendants={host}
+ for _ in range(12):
+  descendants.update(int(pid) for pid,ppid,cmd in rows if int(ppid) in descendants)
+ return next((int(pid) for pid,ppid,cmd in rows if int(pid) in descendants and cmd=='claude'),None)
+wait(lambda:engine() is not None)
+pid=engine();os.kill(pid,19)
+(evidence/'round2-live-engine-pid.txt').write_text(subprocess.check_output(['ps','-p',str(pid),'-o','pid,ppid,stat,comm'],text=True))
+try:
+ for n in [6,7,8]:event(n)
+ assert (state/'.supervision-host-busy').exists()
+ snapshot('round2-live-engine-held.txt')
+ print('real engine held while repeated scheduled checks completed',flush=True)
+finally:os.kill(pid,18)
+wait(lambda:'\thandled\t' in read(state/'.supervision-host.log') or (lab/'engine-returned').exists(),150)
+wait(lambda:not read(state/'.wake-queue').strip() or (lab/'engine-returned').exists(),150)
+snapshot('round2-live-engine-resumed.txt')
+print('engine resumed; host result captured',flush=True)

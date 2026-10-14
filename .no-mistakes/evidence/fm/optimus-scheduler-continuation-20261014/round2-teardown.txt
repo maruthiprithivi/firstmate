@@ -1,0 +1,1 @@
+Both private tmux lab servers stopped. No lab watcher or arm processes remain. Disposable homes and targeted-test temporary directories removed.

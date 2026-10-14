@@ -1,0 +1,78 @@
+1791950116	start	gen=host-2503850-1791950116	primary=claude
+1791950151	handled	turn=host-2503850-1791950116.1	posture=away	rc=0	reports=1	error=0 cost=0.020444 conversation_cost=0.020444 input=8 cache_read=51901 cache_write=2667 output=457 turns=4	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.e/state/sweep.check.sh: live-event-1
+1791950159	handled	turn=host-2503850-1791950116.2	posture=away	rc=0	reports=1	error=0 cost=0.01523 conversation_cost=0.035674 input=6 cache_read=44664 cache_write=1708 output=392 turns=3	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.e/state/sweep.check.sh: live-event-6
+
+Wake queue after two accepted engine turns:
+
+Durable outcomes:
+{"seq":1,"epoch":1791950148,"task":"fleet","wake":"check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.e/state/sweep.check.sh: live-event-1","verdict":"routine","summary":"per your away instructions: handled the live-event check wake (live-event-1); the drain showed only that check row, no fleet changes or other work needed.","silent":false,"statusEndpoint":0,"statusIdent":"-"}
+{"seq":2,"epoch":1791950156,"task":"fleet","wake":"check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.e/state/sweep.check.sh: live-event-6","verdict":"routine","summary":"per your away instructions: handled the live-event check wakes (live-event-6 through 8); the drain showed only those check rows, no fleet changes or other work needed.","silent":false,"statusEndpoint":0,"statusIdent":"-"}
+
+Completed sweeps after recovery:
+1791950116
+1791950118
+1791950119
+1791950120
+1791950122
+1791950123
+1791950124
+1791950125
+1791950127
+1791950128
+1791950129
+1791950131
+1791950133
+1791950134
+1791950135
+1791950137
+1791950139
+1791950140
+1791950141
+1791950142
+1791950143
+1791950145
+1791950146
+1791950147
+1791950149
+1791950150
+1791950152
+1791950153
+1791950154
+1791950155
+1791950157
+1791950158
+1791950159
+1791950161
+1791950162
+1791950163
+1791950164
+1791950166
+1791950167
+1791950168
+1791950169
+1791950170
+1791950172
+1791950173
+1791950174
+1791950176
+1791950177
+1791950178
+1791950179
+1791950181
+1791950182
+1791950183
+1791950184
+1791950186
+1791950187
+1791950188
+1791950190
+1791950191
+1791950192
+1791950194
+1791950195
+1791950196
+1791950197
+
+Processes:
+    PID    PPID STAT COMMAND
+2540286 2518378 S    bash

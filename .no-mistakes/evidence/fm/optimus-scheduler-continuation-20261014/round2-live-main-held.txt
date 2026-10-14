@@ -1,0 +1,54 @@
+sweeps
+1791949775
+1791949791
+1791949806
+1791949821
+1791949836
+1791949852
+1791949853
+1791949868
+1791949883
+1791949884
+1791949899
+1791949915
+1791949931
+1791949946
+1791949961
+1791949977
+1791949992
+1791950008
+
+state/.supervision-host.log
+1791949775	start	gen=host-1790914-1791949774	primary=claude
+1791949852	pass-through	attended	main-only	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.l/state/sweep.check.sh: live-event-1
+
+state/.supervision-host
+
+state/.watch-cycle-exits.log
+arm_pid=1792727	watcher_pid=1792825	origin=started	started_at=1791949775	ended_at=1791949852	exit_code=0	signal=none	reason=actionable-check	beacon_age=1	lock_before=pid:1792825|identity:linux-starttime=104161281 cmdline-hex=62617368002f686f6d652f6d61727574686970726974686976692f2e6e6f2d6d697374616b65732f776f726b74726565732f3833393962343062636533642f30314d345636485939475a44534d45465a3941344a4b31484a322f62696e2f666d2d77617463682e736800	lock_after=pid:none|identity:none	successor=started:1993416
+arm_pid=1993351	watcher_pid=1993416	origin=started	started_at=1791949852	ended_at=1791949884	exit_code=0	signal=none	reason=actionable-check	beacon_age=1	lock_before=pid:1993416|identity:linux-starttime=104169010 cmdline-hex=62617368002f686f6d652f6d61727574686970726974686976692f2e6e6f2d6d697374616b65732f776f726b74726565732f3833393962343062636533642f30314d345636485939475a44534d45465a3941344a4b31484a322f62696e2f666d2d77617463682e736800	lock_after=pid:none|identity:none	successor=started:2043673
+arm_pid=1993351	watcher_pid=2043673	origin=started	started_at=1791949884	ended_at=1791949915	exit_code=0	signal=none	reason=actionable-check	beacon_age=1	lock_before=pid:2043673|identity:linux-starttime=104172152 cmdline-hex=62617368002f686f6d652f6d61727574686970726974686976692f2e6e6f2d6d697374616b65732f776f726b74726565732f3833393962343062636533642f30314d345636485939475a44534d45465a3941344a4b31484a322f62696e2f666d2d77617463682e736800	lock_after=pid:none|identity:none	successor=started:2106727
+arm_pid=1993351	watcher_pid=2106727	origin=started	started_at=1791949915	ended_at=1791949961	exit_code=0	signal=none	reason=actionable-check	beacon_age=0	lock_before=pid:2106727|identity:linux-starttime=104175289 cmdline-hex=62617368002f686f6d652f6d61727574686970726974686976692f2e6e6f2d6d697374616b65732f776f726b74726565732f3833393962343062636533642f30314d345636485939475a44534d45465a3941344a4b31484a322f62696e2f666d2d77617463682e736800	lock_after=pid:none|identity:none	successor=started:2217869
+
+state/.wake-queue
+1791949852	1	check	/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.l/state/sweep.check.sh	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.l/state/sweep.check.sh: live-event-1
+1791949883	2	check	/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.l/state/sweep.check.sh	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.l/state/sweep.check.sh: live-event-2
+1791949915	3	check	/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.l/state/sweep.check.sh	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.l/state/sweep.check.sh: live-event-3
+1791949961	4	check	/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.l/state/sweep.check.sh	check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.l/state/sweep.check.sh: live-event-4
+
+state/.watch.lock/pid
+2217869
+
+park1.out
+watcher: started pid=1792825 (beacon fresh)
+check: /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/.l/state/sweep.check.sh: live-event-1
+
+park2.out
+
+park3.out
+
+drain1.out
+
+Lab watcher and arm processes
+1993351 1744034 S    bash /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/bin/fm-watch-arm.sh
+2217869 1993351 S    bash /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4V6HY9GZDSMEFZ9A4JK1HJ2/bin/fm-watch.sh
