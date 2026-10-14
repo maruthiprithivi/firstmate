@@ -1,0 +1,22 @@
+$ fm-action.sh show control-live
+exit-ok	authorized	resulted	none	49	control-live	1791982789	exit
+[exit=0]
+Native receipt
+v2	control-live	exit-ok	4e4ac617326cb717764dee6212f6c6de0bcbcc7c	live-run	exit-ok	ok	1791982490	live-run
+
+$ fm-action.sh accept control-live exit-ok --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/control-lab/state/control-live.action-receipts/exit-ok
+[exit=0]
+$ fm-action.sh show control-live
+exit-ok	authorized	accepted	none	50	control-live	1791982789	exit
+[exit=0]
+$ fm-control.sh control-live exit
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/control-lab
+already-stopped control-live harness=claude backend=tmux endpoint=primary:fm-control-live worktree=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS
+mkdir: cannot create directory ‘/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/control-lab/state/control-live.action-receipts’: File exists
+error: native action result could not be recorded for control-live exit-failure
+[exit=1]
+$ fm-action.sh show control-live
+exit-ok	authorized	accepted	none	50	control-live	1791982789	exit
+exit-failure	authorized	started	none	0	control-live	1791982839	exit
+[exit=0]
+Verified failed receipt publication exits 1, releases control lock, and leaves action uncompleted.

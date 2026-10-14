@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Unrelated work and acknowledgement do not certify a steer; explicit start clears its deadline",
+    "result": "pass"
+  },
+  {
+    "name": "Finite holds expire, blanket grants refuse, and pending decisions stay visible",
+    "result": "pass"
+  },
+  {
+    "name": "Escalated A cannot suppress new B, with A open or resolved before polling; unchanged B deduplicates",
+    "result": "pass"
+  },
+  {
+    "name": "Configured persistent wait survives unrelated resolution without a missed checkpoint",
+    "result": "pass"
+  },
+  {
+    "name": "Missed checkpoint reports current generation; inspected progress clears it and a new generation reports independently",
+    "result": "pass"
+  },
+  {
+    "name": "A returned validation result stays overdue until its owner consumes it",
+    "result": "pass"
+  },
+  {
+    "name": "Successive notification exits refresh and record the watcher beacon",
+    "result": "pass"
+  }
+]

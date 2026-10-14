@@ -1,0 +1,216 @@
+$ fm-lab-home.sh create /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4
+/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4
+[exit=0]
+
+$ fm-action.sh admit t1 --id second-image --class authorized --owner worker --source captain:live-check --operation prepare second image --at 1791982137
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough t1 second-image unacked-unstarted owner=worker operation=prepare second image ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4/state/t1.actions
+[exit=0]
+
+$ fm-action.sh ack t1 second-image
+[exit=0]
+
+$ fm-action.sh incidents t1
+second-image	authorized	acked	acked-unexecuted	401	worker	1791982437	prepare second image
+[exit=0]
+
+$ fm-action.sh start t1 second-image
+[exit=0]
+
+$ fm-action.sh incidents t1
+[exit=0]
+
+$ fm-action.sh result t1 second-image ok
+[exit=0]
+
+$ fm-action.sh accept t1 second-image --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4/state/missing
+error: acceptance evidence is not confirmed: absent
+[exit=1]
+
+$ fm-action.sh admit t1 --id blanket --class authorized --owner worker --source yolo --operation work
+error: --source must name the exact grant, not a generic permission word
+[exit=1]
+
+$ fm-action.sh admit t1 --id held --class authorized --owner worker --source captain:one-run --operation run --at 1791982137
+[exit=0]
+
+$ fm-action.sh hold t1 held --kind resource-wait --until 1791982557 --reason runner busy
+[exit=0]
+
+$ fm-action.sh incidents t1
+[exit=0]
+
+$ fm-action.sh incidents t1 --now 1791982558
+held	authorized	queued	unacked-unstarted	421	worker	1791982437	run
+[exit=0]
+
+$ fm-action.sh admit t1 --id gate --class human-decision --owner captain --operation choose runner --ready-with held --due 1791982536 --at 1791982137
+[exit=0]
+
+$ fm-action.sh incidents t1
+gate	human-decision	gated	gate-overdue	401	captain	1791982536	choose runner
+[exit=0]
+
+$ fm-action.sh result t1 held refused --reason runner unavailable
+[exit=0]
+
+$ fm-action.sh result t1 gate answered --reason captain chose runner
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough t1 open-decision-5-run-1-1-A-1791982519 open-decision-stale owner=t1 operation=blocked record key=A opened 1791982519 was never closed; the owner appends: resolved [at=<epoch>] [key=A]: <how it cleared> to t1.status ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4/state/t1.actions
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough-triage t1 open-decision-5-run-1-1-A-1791982519 open-decision-stale owner-state=owner-unknown triage-owner=firstmate next: owner has no progress evidence: ask for status, or record a finite hold with bin/fm-action.sh hold; record bin/fm-action.sh start t1 triage-open-decision-5-run-1-1-A-1791982519-1791982539 then result t1 triage-open-decision-5-run-1-1-A-1791982519-1791982539 ok|refused --reason TEXT (ok is accepted only once the incident is gone)
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough-escalate t1 open-decision-5-run-1-1-A-1791982519 open-decision-stale owner-state=owner-unknown triage=open: authority decision needed - owner has no progress evidence: ask for status, or record a finite hold with bin/fm-action.sh hold, or stop the task; unresolved since 1791982539
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough t1 open-decision-5-run-1-1-B-1791982534 open-decision-stale owner=t1 operation=blocked record key=B opened 1791982534 was never closed; the owner appends: resolved [at=<epoch>] [key=B]: <how it cleared> to t1.status ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4/state/t1.actions
+[exit=0]
+
+$ fm-watch.sh 
+check: rearm-resurface
+[exit=0]
+
+$ fm-action.sh register t1
+t1	t1	executing	1791982539	task-record	1791986139	ok	status=working source=task-record open-decision=blocked:A open-decision=blocked:B STALE-OPEN-BLOCKER
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough t1 open-decision-5-run-2-1-A-1791982524 open-decision-stale owner=t1 operation=blocked record key=A opened 1791982524 was never closed; the owner appends: resolved [at=<epoch>] [key=A]: <how it cleared> to t1.status ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4/state/t1.actions
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough-triage t1 open-decision-5-run-2-1-A-1791982524 open-decision-stale owner-state=owner-unknown triage-owner=firstmate next: owner has no progress evidence: ask for status, or record a finite hold with bin/fm-action.sh hold; record bin/fm-action.sh start t1 triage-open-decision-5-run-2-1-A-1791982524-1791982544 then result t1 triage-open-decision-5-run-2-1-A-1791982524-1791982544 ok|refused --reason TEXT (ok is accepted only once the incident is gone)
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough-escalate t1 open-decision-5-run-2-1-A-1791982524 open-decision-stale owner-state=owner-unknown triage=open: authority decision needed - owner has no progress evidence: ask for status, or record a finite hold with bin/fm-action.sh hold, or stop the task; unresolved since 1791982544
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough t1 open-decision-5-run-2-1-B-1791982539 open-decision-stale owner=t1 operation=blocked record key=B opened 1791982539 was never closed; the owner appends: resolved [at=<epoch>] [key=B]: <how it cleared> to t1.status ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4/state/t1.actions
+[exit=0]
+
+$ fm-watch.sh 
+check: rearm-resurface
+[exit=0]
+
+$ fm-action.sh register t1
+t1	t1	executing	1791982545	status	1791986145	ok	status=resolved source=status open-decision=blocked:B STALE-OPEN-BLOCKER
+[exit=0]
+
+$ fm-action.sh register t1
+t1	declared-wait	declared-wait	1791982544	task-record	1791986144	ok	status=resolved source=task-record
+[exit=0]
+
+$ fm-action.sh register t1
+t1	declared-wait	declared-wait	1791982544	task-record	1791986144	ok	status=resolved source=task-record
+[exit=0]
+
+$ fm-action.sh register acheckpoint
+acheckpoint	acheckpoint	executing	1791977549	task-record	1791981149	MISSED	status=working source=task-record
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough acheckpoint checkpoint-4-cp-1-0--1791977549 checkpoint-missed owner=acheckpoint operation=no progress since 1791977549 (status=working source=task-record) ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4/state/acheckpoint.actions
+[exit=0]
+
+$ fm-action.sh progress acheckpoint --reason inspected generated product output
+[exit=0]
+
+$ fm-action.sh register acheckpoint
+acheckpoint	acheckpoint	executing	1791982550	supervisor:inspected generated product output	1791986150	ok	status=working source=supervisor:inspected generated product output
+[exit=0]
+
+$ fm-watch.sh 
+check: rearm-resurface
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough acheckpoint checkpoint-4-cp-2-0--1791977549 checkpoint-missed owner=acheckpoint operation=no progress since 1791977549 (status=working source=task-record) ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4/state/acheckpoint.actions
+[exit=0]
+
+$ fm-action.sh admit t1 --id validation-return --class authorized --owner worker --source owner:validation --operation no-mistakes axi respond --at 1791982051
+[exit=0]
+
+$ fm-action.sh start t1 validation-return --at 1791982101
+[exit=0]
+
+$ fm-action.sh result t1 validation-return ok --at 1791982151
+[exit=0]
+
+$ fm-action.sh incidents t1
+validation-return	authorized	resulted	result-unconsumed	500	worker	1791982351	no-mistakes axi respond
+[exit=0]
+
+$ fm-action.sh consume t1 validation-return --reason read returned decision
+[exit=0]
+
+$ fm-action.sh incidents t1
+[exit=0]
+
+$ fm-action.sh admit t1 --id early-1 --class authorized --owner worker --source captain:lab --operation image --at 1791982151
+[exit=0]
+
+$ fm-action.sh admit t1 --id early-2 --class authorized --owner worker --source captain:lab --operation image --at 1791982151
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough t1 early-1 unacked-unstarted owner=worker operation=image ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4/state/t1.actions
+[exit=0]
+
+$ fm-action.sh register
+observer	watcher	observer	0	check-cadence	360	MISSED	check-age=1791982552s beat-age=1s beat=ok acceptance=clean misses=0 beat-gaps=0
+acheckpoint	declared-wait	declared-wait	1791982549	status	1791986149	ok	status=paused source=status
+t1	firstmate	waiting-firstmate	1791982551	status	1791986151	ok	status=done source=status
+[exit=0]
+
+$ fm-watch.sh 
+check: action-followthrough t1 early-2 unacked-unstarted owner=worker operation=image ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4X53Y2WBRAF5MX3S25PA6KS/.test-tmp/lab-wvef55i4/state/t1.actions
+[exit=0]
+
+$ fm-action.sh register
+observer	watcher	observer	0	check-cadence	360	MISSED	check-age=1791982552s beat-age=0s beat=ok acceptance=clean misses=0 beat-gaps=0
+acheckpoint	declared-wait	declared-wait	1791982549	status	1791986149	ok	status=paused source=status
+t1	firstmate	waiting-firstmate	1791982551	status	1791986151	ok	status=done source=status
+[exit=0]
+
+RESULTS
+[
+  {
+    "name": "Unrelated work and acknowledgement do not certify a steer; explicit start clears its deadline",
+    "result": "pass"
+  },
+  {
+    "name": "Finite holds expire, blanket grants refuse, and pending decisions stay visible",
+    "result": "pass"
+  },
+  {
+    "name": "Escalated A cannot suppress new B, with A open or resolved before polling; unchanged B deduplicates",
+    "result": "pass"
+  },
+  {
+    "name": "Configured persistent wait survives unrelated resolution without a missed checkpoint",
+    "result": "pass"
+  },
+  {
+    "name": "Missed checkpoint reports current generation; inspected progress clears it and a new generation reports independently",
+    "result": "pass"
+  },
+  {
+    "name": "A returned validation result stays overdue until its owner consumes it",
+    "result": "pass"
+  },
+  {
+    "name": "Successive notification exits refresh and record the watcher beacon",
+    "result": "pass"
+  }
+]
