@@ -1,0 +1,258 @@
+$ bash bin/fm-lab-home.sh create /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home
+/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home
+[exit 0]
+
+$ bash bin/fm-action.sh admit proof --id queued --class authorized --owner worker --operation prepare independent work --at 100 --source captain:one-runner:2026-10-14
+[exit 0]
+
+$ bash bin/fm-action.sh incidents proof --now 401
+queued	authorized	queued	unacked-unstarted	301	worker	400	prepare independent work
+[exit 0]
+
+$ bash bin/fm-action.sh ack proof queued --at 120
+[exit 0]
+
+$ bash bin/fm-action.sh incidents proof --now 401
+queued	authorized	acked	acked-unexecuted	301	worker	400	prepare independent work
+[exit 0]
+
+$ bash bin/fm-action.sh hold proof queued --kind resource-wait --until 500 --reason runner offline --at 130
+[exit 0]
+
+$ bash bin/fm-action.sh incidents proof --now 499
+[exit 0]
+
+$ bash bin/fm-action.sh incidents proof --now 501
+queued	authorized	acked	acked-unexecuted	401	worker	400	prepare independent work
+[exit 0]
+
+$ bash bin/fm-action.sh start proof queued --at 502
+[exit 0]
+
+$ bash bin/fm-action.sh incidents proof --now 90000
+[exit 0]
+
+$ bash bin/fm-action.sh admit proof --id counted --class authorized --owner worker --operation prepare independent work --at 100 --source captain:one-runner:2026-10-14 --units 1
+[exit 0]
+
+$ bash bin/fm-action.sh start proof counted --units 4 --at 110
+[exit 0]
+
+$ bash bin/fm-action.sh incidents proof --now 120
+counted	authorized	started	over-grant	20	worker	400	prepare independent work
+[exit 0]
+
+$ bash bin/fm-action.sh admit proof --id blanket --class authorized --owner worker --operation run --source yolo
+error: --source must name the exact grant, not a generic permission word
+[exit 1]
+
+$ bash bin/fm-action.sh admit proof --id human-decision --class human-decision --owner worker --operation approve export? --at 100 --ready-with independent --due 200
+[exit 0]
+
+$ bash bin/fm-action.sh result proof human-decision failed --reason query unavailable --at 150
+[exit 0]
+
+$ bash bin/fm-action.sh show proof --now 401
+queued	authorized	started	none	301	worker	400	prepare independent work
+counted	authorized	started	over-grant	301	worker	400	prepare independent work
+human-decision	human-decision	gated	gate-overdue	301	worker	200	approve export?
+[exit 0]
+
+$ bash bin/fm-action.sh result proof human-decision refused --reason query unavailable --at 150
+[exit 0]
+
+$ bash bin/fm-action.sh show proof --now 401
+queued	authorized	started	none	301	worker	400	prepare independent work
+counted	authorized	started	over-grant	301	worker	400	prepare independent work
+human-decision	human-decision	gated	gate-overdue	301	worker	200	approve export?
+[exit 0]
+
+$ bash bin/fm-action.sh result proof human-decision ok --reason query unavailable --at 150
+[exit 0]
+
+$ bash bin/fm-action.sh show proof --now 401
+queued	authorized	started	none	301	worker	400	prepare independent work
+counted	authorized	started	over-grant	301	worker	400	prepare independent work
+human-decision	human-decision	gated	gate-overdue	301	worker	200	approve export?
+[exit 0]
+
+$ bash bin/fm-action.sh result proof human-decision answered --at 402
+[exit 0]
+
+$ bash bin/fm-action.sh admit proof --id external-gate --class external-gate --owner worker --operation approve export? --at 100 --ready-with independent --due 200
+[exit 0]
+
+$ bash bin/fm-action.sh result proof external-gate failed --reason query unavailable --at 150
+[exit 0]
+
+$ bash bin/fm-action.sh show proof --now 401
+queued	authorized	started	none	301	worker	400	prepare independent work
+counted	authorized	started	over-grant	301	worker	400	prepare independent work
+human-decision	human-decision	answered	none	301	worker	200	approve export?
+external-gate	external-gate	gated	gate-overdue	301	worker	200	approve export?
+[exit 0]
+
+$ bash bin/fm-action.sh result proof external-gate refused --reason query unavailable --at 150
+[exit 0]
+
+$ bash bin/fm-action.sh show proof --now 401
+queued	authorized	started	none	301	worker	400	prepare independent work
+counted	authorized	started	over-grant	301	worker	400	prepare independent work
+human-decision	human-decision	answered	none	301	worker	200	approve export?
+external-gate	external-gate	gated	gate-overdue	301	worker	200	approve export?
+[exit 0]
+
+$ bash bin/fm-action.sh result proof external-gate ok --reason query unavailable --at 150
+[exit 0]
+
+$ bash bin/fm-action.sh show proof --now 401
+queued	authorized	started	none	301	worker	400	prepare independent work
+counted	authorized	started	over-grant	301	worker	400	prepare independent work
+human-decision	human-decision	answered	none	301	worker	200	approve export?
+external-gate	external-gate	gated	gate-overdue	301	worker	200	approve export?
+[exit 0]
+
+$ bash bin/fm-action.sh result proof external-gate answered --at 402
+[exit 0]
+
+$ bash bin/fm-action.sh admit proof --id independent --class authorized --owner worker --operation prepare independent work --at 100 --source captain:one-runner:2026-10-14
+[exit 0]
+
+$ bash bin/fm-action.sh incidents proof --now 401
+counted	authorized	started	over-grant	301	worker	400	prepare independent work
+independent	authorized	queued	unacked-unstarted	301	worker	400	prepare independent work
+[exit 0]
+
+$ bash bin/fm-action.sh admit proof --id respond --class authorized --owner worker --operation no-mistakes axi respond --wait --at 100 --source captain:one-runner:2026-10-14
+[exit 0]
+
+$ bash bin/fm-action.sh start proof respond --at 101
+[exit 0]
+
+$ bash bin/fm-action.sh result proof respond ok --at 200
+[exit 0]
+
+$ bash bin/fm-action.sh incidents proof --now 501
+counted	authorized	started	over-grant	401	worker	400	prepare independent work
+independent	authorized	queued	unacked-unstarted	401	worker	400	prepare independent work
+respond	authorized	resulted	result-unconsumed	401	worker	400	no-mistakes axi respond --wait
+[exit 0]
+
+$ bash bin/fm-action.sh ack proof respond --at 502
+[exit 0]
+
+$ bash bin/fm-action.sh show proof --now 503
+queued	authorized	started	none	403	worker	400	prepare independent work
+counted	authorized	started	over-grant	403	worker	400	prepare independent work
+human-decision	human-decision	answered	none	403	worker	200	approve export?
+external-gate	external-gate	answered	none	403	worker	200	approve export?
+independent	authorized	queued	unacked-unstarted	403	worker	400	prepare independent work
+respond	authorized	resulted	result-unconsumed	403	worker	400	no-mistakes axi respond --wait
+[exit 0]
+
+$ bash bin/fm-action.sh consume proof respond --reason read and reported the returned gate --at 504
+[exit 0]
+
+$ bash bin/fm-action.sh show proof --now 1000
+queued	authorized	started	none	900	worker	400	prepare independent work
+counted	authorized	started	over-grant	900	worker	400	prepare independent work
+human-decision	human-decision	answered	none	900	worker	200	approve export?
+external-gate	external-gate	answered	none	900	worker	200	approve export?
+independent	authorized	queued	unacked-unstarted	900	worker	400	prepare independent work
+respond	authorized	resulted	none	900	worker	400	no-mistakes axi respond --wait
+[exit 0]
+
+$ bash bin/fm-action.sh admit proof --id run --class authorized --owner worker --operation no-mistakes axi run --wait --at 100 --source captain:one-runner:2026-10-14
+[exit 0]
+
+$ bash bin/fm-action.sh start proof run --at 101
+[exit 0]
+
+$ bash bin/fm-action.sh result proof run ok --at 200
+[exit 0]
+
+$ bash bin/fm-action.sh incidents proof --now 501
+counted	authorized	started	over-grant	401	worker	400	prepare independent work
+independent	authorized	queued	unacked-unstarted	401	worker	400	prepare independent work
+run	authorized	resulted	result-unconsumed	401	worker	400	no-mistakes axi run --wait
+[exit 0]
+
+$ bash bin/fm-action.sh ack proof run --at 502
+[exit 0]
+
+$ bash bin/fm-action.sh show proof --now 503
+queued	authorized	started	none	403	worker	400	prepare independent work
+counted	authorized	started	over-grant	403	worker	400	prepare independent work
+human-decision	human-decision	answered	none	403	worker	200	approve export?
+external-gate	external-gate	answered	none	403	worker	200	approve export?
+independent	authorized	queued	unacked-unstarted	403	worker	400	prepare independent work
+respond	authorized	resulted	none	403	worker	400	no-mistakes axi respond --wait
+run	authorized	resulted	result-unconsumed	403	worker	400	no-mistakes axi run --wait
+[exit 0]
+
+$ bash bin/fm-action.sh consume proof run --reason read and reported the returned gate --at 504
+[exit 0]
+
+$ bash bin/fm-action.sh show proof --now 1000
+queued	authorized	started	none	900	worker	400	prepare independent work
+counted	authorized	started	over-grant	900	worker	400	prepare independent work
+human-decision	human-decision	answered	none	900	worker	200	approve export?
+external-gate	external-gate	answered	none	900	worker	200	approve export?
+independent	authorized	queued	unacked-unstarted	900	worker	400	prepare independent work
+respond	authorized	resulted	none	900	worker	400	no-mistakes axi respond --wait
+run	authorized	resulted	none	900	worker	400	no-mistakes axi run --wait
+[exit 0]
+
+$ bash bin/fm-action.sh probe receipt.json
+absent
+[exit 0]
+
+$ bash bin/fm-action.sh accept proof queued --evidence receipt.json
+error: acceptance evidence is not confirmed: absent
+[exit 1]
+
+$ bash bin/fm-action.sh probe missing/receipt.json
+absent
+[exit 0]
+
+$ bash bin/fm-action.sh accept proof queued --evidence missing/receipt.json
+error: acceptance evidence is not confirmed: absent
+[exit 1]
+
+$ bash bin/fm-action.sh probe /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home/locked/receipt
+unknown reason=permission-denied blocked=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home/locked fallback=ask the directory owner to run: stat /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home/locked/receipt
+[exit 0]
+
+$ bash bin/fm-send.sh steered --fire-and-forget 0123456789abcdef drain notifications
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the requested message WILL still be sent.
+●  repair missing watcher supervision with a foreground checkpoint: bin/fm-watch-checkpoint.sh --seconds 180.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+fm-send: doorbell did not reach fm-lab-proof:worker; the steer is durably recorded at /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home/state/steered.inbox/001.msg and the watcher will re-ring
+[exit 0]
+
+$ bash bin/fm-send.sh steered prepare independent work
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+fm-send: doorbell did not reach fm-lab-proof:worker; the steer is durably recorded at /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home/state/steered.inbox/002.msg and the watcher will re-ring
+[exit 0]
+
+$ bash -c source bin/fm-watch.sh; date() { printf "2000000000\n"; }; action_followthrough_check steered
+check: action-followthrough steered steer-002 acked-unexecuted owner=steered operation=[fm-from-firstmate]⁣corr=07ca069881f13885 prepare independent work ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home/state/steered.actions
+[exit 0]
+
+Persisted wake queue:
+2000000000	1	check	action-followthrough:/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home/state:steered:steer-002:acked-unexecuted	check: action-followthrough steered steer-002 acked-unexecuted owner=steered operation=[fm-from-firstmate]⁣corr=07ca069881f13885 prepare independent work ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/live-home/state/steered.actions
+
+$ bash -c source bin/fm-watch.sh; date() { printf "2000000000\n"; }; action_followthrough_check steered
+[exit 0]
+
+$ bash bin/fm-action.sh show steered --now 2000000000
+steer-002	authorized	acked	acked-unexecuted	208054195	steered	1791946105	[fm-from-firstmate]⁣corr=07ca069881f13885 prepare independent work
+[exit 0]
+
+ALL LIVE CLI ASSERTIONS PASSED

@@ -1,0 +1,2 @@
+ok - real teardown retires action artifacts and queue incidents without losing unrelated work
+ok - real teardown completes when parent-route state was removed with its home

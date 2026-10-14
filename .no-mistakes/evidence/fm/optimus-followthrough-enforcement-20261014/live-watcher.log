@@ -1,0 +1,23 @@
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+fm-send: doorbell not typed because the agent in primary:fm-t1 has exited; the steer is durably recorded at /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.inbox/002.msg for recovery (stuck-crewmate-recovery), and the watcher will not re-ring a dead pane
+
+Handled nudge, incidents at +301 seconds:
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+fm-send: doorbell not typed because the agent in primary:fm-t1 has exited; the steer is durably recorded at /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.inbox/003.msg for recovery (stuck-crewmate-recovery), and the watcher will not re-ring a dead pane
+
+Watcher reports unstarted real steer:
+check: action-followthrough t1 steer-003 unacked-unstarted owner=t1 operation=prepare independent image ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.actions
+
+Persisted durable wake queue:
+1791946351	1	check	action-followthrough:/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state:t1:steer-003:unacked-unstarted	check: action-followthrough t1 steer-003 unacked-unstarted owner=t1 operation=prepare independent image ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.actions
+
+Second poll deduplicates:
+
+Acknowledgement still requires execution:
+check: action-followthrough t1 steer-003 acked-unexecuted owner=t1 operation=prepare independent image ledger=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.actions
+
+Native start clears incident and keeps a long run quiet:
+steer-001	authorized	accepted	none	10124	t1	1791946527	exit
+steer-003	authorized	started	none	10001	t1	1791946350	prepare independent image

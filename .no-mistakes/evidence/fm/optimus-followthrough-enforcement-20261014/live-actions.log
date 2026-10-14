@@ -1,0 +1,194 @@
+$ fm-action.sh admit timing --id ready --class authorized --owner worker --operation prepare image --at 100 --source captain:one-runner
+exit=0
+$ fm-action.sh incidents timing --now 399
+exit=0
+$ fm-action.sh incidents timing --now 401
+ready	authorized	queued	unacked-unstarted	301	worker	400	prepare image
+exit=0
+$ fm-action.sh ack timing ready --at 402
+exit=0
+$ fm-action.sh incidents timing --now 403
+ready	authorized	acked	acked-unexecuted	303	worker	400	prepare image
+exit=0
+$ fm-action.sh hold timing ready --kind resource-wait --until 900 --reason runner offline --at 404
+exit=0
+$ fm-action.sh incidents timing --now 899
+exit=0
+$ fm-action.sh incidents timing --now 901
+ready	authorized	acked	acked-unexecuted	801	worker	400	prepare image
+exit=0
+$ fm-action.sh start timing ready --at 902
+exit=0
+$ fm-action.sh incidents timing --now 10000
+exit=0
+$ fm-action.sh admit timing --id refusal --class authorized --owner worker --operation prepare image --at 100 --source captain:one-runner
+exit=0
+$ fm-action.sh result timing refusal refused --reason runner unreachable --at 110
+exit=0
+$ fm-action.sh incidents timing --now 10000
+exit=0
+$ fm-action.sh hold timing ready --kind resource-wait --reason no deadline
+error: a hold needs a finite --until deadline (epoch seconds)
+exit=1
+$ fm-action.sh admit human-decision --id gate --class human-decision --owner worker --operation approve export? --at 100 --ready-with ready --due 500
+exit=0
+$ fm-action.sh admit human-decision --id ready --class authorized --owner worker --operation prepare image --at 100 --source captain:one-runner
+exit=0
+$ fm-action.sh incidents human-decision --now 401
+ready	authorized	queued	unacked-unstarted	301	worker	400	prepare image
+exit=0
+$ fm-action.sh result human-decision gate ok --reason query unavailable --at 450
+exit=0
+$ fm-action.sh incidents human-decision --now 501
+gate	human-decision	gated	gate-overdue	401	worker	500	approve export?
+ready	authorized	queued	unacked-unstarted	401	worker	400	prepare image
+exit=0
+$ fm-action.sh result human-decision gate failed --reason query unavailable --at 450
+exit=0
+$ fm-action.sh incidents human-decision --now 501
+gate	human-decision	gated	gate-overdue	401	worker	500	approve export?
+ready	authorized	queued	unacked-unstarted	401	worker	400	prepare image
+exit=0
+$ fm-action.sh result human-decision gate refused --reason query unavailable --at 450
+exit=0
+$ fm-action.sh incidents human-decision --now 501
+gate	human-decision	gated	gate-overdue	401	worker	500	approve export?
+ready	authorized	queued	unacked-unstarted	401	worker	400	prepare image
+exit=0
+$ fm-action.sh result human-decision gate answered --at 502
+exit=0
+$ fm-action.sh start human-decision ready --at 503
+exit=0
+$ fm-action.sh incidents human-decision --now 504
+exit=0
+$ fm-action.sh admit external-gate --id gate --class external-gate --owner worker --operation approve export? --at 100 --ready-with ready --due 500
+exit=0
+$ fm-action.sh admit external-gate --id ready --class authorized --owner worker --operation prepare image --at 100 --source captain:one-runner
+exit=0
+$ fm-action.sh incidents external-gate --now 401
+ready	authorized	queued	unacked-unstarted	301	worker	400	prepare image
+exit=0
+$ fm-action.sh result external-gate gate ok --reason query unavailable --at 450
+exit=0
+$ fm-action.sh incidents external-gate --now 501
+gate	external-gate	gated	gate-overdue	401	worker	500	approve export?
+ready	authorized	queued	unacked-unstarted	401	worker	400	prepare image
+exit=0
+$ fm-action.sh result external-gate gate failed --reason query unavailable --at 450
+exit=0
+$ fm-action.sh incidents external-gate --now 501
+gate	external-gate	gated	gate-overdue	401	worker	500	approve export?
+ready	authorized	queued	unacked-unstarted	401	worker	400	prepare image
+exit=0
+$ fm-action.sh result external-gate gate refused --reason query unavailable --at 450
+exit=0
+$ fm-action.sh incidents external-gate --now 501
+gate	external-gate	gated	gate-overdue	401	worker	500	approve export?
+ready	authorized	queued	unacked-unstarted	401	worker	400	prepare image
+exit=0
+$ fm-action.sh result external-gate gate answered --at 502
+exit=0
+$ fm-action.sh start external-gate ready --at 503
+exit=0
+$ fm-action.sh incidents external-gate --now 504
+exit=0
+$ fm-action.sh admit grant --id generic --class authorized --owner worker --operation runner --source yolo
+error: --source must name the exact grant, not a generic permission word
+exit=1
+$ fm-action.sh admit grant --id one --class authorized --owner worker --operation prepare image --at 100 --source captain:one-runner --units 1
+exit=0
+$ fm-action.sh start grant one --units 1 --at 101
+exit=0
+$ fm-action.sh incidents grant --now 102
+exit=0
+$ fm-action.sh start grant one --units 3 --at 103
+exit=0
+$ fm-action.sh incidents grant --now 104
+one	authorized	started	over-grant	4	worker	400	prepare image
+exit=0
+$ fm-action.sh admit returns --id respond --class authorized --owner worker --operation no-mistakes axi respond --wait --at 100 --source captain:one-runner
+exit=0
+$ fm-action.sh start returns respond --at 101
+exit=0
+$ fm-action.sh incidents returns --now 10000
+exit=0
+$ fm-action.sh result returns respond ok --at 10000
+exit=0
+$ fm-action.sh incidents returns --now 10299
+exit=0
+$ fm-action.sh ack returns respond --at 10300
+exit=0
+$ fm-action.sh incidents returns --now 10301
+respond	authorized	resulted	result-unconsumed	10201	worker	400	no-mistakes axi respond --wait
+exit=0
+$ fm-action.sh consume returns respond --reason read and reported returned gate --at 10302
+exit=0
+$ fm-action.sh incidents returns --now 20000
+exit=0
+$ fm-action.sh admit returns --id run --class authorized --owner worker --operation no-mistakes axi run --wait --at 100 --source captain:one-runner
+exit=0
+$ fm-action.sh start returns run --at 101
+exit=0
+$ fm-action.sh incidents returns --now 10000
+exit=0
+$ fm-action.sh result returns run ok --at 10000
+exit=0
+$ fm-action.sh incidents returns --now 10299
+exit=0
+$ fm-action.sh ack returns run --at 10300
+exit=0
+$ fm-action.sh incidents returns --now 10301
+run	authorized	resulted	result-unconsumed	10201	worker	400	no-mistakes axi run --wait
+exit=0
+$ fm-action.sh consume returns run --reason read and reported returned gate --at 10302
+exit=0
+$ fm-action.sh incidents returns --now 20000
+exit=0
+$ fm-action.sh probe receipt.json
+absent
+exit=0
+$ fm-action.sh accept timing ready --evidence receipt.json
+error: acceptance evidence is not confirmed: absent
+exit=1
+$ fm-action.sh probe missing/receipt.json
+absent
+exit=0
+$ fm-action.sh accept timing ready --evidence missing/receipt.json
+error: acceptance evidence is not confirmed: absent
+exit=1
+$ fm-action.sh probe /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/locked/receipt
+unknown reason=permission-denied blocked=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/locked fallback=ask the directory owner to run: stat /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/locked/receipt
+exit=0
+$ fm-action.sh accept timing ready --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/locked/receipt
+error: acceptance evidence is not confirmed: unknown reason=permission-denied blocked=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/locked fallback=ask the directory owner to run: stat /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/locked/receipt
+exit=1
+$ fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.action-receipts/steer-001
+error: acceptance evidence is unknown: native identity or successful outcome not confirmed
+exit=1
+$ fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.action-receipts/steer-001
+error: acceptance evidence is unknown: native identity or successful outcome not confirmed
+exit=1
+$ fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.action-receipts/steer-001
+error: acceptance evidence is unknown: native identity or successful outcome not confirmed
+exit=1
+$ fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.action-receipts/steer-001
+error: acceptance evidence is unknown: native identity or successful outcome not confirmed
+exit=1
+$ fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.action-receipts/steer-001
+error: acceptance evidence is unknown: native identity or successful outcome not confirmed
+exit=1
+$ fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.action-receipts/steer-001
+error: acceptance evidence is unknown: native identity or successful outcome not confirmed
+exit=1
+$ fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.action-receipts/steer-001
+error: acceptance evidence is unknown: native identity or successful outcome not confirmed
+exit=1
+$ fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.action-receipts/steer-001
+error: acceptance evidence is unknown: native identity or successful outcome not confirmed
+exit=1
+$ fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.action-receipts/steer-001
+exit=0
+$ fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.action-receipts/steer-001
+error: acceptance evidence is unknown: native identity or successful outcome not confirmed
+exit=1
+All direct CLI assertions completed.

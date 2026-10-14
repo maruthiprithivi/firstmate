@@ -1,0 +1,16 @@
+ok - ready-but-unstarted becomes an incident only past the start bound
+ok - handled-but-unexecuted stays an incident after acknowledgement
+ok - native start and concrete refusal satisfy the bound; a healthy long run is quiet
+ok - legitimate holds suppress only until their finite deadline
+ok - a blocked action stays visible and never freezes independent ready work
+ok - no blanket grant can admit an action and counted grants cannot be exceeded
+ok - incident detection never records, closes, or answers anything
+ok - the documented follow-through loop clears incidents only through start, result and acceptance
+ok - inaccessible evidence is unknown with a fallback and never counts as absence or success
+ok - both gate classes stay pending until explicitly answered
+ok - relative probes and acceptance terminate on missing paths
+ok - real send and watcher poll enforce follow-through with durable dedup and wait controls
+ok - native control receipts require exact current identity and successful evidence
+ok - handled fire-and-forget nudges are excluded while real steers remain enforced
+ok - native control completion survives worker commits while acceptance checks freshness
+ok - respond and background drive returns require consumption within the finite bound

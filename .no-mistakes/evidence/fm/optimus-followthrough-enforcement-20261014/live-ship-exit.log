@@ -1,0 +1,9 @@
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+fm-send: doorbell not typed because the agent in primary:fm-t1 has exited; the steer is durably recorded at /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS/state/t1.inbox/004.msg for recovery (stuck-crewmate-recovery), and the watcher will not re-ring a dead pane
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/fm-lab.O5WGBS
+already-stopped t1 harness=claude backend=tmux endpoint=primary:fm-t1 worktree=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73
+steer-001	authorized	accepted	none	262	t1	1791946527	exit
+steer-003	authorized	started	none	139	t1	1791946350	prepare independent image
+steer-004	authorized	accepted	none	0	t1	1791946789	exit

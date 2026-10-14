@@ -1,0 +1,82 @@
+$ bash bin/fm-lab-home.sh create /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c
+/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c
+[exit 0]
+
+$ tmux -S /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/s new-session -d -s fm-lab-actions -n fm-t1 bash
+[exit 0]
+
+$ git init -q /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c/project
+[exit 0]
+
+$ git -C /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c/project -c user.name=lab -c user.email=lab@example.invalid commit --allow-empty -qm initial
+[exit 0]
+
+$ bash bin/fm-send.sh t1 exit
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the requested message WILL still be sent.
+●  repair missing watcher supervision with a foreground checkpoint: bin/fm-watch-checkpoint.sh --seconds 180.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+fm-send: doorbell not typed because the agent in fm-lab-actions:fm-t1 has exited; the steer is durably recorded at /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c/state/t1.inbox/001.msg for recovery (stuck-crewmate-recovery), and the watcher will not re-ring a dead pane
+[exit 0]
+
+$ tmux -S /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/s send-keys -t fm-lab-actions:fm-t1 C-c
+[exit 0]
+
+$ bash bin/fm-control.sh t1 exit
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c
+already-stopped t1 harness=claude backend=tmux endpoint=fm-lab-actions:fm-t1 worktree=/home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c/project
+[exit 0]
+
+Native receipt:
+v2	t1	steer-001	8395d27b9395e6344f944e2266fc82c6e2ad16ed	live-1	001.msg	ok	1791945917	live-1
+
+$ bash bin/fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c/state/t1.action-receipts/steer-001
+[exit 0]
+
+$ bash bin/fm-action.sh show t1
+steer-001	authorized	accepted	none	0	t1	1791946217	exit
+[exit 0]
+
+$ bash bin/fm-action.sh accept t1 steer-001 --evidence /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c/state/t1.action-receipts/steer-001
+error: acceptance evidence is unknown: native identity or successful outcome not confirmed
+[exit 1]
+
+$ bash bin/fm-send.sh t1 exit
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+fm-send: doorbell not typed because the agent in fm-lab-actions:fm-t1 has exited; the steer is durably recorded at /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c/state/t1.inbox/002.msg for recovery (stuck-crewmate-recovery), and the watcher will not re-ring a dead pane
+[exit 0]
+
+$ tmux -S /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/s send-keys -t fm-lab-actions:fm-t1 C-c
+[exit 0]
+
+$ bash bin/fm-control.sh t1 exit
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c
+error: native action does not match its admitted identity and operation
+[exit 1]
+
+$ bash bin/fm-action.sh show t1
+steer-001	authorized	accepted	none	2	t1	1791946217	exit
+steer-002	authorized	queued	none	1	t1	1791946218	[fm-from-firstmate]⁣corr=b7079f8031307935 exit
+[exit 0]
+
+SECOND MATE LIFECYCLE CONTROL EXIT=1
+
+$ tmux -S /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/s new-window -t fm-lab-actions -n fm-retire bash
+[exit 0]
+
+$ bash bin/fm-action.sh admit retire --id pending --class authorized --owner worker --operation prepare --source captain:retirement --at 100
+[exit 0]
+
+$ bash bin/fm-teardown.sh retire
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/c
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+REFUSED: unsafe secondmate home removal target /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/retire-home is inside the firstmate repo
+[exit 1]
+
+$ tmux -S /home/maruthiprithivi/.no-mistakes/worktrees/8399b40bce3d/01M4VZER7TSR95QQPA3ANRWA73/.test-tmp/s kill-server
+[exit 0]
