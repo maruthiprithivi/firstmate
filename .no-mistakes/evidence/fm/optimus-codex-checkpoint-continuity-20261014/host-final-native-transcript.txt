@@ -1,0 +1,35 @@
+› Run the same isolated host command again with a longer outer allowance so its real engine can resume the q…
+  no confirmation that the queued event was processed.
+
+  Worked for 2m 9s • 12:58
+
+
+› One final isolated Test command. Run the same host-lab command again, with
+  FM_SUPERVISION_HOST_PARK_SECONDS=120, FM_SUPERVISION_HOST_PARK_LIMIT=360,
+  FM_SUPERVISION_HOST_TURN_TIMEOUT=150, and the other previously supplied variables unchanged. Execute only
+  that bounded host command, report its result, and do nothing else.
+
+
+• Captain, I’ll run the bounded host command with the park duration set to 120 seconds and report its result.
+
+✔ You approved codex to run FM_HOME=/home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4...
+  this time
+
+◦ Running FM_HOME=/home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/host-lab FM_SUPERVIS…
+    + Show details
+
+• Captain, the command is still running and has produced no output.
+
+• Ran FM_HOME=/home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/host-lab FM_SUPERVISION_…
+  └ signal: mixed-lab-status
+    check: mixed-lab-scheduled
+    + Show details
+
+◦ Working (1m 58s • esc to interrupt)
+  └ Tip: Visit the Codex community forum (https://community.openai.com/c/codex/37).
+
+
+› Ask Codex to do anything
+
+  GPT-6.1-Sol low · ~/.no-mistakes/worktrees/8399b40bce3d/01M4X6NYTWKN7YV62FD9C3RE4E · Run worker checkpoint
+  ? for shortcuts                                                                   ⚠ 3 warnings · f2 to view

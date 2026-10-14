@@ -1,0 +1,13 @@
+1791982397	stand-down	this session does not own supervision
+1791982444	start	gen=host-2744250-1791982444	primary=codex
+1791982498	handled	turn=host-2744250-1791982444.1	posture=away	rc=0	reports=1	error=0 cost=0.091432 conversation_cost=0.091432 input=12 cache_read=76422 cache_write=17774 output=1267 turns=6	signal: /home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/host-lab/state/demo.status
+1791982501	boundary	after 57s
+1791982577	start	gen=host-3280003-1791982577	primary=codex
+1791982588	handled	turn=host-3280003-1791982577.1	posture=away	rc=0	reports=1	error=0 cost=0.018483 conversation_cost=0.109915 input=6 cache_read=55550 cache_write=1684 output=618 turns=3	check: rearm-resurface
+1791982665	handled	turn=host-3280003-1791982577.2	posture=away	rc=0	reports=1	error=0 cost=0.018999 conversation_cost=0.128914 input=6 cache_read=60592 cache_write=1682 output=620 turns=3	signal: /home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/host-lab/state/demo.status
+1791982675	handled	turn=host-3280003-1791982577.3	posture=away	rc=0	reports=1	error=0 cost=0.020082 conversation_cost=0.148996 input=6 cache_read=65698 cache_write=1750 output=650 turns=3	check: /home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/host-lab/state/cadence.check.sh: host-lab-event-heartbeat-batch
+1791982675	boundary	after 98s
+1791982887	start	gen=host-4119264-1791982886	primary=codex
+1791982898	handled	turn=host-4119264-1791982886.1	posture=away	rc=0	reports=1	error=0 cost=0.02039 conversation_cost=0.169386 input=6 cache_read=70841 cache_write=1701 output=649 turns=3	check: rearm-resurface
+1791982912	handled	turn=host-4119264-1791982886.2	posture=away	rc=0	reports=1	error=0 cost=0.029348 conversation_cost=0.198734 input=8 cache_read=102500 cache_write=2243 output=1011 turns=4	signal: /home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/host-lab/state/demo.status
+1791982994	pass-through	attended	no verified dialog mirror for codex	signal: mixed-lab-status

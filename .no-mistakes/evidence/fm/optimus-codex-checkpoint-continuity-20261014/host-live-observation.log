@@ -1,0 +1,19 @@
+Real host launched by native Codex primary; engine=installed Claude sonnet; isolated away lab.
+Killed watcher 2990316 during real engine turn; replacement watcher=3007974.
+Host log after first real turn:
+1791982397	stand-down	this session does not own supervision
+1791982444	start	gen=host-2744250-1791982444	primary=codex
+1791982498	handled	turn=host-2744250-1791982444.1	posture=away	rc=0	reports=1	error=0 cost=0.091432 conversation_cost=0.091432 input=12 cache_read=76422 cache_write=17774 output=1267 turns=6	signal: /home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/host-lab/state/demo.status
+
+Completed real engine turn after 19s; additional registered sweeps during turn=14.
+PASS: successor-only readiness was consumed without a second engine turn; scheduled sweeps continued during actual provider execution.
+Host log after resumed real turn:
+1791982397	stand-down	this session does not own supervision
+1791982444	start	gen=host-2744250-1791982444	primary=codex
+1791982498	handled	turn=host-2744250-1791982444.1	posture=away	rc=0	reports=1	error=0 cost=0.091432 conversation_cost=0.091432 input=12 cache_read=76422 cache_write=17774 output=1267 turns=6	signal: /home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/host-lab/state/demo.status
+1791982501	boundary	after 57s
+1791982577	start	gen=host-3280003-1791982577	primary=codex
+1791982588	handled	turn=host-3280003-1791982577.1	posture=away	rc=0	reports=1	error=0 cost=0.018483 conversation_cost=0.109915 input=6 cache_read=55550 cache_write=1684 output=618 turns=3	check: rearm-resurface
+
+PASS: a subsequent real event is handled in the resumed engine conversation.
+ALL REAL HOST SCENARIOS PASSED

@@ -1,0 +1,16 @@
+1791982993	13	signal	demo.status	signal: mixed-lab-status
+1791982993	14	check	mixed-lab-check	check: mixed-lab-scheduled
+WAKE_ACK_REQUIRED: after handling completes run bin/fm-wake-drain.sh --ack-through 14 --recovery-generation 445505.1791982993.f1yf0l
+BRANCH OUTCOMES, ROUTINE (handled by the supervision session since your last drain; for your awareness, nothing to acknowledge):
+[seq 1] demo: Lab task 'demo' reported its observation finished with no further work required. No PR, no worktree left; I took no action, in keeping with your away words (monitor only, change nothing).
+[seq 2] demo: Lab task 'demo' posted a second 'observation finished, no further work required' note. Still no PR or worktree; I took no action, in keeping with your away words (monitor only, change nothing).
+[seq 3] demo: Lab task 'demo' posted a third 'observation finished, nothing further needed' note. Still no PR or worktree; I took no action, in keeping with your away words (monitor only, change nothing).
+[seq 5] demo: Lab task 'demo' posted further 'observation finished, nothing further needed' notes (a repeat of the third, then a fourth). Still no PR or worktree; I took no action, in keeping with your away words (monitor only, change nothing).
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no live watcher process holds this home lock (last beat: 3s ago).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  After draining queued wakes, repair missing watcher supervision with a foreground checkpoint: bin/fm-watch-checkpoint.sh --seconds 180.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.

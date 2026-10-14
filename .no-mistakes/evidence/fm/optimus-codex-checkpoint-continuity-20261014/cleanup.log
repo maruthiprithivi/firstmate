@@ -1,0 +1,1 @@
+Stopped only the private fm-lab tmux server and known lab monitoring processes. Removed all three disposable homes and worktree test fixtures. No source changes.

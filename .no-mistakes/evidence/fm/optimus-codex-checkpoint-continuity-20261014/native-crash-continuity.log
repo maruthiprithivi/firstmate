@@ -1,0 +1,8 @@
+Killed real watcher 3617810 during quiet checkpoint; rc=124 elapsed=15.14s stdout=checkpoint: no actionable wake within 15s stderr= replacement=3623496
+PASS: successor-only recovery preserves the quiet checkpoint bound.
+Crash followed by successful actionable close 1: old=3653252 current=3837077
+Crash followed by successful actionable close 2: old=3837077 current=3861267
+Crash followed by successful actionable close 3: old=3861267 current=3888747
+Crash followed by successful actionable close 4: old=3888747 current=3914322
+PASS: four crashes separated by successful closes do not exhaust the consecutive-death limit.
+ALL NATIVE CONTINUITY SCENARIOS PASSED

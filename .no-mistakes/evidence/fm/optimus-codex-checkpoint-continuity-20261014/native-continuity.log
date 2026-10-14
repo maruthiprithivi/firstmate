@@ -1,0 +1,17 @@
+Real native Codex gpt-6.1-sol low primary PID 785645 holds the isolated lab session; native checkpoint returned 124.
+Historical failed completed-check gap: 414 seconds; required bound: 360 seconds; default check cadence: 300 seconds.
+First real registered sweep epoch=1791982262; checkpoint has returned; monitoring without another checkpoint.
+Next registered sweep epoch=1791982562; observed completed-check gap=300s; bound=360s
+PASS: scheduled check progressed at the default 300-second cadence between native checkpoints.
+checkpoint bound=3 cadence=1 elapsed=2.56s rc=124 stdout=checkpoint: no actionable wake within 3s stderr=
+Queued event 1: 1791982566	1	check	/home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/lab/state/cadence.check.sh	check: /home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/lab/state/cadence.check.sh: lab-event-1
+Queued event 2: 1791982569	2	check	/home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/lab/state/cadence.check.sh	check: /home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/lab/state/cadence.check.sh: lab-event-2
+Queued event 3: 1791982574	3	check	/home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/lab/state/cadence.check.sh	check: /home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/lab/state/cadence.check.sh: lab-event-3
+PASS: repeated actionable closes restart under the same continuing arm; each event queued once.
+checkpoint bound=3 cadence=1 elapsed=3.06s rc=124 stdout=checkpoint: no actionable wake within 3s stderr=
+Public drain output:
+1791982574	3	check	/home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/lab/state/cadence.check.sh	check: /home/maruthiprithivi/.no-mistakes/evidence/01M4X6NYTWKN7YV62FD9C3RE4E/lab/state/cadence.check.sh: lab-event-3
+WAKE_ACK_REQUIRED: after handling completes run bin/fm-wake-drain.sh --ack-through 3 --recovery-generation 3272936.1791982574.a9lxAW
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+
+Public acknowledgement rc=0 
