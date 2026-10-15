@@ -1,0 +1,10 @@
+Disposable backlog is a FIFO with no writer: real tasks-axi read blocks, no executable substitution.
+$ FM_BACKLOG_ROW_TIMEOUT_SECS=1 fm-tasks-axi.sh done obj
+fm-tasks-axi: obj cannot be closed because blocker verification failed: tasks-axi show obj exceeded its 1s backlog read bound
+
+exit: 2
+$ FM_BACKLOG_ROW_TIMEOUT_SECS=1 fm-tasks-axi.sh close obj
+fm-tasks-axi: obj cannot be closed because blocker verification failed: tasks-axi show obj exceeded its 1s backlog read bound
+
+exit: 2
+Both commands refused the real timed-out CLI read.

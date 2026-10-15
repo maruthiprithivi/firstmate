@@ -1,0 +1,226 @@
+$ fm-tasks-axi.sh add parent objective
+ok: added parent -> Queued
+task:
+  id: parent
+  title: objective
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start parent` to move it to in flight
+  - Run `tasks-axi block parent --by <other>` to record a dependency
+exit: 0
+$ fm-tasks-axi.sh add child implementation
+ok: added child -> Queued
+task:
+  id: child
+  title: implementation
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start child` to move it to in flight
+  - Run `tasks-axi block child --by <other>` to record a dependency
+exit: 0
+$ fm-tasks-axi.sh block parent --by child
+ok: block parent -> blocked-by child
+help[2]:
+  - Run `tasks-axi unblock parent --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+exit: 0
+Simulate a missing/unreadable child by deleting only its persisted row; retain the parent dependency verbatim.
+Persisted backlog before closure:
+## In flight
+
+## Queued
+- [ ] parent - objective blocked-by: child (since 2026-10-15)
+## Done
+
+$ fm-tasks-axi.sh show child
+error: "Task \"child\" not found in this backlog"
+code: NOT_FOUND
+help[1]: Run `tasks-axi list` to see existing tasks
+exit: 1
+$ fm-tasks-axi.sh show parent
+task:
+  id: parent
+  title: objective
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: "blocked-by:child"
+  links: none
+  body: ""
+exit: 0
+$ fm-tasks-axi.sh done parent
+ok: done parent -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+exit: 0
+EXPECTED: exit 2 and unchanged open parent. ACTUAL: exit 0
+$ fm-tasks-axi.sh show parent
+task:
+  id: parent
+  title: objective
+  state: done
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:child"
+  links: none
+  body: ""
+exit: 0
+$ fm-tasks-axi.sh add parent objective
+ok: added parent -> Queued
+task:
+  id: parent
+  title: objective
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start parent` to move it to in flight
+  - Run `tasks-axi block parent --by <other>` to record a dependency
+exit: 0
+$ fm-tasks-axi.sh add child implementation
+ok: added child -> Queued
+task:
+  id: child
+  title: implementation
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start child` to move it to in flight
+  - Run `tasks-axi block child --by <other>` to record a dependency
+exit: 0
+$ fm-tasks-axi.sh block parent --by child
+ok: block parent -> blocked-by child
+help[2]:
+  - Run `tasks-axi unblock parent --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+exit: 0
+Simulate a missing/unreadable child by deleting only its persisted row; retain the parent dependency verbatim.
+Persisted backlog before closure:
+## In flight
+
+## Queued
+- [ ] parent - objective blocked-by: child (since 2026-10-15)
+## Done
+
+$ fm-tasks-axi.sh show child
+error: "Task \"child\" not found in this backlog"
+code: NOT_FOUND
+help[1]: Run `tasks-axi list` to see existing tasks
+exit: 1
+$ fm-tasks-axi.sh show parent
+task:
+  id: parent
+  title: objective
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: "blocked-by:child"
+  links: none
+  body: ""
+exit: 0
+$ fm-tasks-axi.sh close parent
+ok: done parent -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+exit: 0
+EXPECTED: exit 2 and unchanged open parent. ACTUAL: exit 0
+$ fm-tasks-axi.sh show parent
+task:
+  id: parent
+  title: objective
+  state: done
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:child"
+  links: none
+  body: ""
+exit: 0

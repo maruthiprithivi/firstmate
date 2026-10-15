@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Open study and implementation children prevent done and close without changing the objective",
+    "result": "pass",
+    "live": true
+  },
+  {
+    "name": "Completing every child permits done and close",
+    "result": "pass",
+    "live": true
+  },
+  {
+    "name": "Explicit unblock permits closure while children remain open",
+    "result": "pass",
+    "live": true
+  },
+  {
+    "name": "A missing child remains blocking until explicitly unblocked",
+    "result": "pass",
+    "live": true
+  },
+  {
+    "name": "Unreadable objective refuses closure and preserves the read diagnostic",
+    "result": "pass",
+    "live": true
+  },
+  {
+    "name": "Relative FM_HOME from a different working directory addresses the same backlog",
+    "result": "pass",
+    "live": true
+  },
+  {
+    "name": "Closure command help flags pass through without mutation",
+    "result": "pass",
+    "live": true
+  },
+  {
+    "name": "Lifecycle backlog completion bypasses ordering blockers and Done backfill remains idempotent",
+    "result": "pass",
+    "live": true
+  }
+]

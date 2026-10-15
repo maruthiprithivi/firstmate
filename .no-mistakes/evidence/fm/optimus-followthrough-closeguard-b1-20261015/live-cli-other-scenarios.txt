@@ -1,0 +1,190 @@
+SCENARIO: both closure aliases reject an open implementation and preserve state
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh done obj
+fm-tasks-axi: obj still has open blockers, so it cannot be closed: impl
+exit: 2
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh close obj
+fm-tasks-axi: obj still has open blockers, so it cannot be closed: impl
+exit: 2
+SCENARIO: missing parent fails verification and retains real CLI diagnostic
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh done missing-objective
+fm-tasks-axi: missing-objective cannot be closed because blocker verification failed: error: "Task \"missing-objective\" not found in this backlog"
+code: NOT_FOUND
+help[1]: Run `tasks-axi list --file=/sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/.validation-tmp/manual/home/data/backlog.md` to see existing tasks
+exit: 2
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh close missing-objective
+fm-tasks-axi: missing-objective cannot be closed because blocker verification failed: error: "Task \"missing-objective\" not found in this backlog"
+code: NOT_FOUND
+help[1]: Run `tasks-axi list --file=/sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/.validation-tmp/manual/home/data/backlog.md` to see existing tasks
+exit: 2
+SCENARIO: explicit unblock permits closure while child is still open
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh unblock obj --by impl
+ok: unblock obj -> cleared impl
+help[1]:
+  - Run `tasks-axi ready` to see newly unblocked work
+exit: 0
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh close obj
+ok: done obj -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+exit: 0
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh show impl
+task:
+  id: impl
+  title: implementation
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+exit: 0
+SCENARIO: Done objective accepts repeated link backfill despite an open edge
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+exit: 0
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh done obj --pr https://github.com/example/project/pull/42
+ok: done obj already -> Done (pr https://github.com/example/project/pull/42)
+already: true
+task:
+  id: obj
+  title: "objective https://github.com/example/project/pull/42"
+  state: done
+  blocked: yes
+  blocked_by: impl
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:impl"
+  links: "pr:https://github.com/example/project/pull/42"
+  body: ""
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+exit: 0
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh done obj --pr https://github.com/example/project/pull/42
+ok: done obj already -> Done (pr https://github.com/example/project/pull/42)
+already: true
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+exit: 0
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: "objective https://github.com/example/project/pull/42"
+  state: done
+  blocked: yes
+  blocked_by: impl
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:impl"
+  links: "pr:https://github.com/example/project/pull/42"
+  body: ""
+exit: 0
+SCENARIO: lifecycle completion primitive closes landed work despite ordering blocker
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh add landed 'landed work'
+ok: added landed -> Queued
+task:
+  id: landed
+  title: landed work
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start landed` to move it to in flight
+  - Run `tasks-axi block landed --by <other>` to record a dependency
+exit: 0
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh block landed --by impl
+ok: block landed -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock landed --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+exit: 0
+$ bash -c '. "$1/bin/fm-tasks-axi-lib.sh"; . "$1/bin/fm-backlog-transition-lib.sh"; fm_backlog_done "$2/data" landed --note "landed lifecycle completion"' _ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3 /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/.validation-tmp/manual/home
+exit: 0
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh show landed
+task:
+  id: landed
+  title: landed work
+  state: done
+  blocked: yes
+  blocked_by: impl
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:impl"
+  links: none
+  body: landed lifecycle completion
+exit: 0
+$ /sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/bin/fm-tasks-axi.sh show impl
+task:
+  id: impl
+  title: implementation
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+exit: 0
+Persisted backlog:
+## In flight
+
+## Queued
+- [ ] impl - implementation (since 2026-10-15)
+## Done
+- [x] landed - landed work blocked-by: impl (done 2026-10-15)
+  landed lifecycle completion
+- [x] obj - objective https://github.com/example/project/pull/42 blocked-by: impl (merged 2026-10-15)
+
+All direct CLI scenarios passed.

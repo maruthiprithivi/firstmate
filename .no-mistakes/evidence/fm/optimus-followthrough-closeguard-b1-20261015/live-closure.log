@@ -1,0 +1,1452 @@
+
+SCENARIO: Open study and implementation children prevent done and close without changing the objective
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh done obj
+fm-tasks-axi: obj still has open blockers, so it cannot be closed: study impl
+[exit 2]
+$ fm-tasks-axi.sh done study
+ok: done study -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh done obj
+fm-tasks-axi: obj still has open blockers, so it cannot be closed: impl
+[exit 2]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: yes
+  blocked_by: impl
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear a blocker
+  - Run `tasks-axi start obj` to move it to in flight
+[exit 0]
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh close obj
+fm-tasks-axi: obj still has open blockers, so it cannot be closed: study impl
+[exit 2]
+$ fm-tasks-axi.sh done study
+ok: done study -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh close obj
+fm-tasks-axi: obj still has open blockers, so it cannot be closed: impl
+[exit 2]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: yes
+  blocked_by: impl
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear a blocker
+  - Run `tasks-axi start obj` to move it to in flight
+[exit 0]
+
+SCENARIO: Completing every child permits done and close
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh done study
+ok: done study -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh done impl
+ok: done impl -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh done obj
+ok: done obj -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: done
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: ""
+[exit 0]
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh done study
+ok: done study -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh done impl
+ok: done impl -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh close obj
+ok: done obj -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: done
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: ""
+[exit 0]
+
+SCENARIO: Explicit unblock permits closure while children remain open
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh unblock obj --by study
+ok: unblock obj -> cleared study
+help[1]:
+  - Run `tasks-axi ready` to see newly unblocked work
+[exit 0]
+$ fm-tasks-axi.sh unblock obj --by impl
+ok: unblock obj -> cleared impl
+help[1]:
+  - Run `tasks-axi ready` to see newly unblocked work
+[exit 0]
+$ fm-tasks-axi.sh close obj
+ok: done obj -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: done
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: none
+  links: none
+  body: ""
+[exit 0]
+
+SCENARIO: A missing child remains blocking until explicitly unblocked
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh done study
+ok: done study -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh show impl
+error: "Task \"impl\" not found in this backlog"
+code: NOT_FOUND
+help[1]: Run `tasks-axi list` to see existing tasks
+[exit 1]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: ""
+[exit 0]
+$ fm-tasks-axi.sh done obj
+fm-tasks-axi: obj still has open blockers, so it cannot be closed: impl
+[exit 2]
+$ fm-tasks-axi.sh unblock obj --by impl
+ok: unblock obj -> cleared impl
+help[1]:
+  - Run `tasks-axi ready` to see newly unblocked work
+[exit 0]
+$ fm-tasks-axi.sh done obj
+ok: done obj -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: done
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:study"
+  links: none
+  body: ""
+[exit 0]
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh done study
+ok: done study -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh show impl
+error: "Task \"impl\" not found in this backlog"
+code: NOT_FOUND
+help[1]: Run `tasks-axi list` to see existing tasks
+[exit 1]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: ""
+[exit 0]
+$ fm-tasks-axi.sh close obj
+fm-tasks-axi: obj still has open blockers, so it cannot be closed: impl
+[exit 2]
+$ fm-tasks-axi.sh unblock obj --by impl
+ok: unblock obj -> cleared impl
+help[1]:
+  - Run `tasks-axi ready` to see newly unblocked work
+[exit 0]
+$ fm-tasks-axi.sh close obj
+ok: done obj -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: done
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:study"
+  links: none
+  body: ""
+[exit 0]
+
+SCENARIO: Unreadable objective refuses closure and preserves the read diagnostic
+$ fm-tasks-axi.sh done missing-objective
+fm-tasks-axi: missing-objective cannot be closed because blocker verification failed: error: "Task \"missing-objective\" not found in this backlog"
+code: NOT_FOUND
+help[1]: Run `tasks-axi list --file=/sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/.closure-live-q6omnycj/parent/home/data/backlog.md` to see existing tasks
+[exit 2]
+$ fm-tasks-axi.sh close missing-objective
+fm-tasks-axi: missing-objective cannot be closed because blocker verification failed: error: "Task \"missing-objective\" not found in this backlog"
+code: NOT_FOUND
+help[1]: Run `tasks-axi list --file=/sloth/firstmate-home/data/optimus-followthrough-enforcement-20261014/b1-run/nm-home/worktrees/3fe979fe0cf6/01M501HHM6S884A15792R70FS3/.closure-live-q6omnycj/parent/home/data/backlog.md` to see existing tasks
+[exit 2]
+
+SCENARIO: Relative FM_HOME from a different working directory addresses the same backlog
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh done obj [FM_HOME=home]
+fm-tasks-axi: obj still has open blockers, so it cannot be closed: study impl
+[exit 2]
+$ fm-tasks-axi.sh done study [FM_HOME=home]
+ok: done study -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh done impl [FM_HOME=home]
+ok: done impl -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh done obj [FM_HOME=home]
+ok: done obj -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: done
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: ""
+[exit 0]
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh close obj [FM_HOME=home]
+fm-tasks-axi: obj still has open blockers, so it cannot be closed: study impl
+[exit 2]
+$ fm-tasks-axi.sh close study [FM_HOME=home]
+ok: done study -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh close impl [FM_HOME=home]
+ok: done impl -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh close obj [FM_HOME=home]
+ok: done obj -> Done
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: done
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: ""
+[exit 0]
+
+SCENARIO: Closure command help flags pass through without mutation
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh done --help
+usage: tasks-axi done <id> [flags]
+aliases: close
+Re-running on an already Done task backfills links/notes without changing the close date.
+flags:
+  --pr <url>, --report <path>, --note "<text>"
+  --keep <n> (default from config), --no-prune
+  --json   print the resulting task as a JSON object
+examples:
+  tasks-axi done sm-idle-handoff-q8 --pr https://github.com/o/r/pull/42
+  tasks-axi done fj-task-q1 --pr https://forgejo.example.com/o/r/pulls/39
+  tasks-axi done pr31-review-r6 --report data/pr31-review-r6/report.md[exit 0]
+$ fm-tasks-axi.sh done -h
+error: "Unknown flag: -h"
+code: VALIDATION_ERROR
+help[1]: Run the command with --help to see supported flags
+[exit 2]
+$ fm-tasks-axi.sh close --help
+usage: tasks-axi done <id> [flags]
+aliases: close
+Re-running on an already Done task backfills links/notes without changing the close date.
+flags:
+  --pr <url>, --report <path>, --note "<text>"
+  --keep <n> (default from config), --no-prune
+  --json   print the resulting task as a JSON object
+examples:
+  tasks-axi done sm-idle-handoff-q8 --pr https://github.com/o/r/pull/42
+  tasks-axi done fj-task-q1 --pr https://forgejo.example.com/o/r/pulls/39
+  tasks-axi done pr31-review-r6 --report data/pr31-review-r6/report.md[exit 0]
+$ fm-tasks-axi.sh close -h
+error: "Unknown flag: -h"
+code: VALIDATION_ERROR
+help[1]: Run the command with --help to see supported flags
+[exit 2]
+
+SCENARIO: Lifecycle backlog completion bypasses ordering blockers and Done backfill remains idempotent
+$ fm-tasks-axi.sh add obj obj row
+ok: added obj -> Queued
+task:
+  id: obj
+  title: obj row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start obj` to move it to in flight
+  - Run `tasks-axi block obj --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add study study row
+ok: added study -> Queued
+task:
+  id: study
+  title: study row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start study` to move it to in flight
+  - Run `tasks-axi block study --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh add impl impl row
+ok: added impl -> Queued
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+help[2]:
+  - Run `tasks-axi start impl` to move it to in flight
+  - Run `tasks-axi block impl --by <other>` to record a dependency
+[exit 0]
+$ fm-tasks-axi.sh block obj --by study
+ok: block obj -> blocked-by study
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm-tasks-axi.sh block obj --by impl
+ok: block obj -> blocked-by impl
+help[2]:
+  - Run `tasks-axi unblock obj --by <other>` to clear it
+  - Run `tasks-axi ready` to see what is still dispatchable
+[exit 0]
+$ fm_backlog_done <isolated data> obj --note landed
+
+[exit 0]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: done
+  blocked: yes
+  blocked_by: "study,impl"
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: landed
+[exit 0]
+$ fm-tasks-axi.sh show impl
+task:
+  id: impl
+  title: impl row
+  state: queued
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: 2026-10-15
+  closed: "-"
+  deps: none
+  links: none
+  body: ""
+[exit 0]
+$ fm-tasks-axi.sh done obj --note backfilled
+ok: done obj already -> Done
+already: true
+task:
+  id: obj
+  title: obj row
+  state: done
+  blocked: yes
+  blocked_by: "study,impl"
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: "landed\nbackfilled"
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh close obj --note backfilled
+ok: done obj already -> Done
+already: true
+help[1]:
+  - Run `tasks-axi ready` to dispatch work unblocked by this
+[exit 0]
+$ fm-tasks-axi.sh show obj
+task:
+  id: obj
+  title: obj row
+  state: done
+  blocked: yes
+  blocked_by: "study,impl"
+  held: no
+  hold_reason: "-"
+  hold_kind: "-"
+  hold_until: "-"
+  kind: task
+  repo: "-"
+  priority: "-"
+  created: "-"
+  closed: 2026-10-15
+  deps: "blocked-by:study,blocked-by:impl"
+  links: none
+  body: "landed\nbackfilled"
+[exit 0]
