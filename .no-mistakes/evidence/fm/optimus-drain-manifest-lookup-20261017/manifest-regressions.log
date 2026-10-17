@@ -1,0 +1,2 @@
+ok - manifest lookups return exact offsets and keep their rejection rules
+ok - twelve lookups over a 6000-row manifest finish within 10s (took 0s)

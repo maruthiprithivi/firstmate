@@ -1,0 +1,166 @@
+[
+  {
+    "step": "prime cursor via real CLI",
+    "rc": 0,
+    "seconds": 1.196,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\nalpha note: bootstrap\n",
+    "stderr": "",
+    "manifest": "alpha\tstrong:66308:85737381:2026-10-17 04:30:44.524596259 +0000\t16\t0\n"
+  },
+  {
+    "step": "two unread notes surfaced",
+    "rc": 0,
+    "seconds": 1.182,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\nalpha note: answer retained\nalpha note: later routine note\n",
+    "stderr": "",
+    "manifest": "alpha\tstrong:66308:85737381:2026-10-17 04:30:44.524596259 +0000\t63\t0\n"
+  },
+  {
+    "step": "repeat drain suppresses presented notes",
+    "rc": 0,
+    "seconds": 1.044,
+    "stdout": "",
+    "stderr": "",
+    "manifest": "alpha\tstrong:66308:85737381:2026-10-17 04:30:44.524596259 +0000\t63\t0\n"
+  },
+  {
+    "step": "backstop surfaces fresh completion",
+    "rc": 0,
+    "seconds": 1.08,
+    "stdout": "STATUS OUTCOME BACKSTOP (newest captain-facing task event has no covering branch outcome):\nalpha done: delivery verified\n",
+    "stderr": "",
+    "manifest": "alpha\tstrong:66308:85737381:2026-10-17 04:30:44.524596259 +0000\t63\t87\n"
+  },
+  {
+    "step": "backstop receipt suppresses repeat completion",
+    "rc": 0,
+    "seconds": 1.055,
+    "stdout": "",
+    "stderr": "",
+    "manifest": "alpha\tstrong:66308:85737381:2026-10-17 04:30:44.524596259 +0000\t63\t87\n"
+  },
+  {
+    "step": "rotation identity resets cursor",
+    "rc": 0,
+    "seconds": 1.097,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\nalpha note: rotated file starts at zero\n",
+    "stderr": "",
+    "manifest": "alpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t34\t0\n"
+  },
+  {
+    "step": "truncated file resets offset past EOF",
+    "rc": 0,
+    "seconds": 1.112,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\nalpha note: short\n",
+    "stderr": "",
+    "manifest": "alpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t12\t0\n"
+  },
+  {
+    "step": "writer creates distinct numeric IDs",
+    "rc": 0,
+    "seconds": 1.281,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\n01 note: leading-zero bootstrap\n1 note: numeric bootstrap\n",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t29\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t24\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t12\t0\n"
+  },
+  {
+    "step": "lookup preserves distinct numeric IDs",
+    "rc": 0,
+    "seconds": 1.347,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\n01 note: zero-one new\n1 note: one new\n",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t12\t0\n"
+  },
+  {
+    "step": "reject duplicate matched task",
+    "rc": 0,
+    "seconds": 0.952,
+    "stdout": "",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t12\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t12\t0\n"
+  },
+  {
+    "step": "reject empty identity",
+    "rc": 0,
+    "seconds": 0.862,
+    "stdout": "",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\t\t12\t0\n"
+  },
+  {
+    "step": "reject empty presented offset",
+    "rc": 0,
+    "seconds": 0.895,
+    "stdout": "",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t\t0\n"
+  },
+  {
+    "step": "reject nonempty sixth field after empty fifth",
+    "rc": 0,
+    "seconds": 0.92,
+    "stdout": "",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t12\t0\t\textra\n"
+  },
+  {
+    "step": "reject malformed unrelated row after match",
+    "rc": 0,
+    "seconds": 1.052,
+    "stdout": "",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t12\t0\nzz-damaged\tidentity\tnonnumeric\t0\n"
+  },
+  {
+    "step": "repair manifest recovers protected unread data",
+    "rc": 0,
+    "seconds": 1.4,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\nalpha note: protected unread data\n",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t40\t0\n"
+  },
+  {
+    "step": "accept empty trailing fields",
+    "rc": 0,
+    "seconds": 1.205,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\nalpha note: empty trailing columns accepted\n",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t78\t0\n"
+  },
+  {
+    "step": "accept manifest final row without newline",
+    "rc": 0,
+    "seconds": 1.561,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\nalpha note: manifest final row has no newline\n",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t118\t0\n"
+  },
+  {
+    "step": "6000-row manifest end-to-end trial 0",
+    "rc": 0,
+    "seconds": 1.419,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\nalpha note: large-manifest trial 0\n",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t147\t0\n"
+  },
+  {
+    "step": "6000-row manifest end-to-end trial 1",
+    "rc": 0,
+    "seconds": 1.348,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\nalpha note: large-manifest trial 1\n",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t176\t0\n"
+  },
+  {
+    "step": "6000-row manifest end-to-end trial 2",
+    "rc": 0,
+    "seconds": 1.309,
+    "stdout": "UNREAD STATUS (new since last drain, not re-printed after this presentation):\nalpha note: large-manifest trial 2\n",
+    "stderr": "",
+    "manifest": "01\tstrong:66308:85737385:2026-10-17 04:30:52.289968564 +0000\t48\t0\n1\tstrong:66308:85737383:2026-10-17 04:30:52.289968564 +0000\t38\t0\nalpha\tstrong:66308:85737382:2026-10-17 04:30:50.080862650 +0000\t205\t0\n"
+  },
+  {
+    "result": "all real CLI assertions passed; disposable home removed on exit",
+    "scope": "No harness, lifecycle, shared session, installed-effect or comparative-speedup claim."
+  }
+]

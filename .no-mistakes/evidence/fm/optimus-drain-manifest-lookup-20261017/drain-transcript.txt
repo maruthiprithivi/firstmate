@@ -1,0 +1,191 @@
+Real fm-wake-drain.sh CLI, disposable isolated home; no harness stubs.
+The JSON transcript includes persisted manifests for every step.
+
+prime cursor via real CLI
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+alpha note: bootstrap
+
+stderr:
+(empty)
+exit: 0
+
+two unread notes surfaced
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+alpha note: answer retained
+alpha note: later routine note
+
+stderr:
+(empty)
+exit: 0
+
+repeat drain suppresses presented notes
+$ bash bin/fm-wake-drain.sh
+stdout:
+(empty)
+stderr:
+(empty)
+exit: 0
+
+backstop surfaces fresh completion
+$ bash bin/fm-wake-drain.sh
+stdout:
+STATUS OUTCOME BACKSTOP (newest captain-facing task event has no covering branch outcome):
+alpha done: delivery verified
+
+stderr:
+(empty)
+exit: 0
+
+backstop receipt suppresses repeat completion
+$ bash bin/fm-wake-drain.sh
+stdout:
+(empty)
+stderr:
+(empty)
+exit: 0
+
+rotation identity resets cursor
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+alpha note: rotated file starts at zero
+
+stderr:
+(empty)
+exit: 0
+
+truncated file resets offset past EOF
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+alpha note: short
+
+stderr:
+(empty)
+exit: 0
+
+writer creates distinct numeric IDs
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+01 note: leading-zero bootstrap
+1 note: numeric bootstrap
+
+stderr:
+(empty)
+exit: 0
+
+lookup preserves distinct numeric IDs
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+01 note: zero-one new
+1 note: one new
+
+stderr:
+(empty)
+exit: 0
+
+reject duplicate matched task
+$ bash bin/fm-wake-drain.sh
+stdout:
+(empty)
+stderr:
+(empty)
+exit: 0
+
+reject empty identity
+$ bash bin/fm-wake-drain.sh
+stdout:
+(empty)
+stderr:
+(empty)
+exit: 0
+
+reject empty presented offset
+$ bash bin/fm-wake-drain.sh
+stdout:
+(empty)
+stderr:
+(empty)
+exit: 0
+
+reject nonempty sixth field after empty fifth
+$ bash bin/fm-wake-drain.sh
+stdout:
+(empty)
+stderr:
+(empty)
+exit: 0
+
+reject malformed unrelated row after match
+$ bash bin/fm-wake-drain.sh
+stdout:
+(empty)
+stderr:
+(empty)
+exit: 0
+
+repair manifest recovers protected unread data
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+alpha note: protected unread data
+
+stderr:
+(empty)
+exit: 0
+
+accept empty trailing fields
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+alpha note: empty trailing columns accepted
+
+stderr:
+(empty)
+exit: 0
+
+accept manifest final row without newline
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+alpha note: manifest final row has no newline
+
+stderr:
+(empty)
+exit: 0
+
+6000-row manifest end-to-end trial 0
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+alpha note: large-manifest trial 0
+
+stderr:
+(empty)
+exit: 0
+
+6000-row manifest end-to-end trial 1
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+alpha note: large-manifest trial 1
+
+stderr:
+(empty)
+exit: 0
+
+6000-row manifest end-to-end trial 2
+$ bash bin/fm-wake-drain.sh
+stdout:
+UNREAD STATUS (new since last drain, not re-printed after this presentation):
+alpha note: large-manifest trial 2
+
+stderr:
+(empty)
+exit: 0
